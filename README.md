@@ -5,7 +5,7 @@ The flutter_dynamic is an engine that create flutter application dynamically .
 ## 目录 Table of contents
 * [General-info 概况](#General-info)
 * [Install 安装](#Install)
-* [Get started 使用](#Get started)
+* [Get-started 使用](#Get-started)
 * [Contact 联系](#Contact)
 
 ## General-info 概况
@@ -49,7 +49,7 @@ Now in your Flutter code, you can use:
 import 'package:yingzi_flutter_dynamicpage/yz_dynamicpage.dart';
 ```
 
-## Get started 使用
+## Get-started 使用
 > flutter_dynamic是完全开源的，在代码中的example里也已经具有完整的示例，以下针对核心的流程一一说明：
 
 #### Hello world
