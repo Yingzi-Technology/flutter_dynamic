@@ -3,10 +3,10 @@ flutter_dynamic 是一个能动态创建Flutter应用的引擎。
 The flutter_dynamic is an engine that create flutter application dynamically .
 
 ## 目录 Table of contents
-* [概况](#General-info 概况)
-* [安装](#Install 安装)
-* [使用](#Get started 使用)
-* [联系方式](#Contact 联系)
+* [General-info 概况](#General-info)
+* [Install 安装](#Install)
+* [Get started 使用](#Get started)
+* [Contact 联系](#Contact)
 
 ## General-info 概况
 
