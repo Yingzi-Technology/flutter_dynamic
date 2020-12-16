@@ -123,5 +123,5 @@ Map hwDsl =
 ## More Document ... ...
 > Feel apologetic that we update the document slowly for the work time reason.
 
-## Contact 联系
+## Contact
 Created by [@153768151@qq.com](https://github.com/fisherjoe) - feel free to contact me
