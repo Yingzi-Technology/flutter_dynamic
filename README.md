@@ -20,7 +20,7 @@ The flutter_dynamic is an engine that create flutter application dynamically .
 --提供event事件解释引擎，提供类似Flutter的事件处理；
 
 ## Install
-#### 1. Depend on it
+#### step 1. Depend on it
 Add this to your package's pubspec.yaml file:
 ```
 dependencies:
@@ -39,11 +39,11 @@ dependencies:
 Or
 Do as example of code.
 
-#### 2. Use it
+#### step 2. Use it
 
 Use as common flutter plugin in  flutter project.
 
-#### 3. Import it
+#### step 3. Import it
 Now in your Flutter code, you can use:
 ```dart
 import 'package:yingzi_flutter_dynamicpage/yz_dynamicpage.dart';
