@@ -2,13 +2,14 @@
 * @Author: yz.yujingzhou     
 * @Date: 2020-09-03 09:35:13     
  * @Last Modified by: yz.yujingzhou
- * @Last Modified time: 2020-12-01 17:07:01
+ * @Last Modified time: 2020-12-16 17:41:19
 **/   
 import 'package:flutter/material.dart';
 import 'package:yingzi_flutter_dynamicpage/yz_dynamicpage.dart';
 
 import 'demo/config.dart';
 import 'demo/dsl.dart';
+import 'demo/helloworld.dart';
 import 'grammar/unittesting.dart';
 
 void main() => runApp(MyApp());
@@ -50,7 +51,16 @@ class _MyAppState extends State<MyApp> {
                     }));  
                   }, 
                   child: Text('Grammar and Unit testing\n\r(语法和示例)')
-                ),                
+                ),     
+               FlatButton(
+                  color: Colors.black12,
+                  onPressed: (){                
+                    Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext contex){
+                      return Helloworld();
+                    }));  
+                  }, 
+                  child: Text('Hello world')
+                ),                            
                 FlatButton(
                   color: Colors.black12,
                   onPressed: (){
