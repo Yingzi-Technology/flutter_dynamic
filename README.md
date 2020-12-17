@@ -1,5 +1,6 @@
 # flutter_dynamic
-flutter_dynamic 是一个能动态创建Flutter应用的引擎。
+flutter_dynamic 是一个能动态创建Flutter应用的引擎。      
+* [Github地址](https://github.com/Yingzi-Technology/flutter_dynamic)
 
 The flutter_dynamic is an engine that create flutter application dynamically .
 
@@ -124,6 +125,13 @@ Map hwDsl =
   }
 };
 ```
+
+##  Grammar
+在源代码的example里有写动态页面的伪代码语法，如图所示：   
+In the example of the source code, there is pseudo code syntax for writing dynamic pages, as shown in the figure:  
+
+![Simulator Screen Shot - iPhone 12 - 2020-12-17 at 09.22.41.png](https://upload-images.jianshu.io/upload_images/3868052-917c8c2720d84fe9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/300)
+
 
 ## More Document ... ...
 > Feel apologetic that we update the document slowly for the work time reason.
