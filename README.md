@@ -130,7 +130,7 @@ Map hwDsl =
 在源代码的example里有写动态页面的伪代码语法，如图所示：   
 In the example of the source code, there is pseudo code syntax for writing dynamic pages, as shown in the figure:  
 
-![Simulator Screen Shot - iPhone 12 - 2020-12-17 at 09.22.41.png](https://upload-images.jianshu.io/upload_images/3868052-917c8c2720d84fe9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/300)
+![Simulator Screen Shot - iPhone 12 - 2020-12-17 at 09.22.41.png](https://upload-images.jianshu.io/upload_images/3868052-917c8c2720d84fe9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/360)
 
 
 ## More Document ... ...
