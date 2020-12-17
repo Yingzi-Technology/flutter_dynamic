@@ -35,16 +35,16 @@ Add this to your package's pubspec.yaml file:
 ```
 dependencies:
   yz_flutter_dynamic:
-  	git:
-		url: https://github.com/fisherjoe/flutter_dynamic.git
-		ref: master
+    git:
+      url: https://github.com/fisherjoe/flutter_dynamic.git
+      ref: master
 ```
 Or 
 Download or clone the code  to the local:
 ```
 dependencies:
   yz_flutter_dynamic:
-  	path: your/code/path
+    path: your/code/path
 ```
 Or
 Do as example of code.
