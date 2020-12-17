@@ -126,6 +126,65 @@ Map hwDsl =
   }
 };
 ```
+### How to create your dynamic widget
+>我们认为Flutter的任何页面或组件都是StatefulWidget，所以当我们无论创建一个新页面或组件时我们都把它当作一个StatefulWidget来看待。页面和StatefulWidget是一样。
+We think that any page or component of Flutter is a StatefulWidget, so when we create a new page or component, we treat it as a StatefulWidget. The page is the same as StatefulWidget.
+
+***step1: How to create widget UI***
+```json
+{
+    "page": {
+        "rootWidget":    {
+		  "xKey": "globalKeyOfWidget", 
+		  "widgetName": "Container",      
+		  "props": { 
+			"padding": "[10, 10, 0, 0]",
+			"height": "44",
+			"child": {
+				"widgetName": "Text", 
+				"props": {
+				  "data": "Data of Text widget",
+				  "color": "0xfff1f1f1"
+				}    
+			}
+		  },
+		  "xEvents": [
+			{
+			  "eventType": "onClick",
+			  "code": '''
+					[code...]      
+				'''
+			},
+			"xVar": {
+			
+			}
+		  ]           
+		}
+    }
+}
+```
+> 上面的代码较完整地呈现了一个构造一个widget的json结构。其中rootWidget的值描述了该widget的根结点Container，返回StatefulWidget而不是Container。下面将主要对各属性一一说明：
+
+- `xKey`：The globalkey of widget to find the widget.
+
+- `widgetName`: The type of widget.
+
+- `xEvents`:  The event of the widget support "onClick" type now. The value support grammar as * [Grammar 语法](#Grammar)
+
+- `xVar`: Define the variable of widget.
+
+- `props`: The properties of the widget which property is the same as system of widget's property. There are two types of props value such as : 
+	- **string**:  The type of  property value  like "color" "width" should use string type {"widget":"100", "color": "#ff000000"}. Specially the type of EdgeInsets will be "[10, 20, 30, 40]" for "[left, top, right, bottom]". The enum of type will be like "multiline" for TextInputType.multiline
+	- **map**: The type of property value like "Size" will be {"color":"", "width":""}.
+
+***step2: How to create page***
+
+***step3: How to define variable***
+
+***step4: How to implement event***
+
+***step5: How to write code***
+
 
 ##  Grammar
 在源代码的example里有写动态页面的伪代码语法，如图所示：   
