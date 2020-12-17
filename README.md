@@ -131,35 +131,35 @@ Map hwDsl =
 We think that any page or component of Flutter is a StatefulWidget, so when we create a new page or component, we treat it as a StatefulWidget. The page is the same as StatefulWidget.
 
 ***step1: How to create widget UI***
-```json
+```dart
 {
     "page": {
-        "rootWidget":    {
-		  "xKey": "globalKeyOfWidget", 
-		  "widgetName": "Container",      
-		  "props": { 
-			"padding": "[10, 10, 0, 0]",
-			"height": "44",
-			"child": {
-				"widgetName": "Text", 
-				"props": {
-				  "data": "Data of Text widget",
-				  "color": "0xfff1f1f1"
-				}    
-			}
-		  },
-		  "xEvents": [
-			{
-			  "eventType": "onClick",
-			  "code": '''
-					[code...]      
-				'''
-			},
-			"xVar": {
-			
-			}
-		  ]           
-		}
+      "rootWidget": {
+        "xKey": "globalKeyOfWidget", 
+        "widgetName": "Container",      
+        "props": { 
+        "padding": "[10, 10, 0, 0]",
+        "height": "44",
+        "child": {
+          "widgetName": "Text", 
+          "props": {
+            "data": "Data of Text widget",
+            "color": "0xfff1f1f1"
+          }    
+        }
+        },
+        "xEvents": [
+          {
+            "eventType": "onClick",
+            "code": '''
+                  
+            '''
+          },
+          "xVar": {
+          
+          }
+        ]           
+      }
     }
 }
 ```
