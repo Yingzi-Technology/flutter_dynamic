@@ -76,11 +76,7 @@ class _HelloworldState extends State<Helloworld> {
 Map hwDsl =
 {
   "page": {
-    "key": "",
-    "type": "",
-    "name": "",
-    "presentMode": "navpage", 
-    "routeTag": "",    
+    "key": "",   
     "rootWidget": {
       "xKey": "",
       "widgetName": "Scaffold",
