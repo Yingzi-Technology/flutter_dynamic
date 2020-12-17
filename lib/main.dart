@@ -13,18 +13,18 @@ import 'pages/model/page_config.dart';
 import 'pages/basic/utils.dart';
 
 export 'package:flutter/material.dart';
-export 'package:yingzi_flutter_dynamicpage/pages/basic/page.dart';
-export 'package:yingzi_flutter_dynamicpage/tools/common.dart';
-export 'package:yingzi_flutter_dynamicpage/tools/action.dart';
-export 'package:yingzi_flutter_dynamicpage/tools/variable.dart';
-export 'package:yingzi_flutter_dynamicpage/tools/network.dart';
-export 'package:yingzi_flutter_dynamicpage/widgets/basic/handler.dart';
-export 'package:yingzi_flutter_dynamicpage/widgets/basic/widget.dart';
-export 'package:yingzi_flutter_dynamicpage/widgets/basic/data.dart';
-export 'package:yingzi_flutter_dynamicpage/widgets/basic/utils.dart';
+export 'package:yz_flutter_dynamic/pages/basic/page.dart';
+export 'package:yz_flutter_dynamic/tools/common.dart';
+export 'package:yz_flutter_dynamic/tools/action.dart';
+export 'package:yz_flutter_dynamic/tools/variable.dart';
+export 'package:yz_flutter_dynamic/tools/network.dart';
+export 'package:yz_flutter_dynamic/widgets/basic/handler.dart';
+export 'package:yz_flutter_dynamic/widgets/basic/widget.dart';
+export 'package:yz_flutter_dynamic/widgets/basic/data.dart';
+export 'package:yz_flutter_dynamic/widgets/basic/utils.dart';
 
-class YZDynamicPage {
-  YZDynamicPage._();
+class YZDynamic {
+  YZDynamic._();
 
   static Widget build(BuildContext context, Map config, {YZDynamicPagePreConfig preConfig}) {
     Widget widget;
@@ -59,7 +59,7 @@ class YZDynamicPage {
           await showDialog(
             context: context, 
             builder: (BuildContext context) {
-              Widget child = YZDynamicPage.build(context, config, preConfig: preConfig);
+              Widget child = YZDynamic.build(context, config, preConfig: preConfig);
               return Dialog(child: child);
             }
           );
@@ -67,7 +67,7 @@ class YZDynamicPage {
         break;
       default:
         Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext contex){
-          return YZDynamicPage.build(context, config, preConfig: preConfig);
+          return YZDynamic.build(context, config, preConfig: preConfig);
         }));
     }
 

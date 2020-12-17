@@ -1,6 +1,6 @@
 # yingzi_flutter_dynamicpage_example
 
-Demonstrates how to use the yingzi_flutter_dynamicpage plugin.
+Demonstrates how to use the yz_flutter_dynamic plugin.
 
 ## Getting Started
 

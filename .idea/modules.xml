@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/yingzi_flutter_dynamicpage.iml" filepath="$PROJECT_DIR$/yingzi_flutter_dynamicpage.iml" />
-      <module fileurl="file://$PROJECT_DIR$/android/yingzi_flutter_dynamicpage_android.iml" filepath="$PROJECT_DIR$/android/yingzi_flutter_dynamicpage_android.iml" />
-      <module fileurl="file://$PROJECT_DIR$/example/android/yingzi_flutter_dynamicpage_example_android.iml" filepath="$PROJECT_DIR$/example/android/yingzi_flutter_dynamicpage_example_android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/yz_flutter_dynamic.iml" filepath="$PROJECT_DIR$/yz_flutter_dynamic.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android/yz_flutter_dynamic_android.iml" filepath="$PROJECT_DIR$/android/yz_flutter_dynamic_android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/example/android/yz_flutter_dynamic_example_android.iml" filepath="$PROJECT_DIR$/example/android/yz_flutter_dynamic_example_android.iml" />
     </modules>
   </component>
 </project>

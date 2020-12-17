@@ -1,5 +1,5 @@
 name: yingzi_flutter_dynamicpage_example
-description: Demonstrates how to use the yingzi_flutter_dynamicpage plugin.
+description: Demonstrates how to use the yz_flutter_dynamic plugin.
 publish_to: 'none'
 version: 0.0.1+1
 
@@ -19,7 +19,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  yingzi_flutter_dynamicpage:
+  yz_flutter_dynamic:
     path: ../          
 
 # For information on the generic Dart part of this file, see the

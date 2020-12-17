@@ -5,7 +5,7 @@
  * @Last Modified time: 2020-12-16 17:41:19
 **/   
 import 'package:flutter/material.dart';
-import 'package:yingzi_flutter_dynamicpage/yz_dynamicpage.dart';
+import 'package:yz_flutter_dynamic/main.dart';
 
 import 'demo/config.dart';
 import 'demo/dsl.dart';
@@ -64,7 +64,7 @@ class _MyAppState extends State<MyApp> {
                 FlatButton(
                   color: Colors.black12,
                   onPressed: (){
-                    YZDynamicPage.handle(
+                    YZDynamic.handle(
                       context, demoDsl, 
                       preConfig: YZDynamicPagePreConfig(
                         params: [
@@ -80,7 +80,7 @@ class _MyAppState extends State<MyApp> {
                 FlatButton(
                   color: Colors.black12,
                   onPressed: (){
-                    YZDynamicPage.handle(
+                    YZDynamic.handle(
                       context, formDsl, 
                       preConfig: YZDynamicPagePreConfig(
                         params: [
@@ -94,7 +94,7 @@ class _MyAppState extends State<MyApp> {
                 FlatButton(
                   color: Colors.black12,
                   onPressed: (){                
-                    YZDynamicPage.handle(
+                    YZDynamic.handle(
                       context, dialogDsl, 
                       preConfig: YZDynamicPagePreConfig(
                         params: [
@@ -111,7 +111,7 @@ class _MyAppState extends State<MyApp> {
                   color: Colors.black12,
                   onPressed: (){                
                     Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext contex){
-                      return YZDynamicPage.build(context, demoDsl, preConfig: null);
+                      return YZDynamic.build(context, demoDsl, preConfig: null);
                     }));  
                   }, 
                   child: Text('Present Page With Custom mode')

@@ -8,7 +8,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:yingzi_flutter_dynamicpage/yz_dynamicpage.dart';
+import 'package:yz_flutter_dynamic/main.dart';
 
 import '../pages/basic/page.dart';
 import 'action.dart';

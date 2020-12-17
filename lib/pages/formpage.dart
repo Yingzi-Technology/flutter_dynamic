@@ -6,7 +6,7 @@
 **/   
 
 import 'package:flutter/material.dart';
-import 'package:yingzi_flutter_dynamicpage/widgets/form.dart';
+import 'package:yz_flutter_dynamic/widgets/form.dart';
 
 import '../tools/common.dart';
 import 'basic/page.dart';

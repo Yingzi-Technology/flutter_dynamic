@@ -6,7 +6,7 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:yingzi_flutter_dynamicpage/yz_dynamicpage.dart';
+import 'package:yz_flutter_dynamic/main.dart';
 
 class Helloworld extends StatefulWidget {
   @override
@@ -16,7 +16,7 @@ class Helloworld extends StatefulWidget {
 class _HelloworldState extends State<Helloworld> {
   @override
   Widget build(BuildContext context) {
-    return YZDynamicPage.build(
+    return YZDynamic.build(
       context, 
       hwDsl, 
     );
@@ -26,11 +26,7 @@ class _HelloworldState extends State<Helloworld> {
 Map hwDsl =
 {
   "page": {
-    "key": "",
-    "type": "",
-    "name": "",
-    "presentMode": "navpage", 
-    "routeTag": "",    
+    "key": "",  
     "rootWidget": {
       "xKey": "",
       "widgetName": "Scaffold",

@@ -2,7 +2,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  const MethodChannel channel = MethodChannel('yingzi_flutter_dynamicpage');
+  const MethodChannel channel = MethodChannel('yz_flutter_dynamic');
 
   TestWidgetsFlutterBinding.ensureInitialized();
 
@@ -16,4 +16,7 @@ void main() {
     channel.setMockMethodCallHandler(null);
   });
 
+  test('getPlatformVersion', () async {
+    
+  });
 }

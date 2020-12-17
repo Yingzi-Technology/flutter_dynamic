@@ -6,7 +6,7 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:yingzi_flutter_dynamicpage/yz_dynamicpage.dart';
+import 'package:yz_flutter_dynamic/main.dart';
 
 import 'dsl.dart';
 
@@ -47,7 +47,7 @@ class UTBaseState<T extends StatefulWidget> extends State<T> {
             color: Colors.black12,
             child: Text(kw, style: TextStyle(fontSize: 14, color: Colors.lightBlue)),
             onPressed: (){
-              YZDynamicPage.handle(
+              YZDynamic.handle(
                 context, getDemoDsl(control.text)
               );                  
             }                    
