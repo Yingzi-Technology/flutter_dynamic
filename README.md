@@ -9,7 +9,7 @@ The flutter_dynamic is an engine that create flutter application dynamically. fl
 Dynamically create similar UI and interactive pages.
 
 
-![yzdynamic.gif](https://upload-images.jianshu.io/upload_images/3868052-24e08253efeff413.gif?imageMogr2/auto-orient/strip)
+![yzdynamic.gif](https://upload-images.jianshu.io/upload_images/3868052-24e08253efeff413.gif?imageMogr2/auto-orient/strip/w/320)
 
 
 ## 目录 Table of contents
