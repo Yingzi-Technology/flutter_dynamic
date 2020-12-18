@@ -1,8 +1,8 @@
 # flutter_dynamic
-flutter_dynamic 是一个能动态创建Flutter应用的引擎。      
-* [Github地址](https://github.com/Yingzi-Technology/flutter_dynamic)
+flutter_dynamic 是一个能动态创建Flutter应用的引擎。flutter_dynamic不但支持写UI，还支持写代码逻辑。    
+The flutter_dynamic is an engine that create flutter application dynamically. flutter_dynamic not only supports writing UI, but also writing code logic.
 
-The flutter_dynamic is an engine that create flutter application dynamically .
+* [Github地址](https://github.com/Yingzi-Technology/flutter_dynamic)
 
 ## 目录 Table of contents
 * [General-info概况](#General-info)
@@ -77,7 +77,7 @@ class Helloworld extends StatefulWidget {
 class _HelloworldState extends State<Helloworld> {
   @override
   Widget build(BuildContext context) {
-    return YZDynamic.build(
+    return YZDynamic.buildWidget(
       context, 
       hwDsl, 
     );
@@ -86,44 +86,33 @@ class _HelloworldState extends State<Helloworld> {
 
 Map hwDsl =
 {
-  "page": {
-    "key": "",   
-    "rootWidget": {
+  "xKey": "",
+  "widgetName": "Scaffold",
+  "props": {
+    "appBar": {
       "xKey": "",
-      "widgetName": "Scaffold",
+      "widgetName": "AppBar",
       "props": {
-        "appBar": {
-          "xKey": "",
-          "widgetName": "AppBar",
+        "title": {
+          "widgetName": "Text",
+          "props": {"data": "Navigator"}
+        }
+      }
+    },
+    "body": {
+      "xKey": "",
+      "widgetName": "SafeArea",
+      "props": {
+        "child": {
+          "xKey": "_Text",
+          "widgetName": "Text",
           "props": {
-            "title": {
-              "widgetName": "Text",
-              "props": {"data": "Navigator"}
-            }
-          }
-        },
-        "body": {
-          "xKey": "",
-          "widgetName": "SafeArea",
-          "props": {
-            "child": {
-              "xKey": "_Text",
-              "widgetName": "Text",
-              "props": {
-                "data": "Hello world"
-              }
-            }
+            "data": "Hello world"
           }
         }
-      }      
-    },
-    "entrane": {}, 
-    "props": {},
-    "xVar": {
-      "initData": "Init data"
-    }, 
-    "xActions": {}   
-  }
+      }
+    }
+  }      
 };
 ```
 ### How to create your dynamic widget
@@ -131,45 +120,42 @@ Map hwDsl =
 We think that any page or component of Flutter is a StatefulWidget, so when we create a new page or component, we treat it as a StatefulWidget. The page is the same as StatefulWidget.
 
 ***step1: How to create widget UI***
-```dart
+```json
 {
-    "page": {
-      "rootWidget": {
-        "xKey": "globalKeyOfWidget", 
-        "widgetName": "Container",      
-        "props": { 
-        "padding": "[10, 10, 0, 0]",
-        "height": "44",
-        "child": {
-          "widgetName": "Text", 
-          "props": {
-            "data": "Data of Text widget",
-            "color": "0xfff1f1f1"
-          }    
-        }
-        },
-        "xEvents": [
-          {
-            "eventType": "onClick",
-            "code": '''
-                  
-            '''
-          },
-          "xVar": {
-          
-          }
-        ]           
-      }
-    }
+  "xKey": "globalKeyOfWidget", 
+  "widgetName": "Container",      
+  "props": { 
+  "padding": "[10, 10, 0, 0]",
+  "height": "44",
+  "child": {
+    "widgetName": "Text", 
+    "props": {
+      "data": "Data of Text widget",
+      "color": "0xfff1f1f1"
+    }    
+  }
+  },
+  "xEvents": [
+  {
+    "eventType": "onClick",
+    "code": '''
+      [code...]      
+    '''
+  },
+  "xVar": {
+  
+  }
+  ]           
 }
 ```
-> 上面的代码较完整地呈现了一个构造一个widget的json结构。其中rootWidget的值描述了该widget的根结点Container，返回StatefulWidget而不是Container。下面将主要对各属性一一说明：
+> 上面的代码较完整地呈现了一个构造一个widget的json数据。其中rootWidget的值描述了该widget的根结点Container，返回StatefulWidget包裹的Container。下面将主要对各属性一一说明：  
+The above code completely presents a json data for constructing a widget. The value of rootWidget describes the root node Container of the widget, and returns the Container wrapped by the StatefulWidget. The following will mainly explain each attribute one by one:  
 
 - `xKey`：The globalkey of widget to find the widget.
 
 - `widgetName`: The type of widget.
 
-- `xEvents`:  The event of the widget support "onClick" type now. The value support grammar as * [Grammar 语法](#Grammar)
+- `xEvents`:  The event of the widget support "onClick" type now. The value support grammar as [Grammar 语法](#Grammar)
 
 - `xVar`: Define the variable of widget.
 
@@ -178,6 +164,7 @@ We think that any page or component of Flutter is a StatefulWidget, so when we c
 	- **map**: The type of property value like "Size" will be {"color":"", "width":""}.
 
 ***step2: How to create page***
+> 如上一步，json数据根节点是以page属性开始，一是为了
 
 ***step3: How to define variable***
 

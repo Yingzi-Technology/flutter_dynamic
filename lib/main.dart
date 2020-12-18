@@ -26,7 +26,7 @@ export 'package:yz_flutter_dynamic/widgets/basic/utils.dart';
 class YZDynamic {
   YZDynamic._();
 
-  static Widget build(BuildContext context, Map config, {YZDynamicPagePreConfig preConfig}) {
+  static Widget buildPage(BuildContext context, Map config, {YZDynamicPagePreConfig preConfig}) {
     Widget widget;
 
     //You shoud register widgets first or it wouldn't create widget
@@ -38,6 +38,22 @@ class YZDynamic {
 
     return widget;
   }
+
+  static Widget buildWidget(BuildContext context, Map config, {YZDynamicPagePreConfig preConfig}) {
+    Widget widget;
+
+    if (config['page'] == null) {
+      Map json = {
+        "page": {
+            "rootWidget": config.cast<String, dynamic>()
+        }
+      }; 
+
+      widget = YZDynamic.buildPage(context, json, preConfig: preConfig);
+    }
+
+    return widget;
+  }  
 
   static handle(BuildContext context, Map dsl, {YZDynamicPagePreConfig preConfig}){
 
@@ -59,7 +75,7 @@ class YZDynamic {
           await showDialog(
             context: context, 
             builder: (BuildContext context) {
-              Widget child = YZDynamic.build(context, config, preConfig: preConfig);
+              Widget child = YZDynamic.buildPage(context, config, preConfig: preConfig);
               return Dialog(child: child);
             }
           );
@@ -67,7 +83,7 @@ class YZDynamic {
         break;
       default:
         Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext contex){
-          return YZDynamic.build(context, config, preConfig: preConfig);
+          return YZDynamic.buildPage(context, config, preConfig: preConfig);
         }));
     }
 

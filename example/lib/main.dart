@@ -111,7 +111,7 @@ class _MyAppState extends State<MyApp> {
                   color: Colors.black12,
                   onPressed: (){                
                     Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext contex){
-                      return YZDynamic.build(context, demoDsl, preConfig: null);
+                      return YZDynamic.buildPage(context, demoDsl, preConfig: null);
                     }));  
                   }, 
                   child: Text('Present Page With Custom mode')

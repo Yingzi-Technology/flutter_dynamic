@@ -16,7 +16,7 @@ class Helloworld extends StatefulWidget {
 class _HelloworldState extends State<Helloworld> {
   @override
   Widget build(BuildContext context) {
-    return YZDynamic.build(
+    return YZDynamic.buildWidget(
       context, 
       hwDsl, 
     );
@@ -25,42 +25,31 @@ class _HelloworldState extends State<Helloworld> {
 
 Map hwDsl =
 {
-  "page": {
-    "key": "",  
-    "rootWidget": {
+  "xKey": "",
+  "widgetName": "Scaffold",
+  "props": {
+    "appBar": {
       "xKey": "",
-      "widgetName": "Scaffold",
+      "widgetName": "AppBar",
       "props": {
-        "appBar": {
-          "xKey": "",
-          "widgetName": "AppBar",
+        "title": {
+          "widgetName": "Text",
+          "props": {"data": "Navigator"}
+        }
+      }
+    },
+    "body": {
+      "xKey": "",
+      "widgetName": "SafeArea",
+      "props": {
+        "child": {
+          "xKey": "_Text",
+          "widgetName": "Text",
           "props": {
-            "title": {
-              "widgetName": "Text",
-              "props": {"data": "Navigator"}
-            }
-          }
-        },
-        "body": {
-          "xKey": "",
-          "widgetName": "SafeArea",
-          "props": {
-            "child": {
-              "xKey": "_Text",
-              "widgetName": "Text",
-              "props": {
-                "data": "Hello world"
-              }
-            }
+            "data": "Hello world"
           }
         }
-      }      
-    },
-    "entrane": {}, 
-    "props": {},
-    "xVar": {
-      "initData": "Init data"
-    }, 
-    "xActions": {}   
-  }
+      }
+    }
+  }      
 };
