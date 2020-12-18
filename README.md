@@ -10,7 +10,7 @@ Dynamically create similar UI and interactive pages.
 
 
 ![yzdynamic.gif](https://upload-images.jianshu.io/upload_images/3868052-24e08253efeff413.gif?imageMogr2/auto-orient/strip/w/320)
-
+<img src="https://upload-images.jianshu.io/upload_images/3868052-24e08253efeff413.gif?imageMogr2/auto-orient/strip" width="320px"/>
 
 ## 目录 Table of contents
 * [General-info概况](#General-info)
