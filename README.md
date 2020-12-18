@@ -4,6 +4,14 @@ The flutter_dynamic is an engine that create flutter application dynamically. fl
 
 * [Github地址](https://github.com/Yingzi-Technology/flutter_dynamic)
 
+## Best practice
+> 你可以动态创建类似这种有UI和交互的页面。
+You can dynamically create similar pages with UI and interaction.
+
+
+![yzdynamic.gif](https://upload-images.jianshu.io/upload_images/3868052-24e08253efeff413.gif?imageMogr2/auto-orient/strip)
+
+
 ## 目录 Table of contents
 * [General-info概况](#General-info)
 * [Install 安装](#Install)
@@ -120,7 +128,14 @@ Map hwDsl =
 We think that any page or component of Flutter is a StatefulWidget, so when we create a new page or component, we treat it as a StatefulWidget. The page is the same as StatefulWidget.
 
 ***step1: How to create widget UI***
-```json
+
+invoke
+```dart
+YZDynamic.buildPage(context, json, preConfig: preConfig);
+```
+
+json
+```dart
 {
   "xKey": "globalKeyOfWidget", 
   "widgetName": "Container",      
@@ -164,7 +179,51 @@ The above code completely presents a json data for constructing a widget. The va
 	- **map**: The type of property value like "Size" will be {"color":"", "width":""}.
 
 ***step2: How to create page***
-> 如上一步，json数据根节点是以page属性开始，一是为了
+> 创建page UI和创建widget UI是一样的，同时它们的json数据也是通用的，widget是page的简单化版。
+Creating page UI is the same as creating widget UI. At the same time, their json data is also common. Widget is a simplified version of page.
+
+invoke build page
+```dart
+YZDynamic.buildPage(context, json, preConfig: preConfig);
+```
+
+invoke present page
+```dart
+YZDynamic.handle(context, json, preConfig: preConfig)
+```
+
+json
+```dart
+{
+    "page": {
+        "key": "",
+        "presentMode": "",
+        "state": {
+            "initState": [ 
+            ], 
+            "build": [ 
+            ],
+            "dispose": [ 
+            ]
+        },
+        "xVar":{},
+        "rootWidget": {}
+    }
+}
+```
+
+> 上面的代码较完整地呈现了一个构造一个page的json数据。  page属性里有些和widget不致，下面一一说明：
+The above code completely presents a json data that constructs a page. Some of the page attributes are inconsistent with widgets, as explained below:
+
+- `key`：The globalkey of page.
+
+- `presentMode`: The present mode of page. The  value is "dialog / navpage".Use for YZDynamic.handle invocation only.
+
+- `state`: The lifecycle of page which is as good as the system StatefulWidget.
+
+- `xVar`: Define the variable of widget.
+
+- `rootWidget`: The root widget of page. It is similay to the return widget of StatefulWidget's build method.
 
 ***step3: How to define variable***
 
