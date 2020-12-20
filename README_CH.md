@@ -262,10 +262,156 @@ json
 [Dialog](https://github.com/Yingzi-Technology/flutter_dynamic/tree/master/lib/widgets)  
 
 ## Customize-Widget
-> 当引擎提供的组件不满足使用需求时，可以通过扩展组件的方式添加自定义的组件。
+> 当引擎提供的组件不满足使用需求时，可以通过扩展组件的方式添加自定义的组件。自定义组件的方式如下，或者参考 [Container](https://github.com/Yingzi-Technology/flutter_dynamic/blob/master/lib/widgets/container.dart)：
+Define CustomerWidget
+```dart
+/// CustomerWidget handler
+class YZCustomerWidgetHandler extends YZDynamicBasicWidgetHandler {
+
+  @override
+  String get widgetName => 'CustomerWidget';
+
+  @override
+  Widget build(Map<String, dynamic> json, {Key key, BuildContext buildContext}) {
+    return _Builder(json, key:key);
+  }
+  
+}
+
+class _Builder extends YZDynamicBaseWidget {
+
+  final Map<String, dynamic> json;
+
+  _Builder(this.json, {Key key}): super(json, key: key);
+
+  @override
+  _BuilderState createState() => _BuilderState();
+}
+
+class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
+
+  //Deal with props / 处理控件属性
+  Map props;
+  Alignment _alignment;
+
+  @override
+  void initState() {
+    super.initState();
+
+    //Deal with props / 处理控件属性
+    props = super.config.props;
+    _alignment = YZDinamicWidgetUtils.alignmentAdapter(props["alignment"]);   
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    Widget _widget;
+
+    CustomerWidget _subwidget = CustomerWidget(
+      alignment: _alignment,
+    );  
+
+    //Deal with events / 处理事件
+    _widget = super.buildWithEvents(_subwidget, super.config.xEvents);
+
+    return _widget;
+  }
+
+  @override
+  void registerActions() {
+    //Deal with action / 处理事件实现
+    actionFunctions['setState'] = stateSetter; 
+  }
+
+  void stateSetter({
+      Map params, 
+      YZDynamicRequest request,
+      List<YZDynamicActionRule> rules,
+      Map localVariables,
+      State state,
+    }) {
+    print('Execute xAction: ${this.runtimeType} setState');
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
+}
+```
+Register CustomerWidget
+```dart
+YZDynamicCommon.reginsterWidgetHandler(YZCustomerWidgetHandler)
+```
+
+User CustomerWidget
+```dart
+{
+  "xKey": "globalKeyOfWidget", 
+  "widgetName": "CustomerWidget",      
+  "props": { 
+ 	 "alignment": "[10, 10, 0, 0]"
+  },
+  "xEvents": [
+  {
+    "eventType": "onClick",
+    "code": '''
+      [code...]      
+    '''
+  },
+  "xVar": {
+  
+  }
+  ]           
+}
+```
+
 
 ## Customize-Grammar
-> 当引擎提供的伪代码语法不满足使用需求时，可以通过扩展action的方式添加自定义的语法。
+> 当引擎提供的伪代码语法不满足使用需求时，可以通过扩展action的方式添加自定义的语法。  
+
+Define action
+```dart
+/*
+ * Custum action
+ * 自定义 action 
+ */
+class YZToastHandler extends YZDynamicPublicActionHandler{
+  @override
+  void action(BuildContext context, {
+      Map params, 
+      YZDynamicRequest request,
+      List<YZDynamicActionRule> rules,
+      Map localVariables,
+      State state,
+    }) {
+      String tip = params['tip'];
+      Fluttertoast.showToast(
+        msg: tip,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0
+    );
+  }
+
+  @override
+  String get actionName => 'yzToast';
+
+}
+```
+
+Register action
+```dart
+YZDynamicCommon.reginsterPublicActionHandler(YZToastHandler());
+```
+
+User action
+```dart
+yzToast(tip:content);
+```
+
 
 ## Contact
 Created by [153768151@qq.com](https://github.com/fisherjoe) - feel free to contact me
