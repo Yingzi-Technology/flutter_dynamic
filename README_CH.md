@@ -19,8 +19,8 @@ EN: The flutter_dynamic is an engine that create flutter application dynamically
 * [Get-started 使用](#Get-started)
 * [Grammar 语法](#Grammar)
 * [Widgets 组件](#Widgets)
-* [Customize Widget 自定义组件](#Customize Widget)
-* [Customize  Grammar 自定义语法](#Customize  Grammar)
+* [Customize-Widget 自定义组件](#Customize-Widget)
+* [Customize-Grammar 自定义语法](#Customize-Grammar)
 * [Contact 联系](#Contact)
 
 ## General-info
@@ -261,10 +261,10 @@ json
 [SizedBox](https://github.com/Yingzi-Technology/flutter_dynamic/tree/master/lib/widgets)
 [Dialog](https://github.com/Yingzi-Technology/flutter_dynamic/tree/master/lib/widgets)
 
-## Customize Widget
+## Customize-Widget
 > 当引擎提供的组件不满足使用需求时，可以通过扩展组件的方式添加自定义的组件。
 
-## Customize  Grammar
+## Customize-Grammar
 > 当引擎提供的伪代码语法不满足使用需求时，可以通过扩展action的方式添加自定义的语法。
 
 ## Contact
