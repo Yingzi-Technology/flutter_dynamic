@@ -9,7 +9,7 @@ EN: The flutter_dynamic is an engine that create flutter application dynamically
 * [153768151@qq.com](https://github.com/fisherjoe) - feel free to contact me
 
 ## Best practice
-> 动态创建类似有UI和交互的页面。  
+> 动态创建类似有UI和交互的页面。如果你已经阅读了以文档，可以跟着我们一步步创建一个有趣的动态页面。[Best practice](https://github.com/Yingzi-Technology/flutter_dynamic/doc/bestpratice.md)
 
 <img src="https://upload-images.jianshu.io/upload_images/3868052-24e08253efeff413.gif?imageMogr2/auto-orient/strip" width="320px"/>
 
@@ -263,6 +263,7 @@ json
 
 ## Customize-Widget
 > 当引擎提供的组件不满足使用需求时，可以通过扩展组件的方式添加自定义的组件。自定义组件的方式如下，或者参考 [Container](https://github.com/Yingzi-Technology/flutter_dynamic/blob/master/lib/widgets/container.dart)：
+
 Define CustomerWidget
 ```dart
 /// CustomerWidget handler
@@ -338,6 +339,7 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
 
 }
 ```
+
 Register CustomerWidget
 ```dart
 YZDynamicCommon.reginsterWidgetHandler(YZCustomerWidgetHandler)
