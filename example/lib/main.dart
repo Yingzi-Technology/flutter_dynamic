@@ -2,11 +2,12 @@
 * @Author: yz.yujingzhou     
 * @Date: 2020-09-03 09:35:13     
  * @Last Modified by: yz.yujingzhou
- * @Last Modified time: 2020-12-16 17:41:19
+ * @Last Modified time: 2020-12-21 17:48:16
 **/   
 import 'package:flutter/material.dart';
 import 'package:yz_flutter_dynamic/main.dart';
 
+import 'demo/bestpratice.dart';
 import 'demo/config.dart';
 import 'demo/dsl.dart';
 import 'demo/helloworld.dart';
@@ -51,7 +52,7 @@ class _MyAppState extends State<MyApp> {
                     }));  
                   }, 
                   child: Text('Grammar and Unit testing\n\r(语法和示例)')
-                ),     
+                ),                   
                FlatButton(
                   color: Colors.black12,
                   onPressed: (){                
@@ -60,7 +61,16 @@ class _MyAppState extends State<MyApp> {
                     }));  
                   }, 
                   child: Text('Hello world')
-                ),                            
+                ),   
+                FlatButton(
+                  color: Colors.black12,
+                  onPressed: (){                
+                    Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext contex){
+                      return YZDynamic.buildWidget(context, bestPraticeDsl, preConfig: null);
+                    }));  
+                  }, 
+                  child: Text('Best Practice')
+                ),                                          
                 FlatButton(
                   color: Colors.black12,
                   onPressed: (){
@@ -68,7 +78,6 @@ class _MyAppState extends State<MyApp> {
                       context, demoDsl, 
                       preConfig: YZDynamicPagePreConfig(
                         params: [
-                          YZDynamicVariable(name: "pigId", value: "1987764234"),
                           YZDynamicVariable(name: "key1", value: "value001"),
                           YZDynamicVariable(name: "key2", value: "value002"),
                         ],                        

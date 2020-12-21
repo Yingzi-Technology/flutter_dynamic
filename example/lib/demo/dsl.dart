@@ -19,7 +19,7 @@ Map demoDsl =
     "entrane": {}, 
     "props": {},
     "xVar": {
-      "initData": "初始化变量"
+      "initData": "Initialize Value"
     }, 
     "xActions": {}   
   }
