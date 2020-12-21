@@ -1,5 +1,8 @@
 ## Best Practice (最佳实践)
-> 此文档我们将一步步按展示如何使用flutter_dynamic完成动态创建页面的过程。如果想看真实的效果，请运行example工程里的Best Practice。
+> 此文档我们将一步步按展示如何使用flutter_dynamic完成动态创建页面的过程。如果想看真实的效果，请运行example工程里的Best Practice。  
+
+
+
 ![ezgif-1-fbcbc15ebc8f.gif](https://upload-images.jianshu.io/upload_images/3868052-25b56bac819efb4a.gif?imageMogr2/auto-orient/strip)
 
 
