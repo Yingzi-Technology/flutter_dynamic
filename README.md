@@ -9,7 +9,7 @@ EN: The flutter_dynamic is an engine that create flutter application dynamically
 * [153768151@qq.com](https://github.com/fisherjoe) - feel free to contact me
 
 ## Best practice
-> Dynamically create similar UI and interactive pages.
+> Dynamically create similar UI and interactive pages. If you have read the document, you can follow us step by step to create an interesting dynamic page. [Best practice](https://github.com/Yingzi-Technology/flutter_dynamic/blob/master/doc/bestpratice.md)
 
 
 <img src="https://upload-images.jianshu.io/upload_images/3868052-24e08253efeff413.gif?imageMogr2/auto-orient/strip" width="320px"/>
@@ -19,6 +19,9 @@ EN: The flutter_dynamic is an engine that create flutter application dynamically
 * [Install 安装](#Install)
 * [Get-started 使用](#Get-started)
 * [Grammar 语法](#Grammar)
+* [Widgets 组件](#Widgets)
+* [Customize-Widget 自定义组件](#Customize-Widget)
+* [Customize-Grammar 自定义语法](#Customize-Grammar)
 * [Contact 联系](#Contact)
 
 ## General-info
@@ -224,9 +227,16 @@ json
 
 
 ***step4: How to use variables***
+> Pseudo-code code variables have four scopes: page scope, component scope, code block scope; the ways to use variables are: &lt;p:variableName&gt;, &lt;w:variableName&gt;, &lt;c: variableName&gt;. There are the following ways to initialize variables:
 
+- Defined in the xVar attribute of the page/widget object, such as: "xVar": {"variableName": "variableValue"}；
+- Defined in code, such as: \`\`\`&lt;c:variableName&gt;=Int(10); &lt;w:variableName2&gt;=String(Hellow world)\`\`\`；
+
+Note: The pseudo-code code variable has no variable type. If the type is not mandatory when assigning, it will automatically default to a string, and will be automatically converted according to specific needs when used.
 
 ***step5: How to implement event***
+> The engine provides a set of simple event handling mechanism xEvent. The event processing mechanism can define events and realize the logic of events.
+The logic of the event is realized by pseudo-code code.
 
 
 
@@ -236,8 +246,177 @@ In the example of the source code, there is pseudo code syntax for writing dynam
 ![Simulator Screen Shot - iPhone 12 - 2020-12-17 at 09.22.41.png](https://upload-images.jianshu.io/upload_images/3868052-917c8c2720d84fe9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/360)
 
 
-## More Document ... ...
-> Feel apologetic that we update the document slowly for the work time reason.
+## Widgets
+> Currently we support the following widgets.
+
+[Container](https://github.com/Yingzi-Technology/flutter_dynamic/tree/master/lib/widgets)  
+[Text](https://github.com/Yingzi-Technology/flutter_dynamic/tree/master/lib/widgets)  
+[TextField](https://github.com/Yingzi-Technology/flutter_dynamic/tree/master/lib/widgets)  
+[Column](https://github.com/Yingzi-Technology/flutter_dynamic/tree/master/lib/widgets)  
+[Expanded](https://github.com/Yingzi-Technology/flutter_dynamic/tree/master/lib/widgets)  
+[Image](https://github.com/Yingzi-Technology/flutter_dynamic/tree/master/lib/widgets)  
+[Padding](https://github.com/Yingzi-Technology/flutter_dynamic/tree/master/lib/widgets)  
+[Row](https://github.com/Yingzi-Technology/flutter_dynamic/tree/master/lib/widgets)  
+[SafeArea](https://github.com/Yingzi-Technology/flutter_dynamic/tree/master/lib/widgets)  
+[SingleChildScrollView](https://github.com/Yingzi-Technology/flutter_dynamic/tree/master/lib/widgets)  
+[Scaffold](https://github.com/Yingzi-Technology/flutter_dynamic/tree/master/lib/widgets)  
+[AppBar](https://github.com/Yingzi-Technology/flutter_dynamic/tree/master/lib/widgets)  
+[RawMaterialButton](https://github.com/Yingzi-Technology/flutter_dynamic/tree/master/lib/widgets)  
+[SizedBox](https://github.com/Yingzi-Technology/flutter_dynamic/tree/master/lib/widgets)  
+[Dialog](https://github.com/Yingzi-Technology/flutter_dynamic/tree/master/lib/widgets)  
+
+## Customize-Widget
+> When the components provided by the engine do not meet the usage requirements, you can add custom components by extending the components. The way to customize components is as follows, or refer to [Container](https://github.com/Yingzi-Technology/flutter_dynamic/blob/master/lib/widgets/container.dart)：
+
+Define CustomerWidget
+```dart
+/// CustomerWidget handler
+class YZCustomerWidgetHandler extends YZDynamicBasicWidgetHandler {
+
+  @override
+  String get widgetName => 'CustomerWidget';
+
+  @override
+  Widget build(Map<String, dynamic> json, {Key key, BuildContext buildContext}) {
+    return _Builder(json, key:key);
+  }
+  
+}
+
+class _Builder extends YZDynamicBaseWidget {
+
+  final Map<String, dynamic> json;
+
+  _Builder(this.json, {Key key}): super(json, key: key);
+
+  @override
+  _BuilderState createState() => _BuilderState();
+}
+
+class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
+
+  //Deal with props / 处理控件属性
+  Map props;
+  Alignment _alignment;
+
+  @override
+  void initState() {
+    super.initState();
+
+    //Deal with props / 处理控件属性
+    props = super.config.props;
+    _alignment = YZDinamicWidgetUtils.alignmentAdapter(props["alignment"]);   
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    Widget _widget;
+
+    CustomerWidget _subwidget = CustomerWidget(
+      alignment: _alignment,
+    );  
+
+    //Deal with events / 处理事件
+    _widget = super.buildWithEvents(_subwidget, super.config.xEvents);
+
+    return _widget;
+  }
+
+  @override
+  void registerActions() {
+    //Deal with action / 处理事件实现
+    actionFunctions['setState'] = stateSetter; 
+  }
+
+  void stateSetter({
+      Map params, 
+      YZDynamicRequest request,
+      List<YZDynamicActionRule> rules,
+      Map localVariables,
+      State state,
+    }) {
+    print('Execute xAction: ${this.runtimeType} setState');
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
+}
+```
+
+Register CustomerWidget
+```dart
+YZDynamicCommon.reginsterWidgetHandler(YZCustomerWidgetHandler)
+```
+
+User CustomerWidget
+```dart
+{
+  "xKey": "globalKeyOfWidget", 
+  "widgetName": "CustomerWidget",      
+  "props": { 
+ 	 "alignment": "[10, 10, 0, 0]"
+  },
+  "xEvents": [
+  {
+    "eventType": "onClick",
+    "code": '''
+      [code...]      
+    '''
+  },
+  "xVar": {
+  
+  }
+  ]           
+}
+```
+
+
+## Customize-Grammar
+> When the pseudo-code syntax provided by the engine does not meet the usage requirements, you can add a custom syntax by extending the action.  
+
+Define action
+```dart
+/*
+ * Custum action
+ * 自定义 action 
+ */
+class YZToastHandler extends YZDynamicPublicActionHandler{
+  @override
+  void action(BuildContext context, {
+      Map params, 
+      YZDynamicRequest request,
+      List<YZDynamicActionRule> rules,
+      Map localVariables,
+      State state,
+    }) {
+      String tip = params['tip'];
+      Fluttertoast.showToast(
+        msg: tip,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0
+    );
+  }
+
+  @override
+  String get actionName => 'yzToast';
+
+}
+```
+
+Register action
+```dart
+YZDynamicCommon.reginsterPublicActionHandler(YZToastHandler());
+```
+
+User action
+```dart
+yzToast(tip:content);
+```
 
 ## Contact
 Created by [153768151@qq.com](https://github.com/fisherjoe) - feel free to contact me

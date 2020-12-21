@@ -225,7 +225,7 @@ json
 
 
 ***step4: How to use variables***
-> 伪代码code变量有四种作用域：分别是页面作用域、组件代用域、code块作用域；使用变量的方式分别是：&lt;p:variableName&gt;、&lt;w:variableName&gt;、&lt;c:variableName&gt;。有如下方式可以初始化变量：
+> 伪代码code变量有四种作用域：分别是页面作用域、组件作用域、code块作用域；使用变量的方式分别是：&lt;p:variableName&gt;、&lt;w:variableName&gt;、&lt;c:variableName&gt;。有如下方式可以初始化变量：
 
 - 在page/widget对象的xVar属性中定义，如："xVar": {"variableName": "variableValue"}；
 - 在code中定义，如：\`\`\`&lt;c:variableName&gt;=Int(10); &lt;w:variableName2&gt;=String(Hellow world)\`\`\`；
@@ -243,7 +243,7 @@ json
 ![Simulator Screen Shot - iPhone 12 - 2020-12-17 at 09.22.41.png](https://upload-images.jianshu.io/upload_images/3868052-917c8c2720d84fe9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/360)
 
 ## Widgets
-> 目前我们支持如下Widget，会不断增加。  
+> 目前我们支持如下Widget。  
 
 [Container](https://github.com/Yingzi-Technology/flutter_dynamic/tree/master/lib/widgets)  
 [Text](https://github.com/Yingzi-Technology/flutter_dynamic/tree/master/lib/widgets)  
