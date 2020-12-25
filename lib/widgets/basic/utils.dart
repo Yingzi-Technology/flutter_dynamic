@@ -14,6 +14,14 @@ import '../../tools/common.dart';
 class YZDinamicWidgetUtils {
   YZDinamicWidgetUtils._();
   
+  static String valueAdapter(String str, State state) {
+      String _ret;
+
+      _ret = YZDynamicVariableUtil.getValueOfVariable(str, state: state);
+
+      return _ret;
+  }
+
   ///adapt dsl alignment to the flutter Alignment
   static Alignment alignmentAdapter(String alignmentString){
     Alignment alignment;

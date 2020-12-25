@@ -9,7 +9,10 @@ import 'package:flutter/material.dart';
 import '../pages/basic/page.dart';
 import 'action.dart';
 import 'code.dart';
+import 'common.dart';
 
+//Global variable tag
+const _YZGlobalVariablePlaceholder = r"(?:var:)?<g:([A-Za-z0-9_.]+)>";
 //Page variable tag
 const _YZPageVariablePlaceholder = r"(?:var:)?<p:([A-Za-z0-9_.]+)>";
 //widget variable tag
@@ -51,6 +54,37 @@ class YZDynamicVariableUtil {
     String newString = rawString;
 
     if (context != null) {
+      // Extract global variable with <g:xxx.xxx>
+      RegExp expGlobal = new RegExp(_YZGlobalVariablePlaceholder);    
+      Iterable<Match> matchesGlobal = expGlobal.allMatches(rawString);
+      for (Match m in matchesGlobal) {
+        String variable = m.group(1);
+
+        List<String> subvariables = variable.split(_YZDynamicVariableDotLink);
+        dynamic value;
+        dynamic ret;
+        for (var i = 0; i < subvariables.length; i++) {
+          String subvar = subvariables[i];          
+          if (i == 0) {
+            ret = YZDynamicCommon.getGlobalVariable(subvar);
+          } else {
+            ret = ret[subvar];
+          } 
+          if (ret != null && (ret is Map)) {            
+            continue;
+          } else {
+            value = ret;
+            break;
+          }     
+        } 
+        if (value == null) value = ''; 
+
+        String replace = m.group(0);    
+        if ((value is String) || (value is num)) {
+          newString = newString.replaceAll(replace, value.toString());
+        }        
+      }
+
       // Extract page variable with <p:xxx.xxx>
       RegExp exp = new RegExp(_YZPageVariablePlaceholder);    
       Iterable<Match> matches = exp.allMatches(rawString);
@@ -177,6 +211,33 @@ class YZDynamicVariableUtil {
     }
 
     if (state != null) {
+      // Extract global variable with <g:xxx.xxx>
+      RegExp expGlobal = new RegExp(_YZGlobalVariablePlaceholder);    
+      Iterable<Match> matchesGlobal = expGlobal.allMatches(variableName);
+      for (Match m in matchesGlobal) {
+        String variable = m.group(1);
+
+        List<String> subvariables = variable.split(_YZDynamicVariableDotLink);
+        dynamic ret;
+        for (var i = 0; i < subvariables.length; i++) {
+          String subvar = subvariables[i];          
+          if (i == 0) {
+            ret = YZDynamicCommon.getGlobalVariable(subvar);
+          } else {
+            ret = ret[subvar];
+          } 
+
+          if (ret != null && (ret is Map)) {            
+            continue;
+          } else {
+            break;
+          }     
+        } 
+
+        if (ret != null) value = ret; 
+        
+      }
+
       // Extract page variable with <p:xxx.xxx>
       RegExp exp = new RegExp(_YZPageVariablePlaceholder);    
       Iterable<Match> matches = exp.allMatches(variableName);
@@ -351,6 +412,20 @@ class YZDynamicVariableUtil {
       if (key.length <= _YZDynamicVariablePrefix.length) return; 
       variableName = key.substring(_YZDynamicVariablePrefix.length);
     }
+
+    // Extract global variable with <g:xxx.xxx>
+    RegExp expGlobal = new RegExp(_YZGlobalVariablePlaceholder);    
+    Iterable<Match> matchesGlobal = expGlobal.allMatches(variableName);
+    for (Match m in matchesGlobal) {
+      String variable = m.group(1);
+
+      List<String> subvariables = variable.split(_YZDynamicVariableDotLink);
+      YZDynamicCommon.setGlobalVariable(subvariables, assinment);
+    }
+    //stop
+    if (matchesGlobal != null && matchesGlobal.isNotEmpty) {
+      return;
+    }    
 
     if (context != null) {
       // Extract page variable with <p:xxx.xxx>

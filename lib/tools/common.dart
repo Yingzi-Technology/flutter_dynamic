@@ -33,6 +33,54 @@ class YZDynamicCommon {
   /// 公开action存储变量，无论是系统还是扩展的action最终需要注册到这里
   static Map<String, YZDynamicActionHandler> _publicActionHandlers = {};
   static bool isPageExitHandlersMounted = false;
+
+  /// Global variable storage
+  /// 全局变量
+  static Map<String, dynamic> _globalActionHandlers = {};
+
+  static addGlobalVariable(String k, dynamic v){
+    _globalActionHandlers[k] = v;
+  }
+
+  static dynamic getGlobalVariable(String k){
+    return _globalActionHandlers[k];
+  }  
+
+  static void setGlobalVariable(    
+    List<String> subvariables, 
+    dynamic assinment
+    ) {
+
+    if (subvariables == null || subvariables.isEmpty) return;
+
+    Map _variables;
+    int _start = 0;
+   
+    _variables = _globalActionHandlers;    
+
+    if (_variables == null || !(_variables is Map)) return; 
+
+    int len = subvariables.length;
+    for (var i = _start; i < len; i++) {
+      String key = subvariables[i];
+
+      if (i == len - 1) {
+        _variables[key] = assinment;
+        break;
+      }           
+
+      dynamic _value = _variables[key];                  
+      if (_value == null) {
+        _value = {};                   
+      } else {
+        if (!(_value is Map)) {
+          _value = {};
+        }                      
+      }
+      _variables = _value;
+    } 
+
+  }  
   
   ///Build widget
   static Widget buildWidget(Map json, {Key key, BuildContext context}){

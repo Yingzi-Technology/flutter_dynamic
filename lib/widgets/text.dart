@@ -59,7 +59,7 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
     //Deal with props / 处理控件属性
     props = YZTextConfig.fromJson(super.config.props) ?? {};
 
-    _data = _dataAdapter(props.data, this);
+    _data = YZDinamicWidgetUtils.valueAdapter(props.data, this);
     _style = YZDinamicWidgetUtils.textStyleAdapter(props.style);   
     _strutStyle = YZDinamicWidgetUtils.strutStyleAdapter(props.strutStyle);
     _textAlign = YZDinamicWidgetUtils.textAlignAdapter(props.textAlign);
@@ -120,14 +120,6 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
     }
   }
 
-}
-
-String _dataAdapter(String str, State state) {
-    String _ret;
-
-    _ret = YZDynamicVariableUtil.getValueOfVariable(str, state: state);
-
-    return _ret;
 }
 
 TextWidthBasis _textWidthBasisAdapter(String str) {

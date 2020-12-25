@@ -5,6 +5,9 @@
  * @Last Modified time: 2020-11-26 18:11:40
 **/   
 
+import 'statefulwidget.dart';
+import 'statelesswidget.dart';
+
 import 'app_bar.dart';
 import 'basic.dart';
 import 'basic/handler.dart';
@@ -39,4 +42,6 @@ List<YZDynamicBasicWidgetHandler> yzAllDynamicWidgetHandlers = [
   YZRawMaterialButtonHandler(),
   YZSizedBoxHandler(),
   YZDialogHandler(),
+  YZStatefulWidgetHandler(),
+  YZStatelessWidgetHandler(),
 ];

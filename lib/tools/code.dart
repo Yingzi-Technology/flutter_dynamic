@@ -16,7 +16,7 @@ const _YZDynamicCodeTag = 'code:';
 const _YZDynamicCodeActionTag = 'lazyCode:';
 ///用户自定义的语法格式
 ///User define codd grammar
-const _YZDynamicUserdefCodeActionTag = '@userCode:';
+const _YZDynamicUserCodeActionTag = 'userCode:';
 ///语句简单化分隔符，避免分号嵌套
 ///exucution split symbol avoiding nested semicolon
 const YZDynamicParamsValuePlit = ';'; 
@@ -25,6 +25,7 @@ class YZDynamicCodeUtil {
   YZDynamicCodeUtil._();
 
   static bool isCode(String code) {
+    if (isUserCode(code)) return true;
     if (code != null && code.trim().startsWith(_YZDynamicCodeTag)) return true;
     return false;
   } 
@@ -33,6 +34,11 @@ class YZDynamicCodeUtil {
     if (code != null && code.trim().startsWith(_YZDynamicCodeActionTag)) return true;
     return false;
   }   
+
+  static bool isUserCode(String code) {
+    if (code != null && code.trim().startsWith(_YZDynamicUserCodeActionTag)) return true;
+    return false;
+  }    
 
   /// 分析code字符串格式并执行action。注意分号;不能嵌套，params里面用逗号替代
   /// Anylize code string and execute action. The semicolon should not be nesting instead of comma used inside params
@@ -65,8 +71,17 @@ class YZDynamicCodeUtil {
       codeBody = code.substring(_YZDynamicCodeActionTag.length);
       commandItems = splitLexical(codeBody, YZDynamicParamsValuePlit);
 
-    } else if (code.startsWith(_YZDynamicUserdefCodeActionTag)) {
+    } else if (code.startsWith(_YZDynamicUserCodeActionTag)) {
 
+        String userCodeBody = code.substring(_YZDynamicUserCodeActionTag.length);
+        YZDynamicActionConfig userAction = YZDynamicActionConfig(
+          name: _YZDynamicUserCodeActionTag,
+          userCode: userCodeBody
+        );
+        result = YZDynamicActionTool.triggerActions<T>(state, [userAction], localVariables: _localVariables);  
+
+        return result;
+        
     } else {
 
       codeBody = code;
@@ -89,16 +104,29 @@ class YZDynamicCodeUtil {
         }
 
       } else if (YZDynamicVariableUtil.isVariable(command)) { //variable
+
         YZDynamicVariableUtil.assignmentVariable(
           command,
           state: state,
           localVariables: _localVariables
         );
+
+      } else if (isUserCode(command)) {
+
+        String userCodeBody = command.substring(_YZDynamicUserCodeActionTag.length);
+        YZDynamicActionConfig userAction = YZDynamicActionConfig(
+          name: _YZDynamicUserCodeActionTag,
+          code: userCodeBody
+        );
+        result = YZDynamicActionTool.triggerActions<T>(state, [userAction], localVariables: _localVariables);  
+
       } else { //lexical
+
         dynamic commandResult = YZDynamicLexicalAnalysis.analyze(command);
         if (commandResult is YZDynamicActionConfig) {
           result = YZDynamicActionTool.triggerActions<T>(state, [commandResult], localVariables: _localVariables);        
         }
+
       }
     }
 

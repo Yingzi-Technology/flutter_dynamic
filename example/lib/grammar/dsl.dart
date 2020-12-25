@@ -8,10 +8,23 @@
 getDemoDsl(String code) {
 
   code = code.trim();
-  if (!code.startsWith("var")) {
-    code = "var:<c:ret>=$code;";
-  } else if (!code.endsWith(';')){
-    code = '$code;';
+
+  var result;
+  if (code.startsWith('userCode:')) {
+    result = code;
+  } else {
+    result = '''code:
+        $code
+        var:<c:r>=`The result is: var:<c:ret>`;      
+        action:Sys.print(var:<c:r>);        
+        action:String(var:<c:ret>)
+      ''';
+
+    if (!code.startsWith("var")) {
+      code = "var:<c:ret>=$code;";
+    } else if (!code.endsWith(';')){
+      code = '$code;';
+    }      
   }
 
   var text = {
@@ -22,12 +35,7 @@ getDemoDsl(String code) {
       "data": "var:<w:_Text.result>",
     },
     "xVar": {
-      "result": '''code:
-        $code
-        var:<c:r>=`The result is: var:<c:ret>`;      
-        action:Sys.print(var:<c:r>);        
-        action:String(var:<c:ret>)
-      '''
+      "result": result
     }
   };
 

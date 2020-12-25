@@ -63,7 +63,7 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
 
     props = YZTextFieldConfig.fromJson(super.config.props) ?? {};
     
-    _value = props.value;
+    _value = YZDinamicWidgetUtils.valueAdapter(props.value, this);
     _maxLine = YZDinamicWidgetUtils.intAdapter(props.maxLines);
     _minLine = YZDinamicWidgetUtils.intAdapter(props.minLines);
     _keyboardType = YZDinamicWidgetUtils.keyboardTypeAdapter(props.keyboardType);

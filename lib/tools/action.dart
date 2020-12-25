@@ -30,6 +30,7 @@ const _YZDynamicActionTag = 'action:';
 const _YZDynamicActionBraceTag = '{';
 const _YZDynamicActionSchemeTag = 'scheme/';
 const _YZDynamicKeyActionTag = r"num|int|double|String|bool|List|Map|Set|Sys";
+const _YZDynamicUserCodeActionTag = 'userCode:';
 
 typedef YZDynamicActionFunction = Function({
        // Widget value
@@ -47,13 +48,12 @@ typedef YZDynamicActionFunction = Function({
 enum YZDynamicActionHandlerType {
   action, //Handler excute action
   func,  //Handler excute func
+  userCode, //Handler excute userCode
 }
 abstract class YZDynamicActionHandler{
 
   // The action
   dynamic action(BuildContext context, {
-     
-     
     Map params, 
     YZDynamicRequest request,
     List<YZDynamicActionRule> rules,
@@ -64,10 +64,16 @@ abstract class YZDynamicActionHandler{
   // The func. A simple action
   dynamic func(Map params);
 
+  // The userCode. 
+  dynamic userCode(BuildContext context, {
+    String userCode, 
+    Map localVariables,
+    State state,
+  });
+
   dynamic execute(BuildContext context, {
-     
-     
     Map params, 
+    String userCode,
     YZDynamicRequest request,
     List<YZDynamicActionRule> rules,
     Map localVariables,
@@ -81,6 +87,13 @@ abstract class YZDynamicActionHandler{
         rules: rules,
         localVariables: localVariables,
         state: state,
+      );
+    } else if (actionType == YZDynamicActionHandlerType.userCode) {
+      return this.userCode(
+        context, 
+        userCode: userCode,
+        localVariables: localVariables,
+        state: state,        
       );
     } else {
       return this.func(params);
@@ -100,14 +113,27 @@ abstract class YZDynamicPublicActionHandler extends YZDynamicActionHandler{
   dynamic func(Map params){}
 
   @override
+  dynamic userCode(BuildContext context, {
+    String userCode, 
+    Map localVariables,
+    State state,
+  }){}
+
+  @override
   YZDynamicActionHandlerType get actionType => YZDynamicActionHandlerType.action;
 }
 
 abstract class YZDynamicSysActionHandler extends YZDynamicActionHandler{
+
+  @override
+  dynamic userCode(BuildContext context, {
+    String userCode, 
+    Map localVariables,
+    State state,
+  }){}
+
   @override
   dynamic action(BuildContext context, {
-     
-     
     Map params, 
     YZDynamicRequest request,
     List<YZDynamicActionRule> rules,
@@ -117,6 +143,26 @@ abstract class YZDynamicSysActionHandler extends YZDynamicActionHandler{
 
   @override
   YZDynamicActionHandlerType get actionType => YZDynamicActionHandlerType.func;  
+}
+
+abstract class YZDynamicUserActionHandler extends YZDynamicActionHandler{
+  @override
+  dynamic func(Map params){}
+
+  @override
+  dynamic action(BuildContext context, {
+    Map params, 
+    YZDynamicRequest request,
+    List<YZDynamicActionRule> rules,
+    Map localVariables,
+    State state,
+  }){}  
+
+  @override
+  YZDynamicActionHandlerType get actionType => YZDynamicActionHandlerType.userCode;
+
+  @override
+  String get actionName => _YZDynamicUserCodeActionTag;  
 }
 
 enum YZDynamicWidgetActionType{
@@ -419,6 +465,7 @@ class YZDynamicActionTool {
           retsult = handler?.execute(
             context, 
             params: m.params,
+            userCode: m.userCode,
             request: m.request, 
             rules: m.rules,            
             state: state,
@@ -453,6 +500,7 @@ class YZDynamicActionConfig {
   String returnVariable; //action对应的funcion返回值存放的变量名
   String handlerVariable; //action的句柄，用于别的action对本action的调用
   String code; //code block
+  String userCode; // user code
 
   YZDynamicActionConfig(
       {this.type,
@@ -465,6 +513,7 @@ class YZDynamicActionConfig {
       this.returnVariable,
       this.handlerVariable,
       this.code,
+      this.userCode,
       });
 
   //从另一个对象补充属性值到本对象，不影响现有对象已存在的值 
@@ -481,6 +530,7 @@ class YZDynamicActionConfig {
     if (this.returnVariable == null) this.returnVariable = original.returnVariable;
     if (this.handlerVariable == null) this.handlerVariable = original.handlerVariable;
     if (this.code == null) this.code = original.code;
+    if (this.userCode == null) this.userCode = original.userCode;
 
     return this;
   }      
