@@ -2,7 +2,7 @@
 * @Author: yz.yujingzhou     
 * @Date: 2020-09-01 21:36:18     
  * @Last Modified by: yz.yujingzhou
- * @Last Modified time: 2020-09-29 15:45:50
+ * @Last Modified time: 2021-01-27 14:59:37
 **/   
 
 import 'package:flutter/material.dart';
@@ -10,6 +10,7 @@ import 'package:yz_flutter_dynamic/widgets/form.dart';
 
 import '../tools/common.dart';
 import 'basic/page.dart';
+import 'basic/utils.dart';
 import 'model/page_config.dart';
 
 ///One-Dimension Column Form Layout (单列表单布局)
@@ -93,7 +94,9 @@ class _YZDynamicFormPageState extends YZDynamicBaseState<YZDynamicFormPage> {
     }
 
     EdgeInsets _padding = YZDynamicCommon.edgeInsetAdapter(super.pageConfig?.props?.padding)  ?? EdgeInsets.zero;
+    Color _backgraoundColor = YZDinamicPageUtils.colorAdapter(super.pageConfig?.props?.backgraoundColor)  ?? Color(0xFFFFFFFF);
     return Scaffold(
+      backgroundColor: _backgraoundColor,
       appBar: navbar,
       body: SafeArea(
         child: Padding(
@@ -115,6 +118,6 @@ class _YZDynamicFormPageState extends YZDynamicBaseState<YZDynamicFormPage> {
         )
       ),
     );
-  }
+  } 
 
 }

@@ -2,7 +2,7 @@
 * @Author: yz.yujingzhou     
 * @Date: 2020-09-02 12:02:10     
  * @Last Modified by: yz.yujingzhou
- * @Last Modified time: 2020-11-26 18:26:06
+ * @Last Modified time: 2021-01-25 11:24:18
 **/   
 
 import 'dart:convert';
@@ -179,10 +179,10 @@ class YZDinamicWidgetUtils {
   }  
 
   ///adapt dsl color to the flutter color 0xff123456
-  static int intAdapter(String colorString){
-    if (colorString == null) return null;
+  static int intAdapter(String str){
+    if (str == null) return null;
 
-    return YZDynamicCommon.parseInt(num.tryParse(colorString));
+    return YZDynamicCommon.parseInt(num.tryParse(str));
   }   
 
   ///adapt dsl TextInputType to the flutter TextInputType

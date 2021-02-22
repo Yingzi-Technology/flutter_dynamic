@@ -2,7 +2,7 @@
  * @Author: yz.yujingzhou 
  * @Date: 2020-10-25 17:13:52 
  * @Last Modified by: yz.yujingzhou
- * @Last Modified time: 2020-11-17 19:30:01
+ * @Last Modified time: 2021-01-27 11:09:12
  */
 
 import 'package:flutter/material.dart';
@@ -55,6 +55,8 @@ class YZDynamicCodeUtil {
     // 存储各项命令执行的变量或临时结果或action句柄
     // Store the results or variables or actions handler of every command
     // Similar function context
+    // 如果key为 stop 值为true则停止code的执行，比如return action 需要停止code往下执行
+    // If the value of key 'stop' is true, stop the code execute. Such as return action
     Map _localVariables = localVariables ?? {};
     
     String codeBody;
@@ -94,6 +96,12 @@ class YZDynamicCodeUtil {
     for (int i = 0; i < commandItems?.length ?? 0; i++) {
       String command = commandItems[i];
       command = command.trim();
+
+      bool _isStopCode = _localVariables['stop'];
+      if (_isStopCode == true) {
+        break;
+      }
+
       if (YZDynamicActionTool.isAction(command) || YZDynamicActionTool.isKeyAction(command)) { //action
 
         YZDynamicActionConfig action = YZDynamicActionTool.anylizeAction(command, state:state, localVariables: _localVariables);     
@@ -102,6 +110,9 @@ class YZDynamicCodeUtil {
         if (result != null && action.returnVariable != null) {
           _localVariables[action.returnVariable] = result;
         }
+
+         _isStopCode = isStopCode(action, _localVariables);
+        if (_isStopCode) break;
 
       } else if (YZDynamicVariableUtil.isVariable(command)) { //variable
 
@@ -132,6 +143,16 @@ class YZDynamicCodeUtil {
 
     return result;
 
+  }
+
+  // 是否要停止继续执行code
+  // Whether or not stop execute code
+  static bool isStopCode(YZDynamicActionConfig action, Map localVariables) {
+    if (action.name == 'Sys.return') {
+      localVariables['stop'] = true;
+      return true;
+    }
+    return false;
   }
 
   ///Split by tag ";" without inside {} such as {xxx;xxx;}, or (int i=0; i<=...)

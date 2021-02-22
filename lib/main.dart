@@ -23,6 +23,8 @@ export 'package:yz_flutter_dynamic/widgets/basic/widget.dart';
 export 'package:yz_flutter_dynamic/widgets/basic/data.dart';
 export 'package:yz_flutter_dynamic/widgets/basic/utils.dart';
 
+/// 注意事项：YZDynamic接收的dsl Map类型中的value需要转换成dynamic，而不是通过type infer成为其它类型的，可通过jsonEncode/jsonDecode方法强制转换
+/// Note: The value in the dsl Map type received by YZDynamic needs to be converted to dynamic instead of other types through type infer. It can be forced to be converted through the jsonEncode/jsonDecode method
 class YZDynamic {
   YZDynamic._();
 

@@ -36,11 +36,14 @@ class YZStringIsEmptyHandler extends YZDynamicSysActionHandler{
     String ret = params['value']?.toString();
     if (ret == null) {
       for (var value in params.values) {
-        ret = value.toString();
+        ret = value?.toString();
         break;
       }      
     }
 
+    if (ret == null) {
+      return true;
+    }
     return ret.isEmpty;
   }
 
