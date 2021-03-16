@@ -21,7 +21,7 @@ class _UTNumberState extends UTBaseState<UTNumber> {
 
   List<Widget> getItem() {
     return [
-      createItem("int", "action:int(123);"),
+      createItem("int", "<c:ret>=action:int(123);"),
       createItem("double", "action:double(123);"),
       createItem("num", "action:num(123);"),
       createItem("num.+", "action:num.+(1, 2);"),

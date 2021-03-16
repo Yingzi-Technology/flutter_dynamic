@@ -23,11 +23,13 @@ export 'package:yz_flutter_dynamic/widgets/basic/widget.dart';
 export 'package:yz_flutter_dynamic/widgets/basic/data.dart';
 export 'package:yz_flutter_dynamic/widgets/basic/utils.dart';
 
+/// 入口类（Entry class）
 /// 注意事项：YZDynamic接收的dsl Map类型中的value需要转换成dynamic，而不是通过type infer成为其它类型的，可通过jsonEncode/jsonDecode方法强制转换
 /// Note: The value in the dsl Map type received by YZDynamic needs to be converted to dynamic instead of other types through type infer. It can be forced to be converted through the jsonEncode/jsonDecode method
 class YZDynamic {
   YZDynamic._();
 
+  // deprecated public
   static Widget buildPage(BuildContext context, Map config, {YZDynamicPagePreConfig preConfig}) {
     Widget widget;
 
@@ -41,6 +43,7 @@ class YZDynamic {
     return widget;
   }
 
+  // public
   static Widget buildWidget(BuildContext context, Map config, {YZDynamicPagePreConfig preConfig}) {
     Widget widget;
 
@@ -57,6 +60,9 @@ class YZDynamic {
     return widget;
   }  
 
+  // public
+  // 相比buildPage, handle还支持处理页面的呈现方式
+  // Compared to buildPage, The method of handle also supports processing the presentation of page.
   static handle(BuildContext context, Map dsl, {YZDynamicPagePreConfig preConfig}){
 
     assert(dsl != null, 'Error: Dsl can not be null!');

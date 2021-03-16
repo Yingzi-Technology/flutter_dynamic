@@ -1,8 +1,8 @@
 /* 
  * @Author: yz.yujingzhou 
  * @Date: 2020-10-26 16:50:20 
- * @Last Modified by: yz.yujingzhou
- * @Last Modified time: 2020-12-02 18:20:14
+ * @Last Modified by: yangyiting
+ * @Last Modified time: 2021-03-01 14:36:33
  */
 
 part of '../action.dart';
@@ -56,6 +56,28 @@ class YZSysBoolHandler extends YZDynamicSysActionHandler{
   @override
   String get actionName => 'Sys.bool';
 
+}
+
+class YZSysBoolToStringHandler extends YZDynamicSysActionHandler{
+  @override
+  dynamic func(Map params) {
+    if(params == null) return null;
+    dynamic value = params['value'];
+    if (value == null) { //或取第一个值
+      for (var v in params.values) {
+        value = v;
+        break;
+      } 
+    } 
+
+    if(value == 'true') return 'true';
+    if(value == 'false') return 'false';
+
+    return null;
+  }
+
+  @override
+  String get actionName => 'Sys.bool.toString';
 }
 
 class YZBoolHandler extends YZSysBoolHandler{

@@ -69,7 +69,6 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
       bottomSheet: null,
       backgroundColor: null,
       resizeToAvoidBottomInset: null,
-      resizeToAvoidBottomPadding: null,
       primary: true,
       drawerDragStartBehavior: DragStartBehavior.start,
       extendBody: false,

@@ -135,7 +135,7 @@ class YZDynamicBasePage extends StatefulWidget{
       } else {
         _state = YZDynamicBasePage.of(context);
       }      
-      Map variables = _state.variables;
+      Map variables = _state.properties;
       return variables[name];
 
     }
@@ -187,7 +187,7 @@ class YZDynamicBasePage extends StatefulWidget{
     } else {
 
       YZDynamicBaseState state = YZDynamicBasePage.of(context);    
-      _variables = state.variables;      
+      _variables = state.properties;      
     }
 
     if (_variables == null || !(_variables is Map)) return; 
@@ -260,7 +260,7 @@ class YZDynamicBaseState<T extends YZDynamicBasePage> extends State<T> {
 
   /// 存储入参的地方，方便控件或页面使用的时候查找
   /// Store the class variable for using by widget or page
-  Map variables = {};
+  Map properties = {};
 
   bool _isStateMouned = false;
 
@@ -363,7 +363,7 @@ class YZDynamicBaseState<T extends YZDynamicBasePage> extends State<T> {
   void dealParams(List<YZDynamicVariable> params) {
     if (params == null) return;
     params.forEach((YZDynamicVariable param){
-      variables[param.name] = param?.value;
+      properties[param.name] = param?.value;
     });
   }
 
@@ -372,8 +372,8 @@ class YZDynamicBaseState<T extends YZDynamicBasePage> extends State<T> {
   void defineVariable(Map json) {
     if (json == null) return;
     json.forEach((key, value) {
-      if (variables[key] != null) return;
-      variables[key] = YZDynamicVariableUtil.getValueOfVariable(value, state: this, context: context);
+      if (properties[key] != null) return;
+      properties[key] = YZDynamicVariableUtil.getValueOfVariable(value, state: this, context: context);
     });
   }  
 
@@ -389,7 +389,9 @@ class YZDynamicBaseState<T extends YZDynamicBasePage> extends State<T> {
   }
 
   void refresh() {
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }    
   }
 
 }

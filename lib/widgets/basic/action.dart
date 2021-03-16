@@ -43,12 +43,4 @@ mixin YZDynamicWidgetActionServer {
     return YZDynamicActionTool.triggerActions(state, actions, localVariables: localVariables);
   }
 
-  // void triggerActionsOfSimpleActions(    
-  //   List<YZDynamicActionConfig> simpleActions,
-  //   Map<String, YZDynamicActionConfig> xActions,
-  //   [BuildContext context, YZDynamicWidgetBasicState state, ]
-  // ) {
-  //   return YZDynamicActionTool.triggerActionsOfSimpleActions(simpleActions, xActions);
-  // }
-
 }

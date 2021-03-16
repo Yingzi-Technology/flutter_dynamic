@@ -184,8 +184,8 @@ class YZDynamicActionTool {
     return false;
   }  
 
-  /// 分析code里的action，比如给action里的变量占位符赋值等。Action有两种形式，一种是json配置形式，另一种是 sheme//returnVariable|actionName?key1=value&key2=value形式，支持 handlerVariable({params})->returnVariable
-  /// Anylize code action, such as assign value to variable. There are two action formats as json config and sheme//returnVariable|actionName?key1=value&key2=value or handlerVariable({params})->returnVariable
+  /// 分析code里的action，比如给action里的变量占位符赋值等。Action有两种形式，一种是json配置形式，另一种是 handlerVariable({params})->returnVariable
+  /// Anylize code action, such as assign value to variable. There are two action formats as json config and handlerVariable({params})->returnVariable
   /// params支持多个actions，用逗号分隔
   /// The params support multi-actions using comma separated.
   static YZDynamicActionConfig anylizeAction(String actionStr, {State state, Map localVariables}) {

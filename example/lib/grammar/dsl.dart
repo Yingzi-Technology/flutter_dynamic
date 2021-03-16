@@ -39,6 +39,15 @@ getDemoDsl(String code) {
     }
   };
 
+  var tip = {
+    "xKey": "_TextTip",
+    "type": "sysWidget",
+    "widgetName": "Text",
+    "props": {
+      "data": "如果希望显示语句结果，需要把语句结果赋值给<c:ret>，如<c:ret>=num.+(1,2)；\n\r输出结果如下：\n\r",
+    }
+  };  
+
   var _dslRootWidget = {
     "xKey": "",
     "widgetName": "Scaffold",
@@ -66,7 +75,8 @@ getDemoDsl(String code) {
                   "xKey": "",
                   "widgetName": "Column",
                   "props": {
-                    "children": [    
+                    "children": [  
+                      tip,
                       text,                        
                     ]
                   }

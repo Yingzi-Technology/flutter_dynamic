@@ -1,8 +1,8 @@
 /* 
  * @Author: yz.yujingzhou 
  * @Date: 2020-11-27 18:22:39 
- * @Last Modified by: yz.yujingzhou
- * @Last Modified time: 2020-11-27 18:31:32
+ * @Last Modified by: yangyiting
+ * @Last Modified time: 2021-03-01 14:35:30
  */
 
 part of '../action.dart';
@@ -60,7 +60,9 @@ List<YZDynamicActionHandler> yzAllDynamicExitHandlers = [
   YZStringTrimHandler(),
   YZStringTrimLeftHandler(),
   YZStringTrimRightHandler(),
-  YZStringSplitHandler(),  
+  YZStringSplitHandler(), 
+  YZStringAllMatchesHandler(),
+  YZStringMatchAsPrefix(), 
 
   //RegExp
   YZRegExpHasMatchHandler(),  
@@ -132,9 +134,10 @@ List<YZDynamicActionHandler> yzAllDynamicExitHandlers = [
 
   //Sys
   YZBoolHandler(),
-  YZSysReturnHandler(),
-  YZSysPrintHandler(),   
   YZSysBoolHandler(),
+  YZSysBoolToStringHandler(),
+  YZSysReturnHandler(),
+  YZSysPrintHandler(),
   YZSysEqHandler(),
   YZSysNeqHandler(),
   YZSysGtHandler(),
@@ -145,5 +148,4 @@ List<YZDynamicActionHandler> yzAllDynamicExitHandlers = [
   YZSysInverterHandler(),
   YZSysAndHandler(),
   YZSysOrHandler(),
-
 ];

@@ -24,6 +24,7 @@ import 'scaffold.dart';
 import 'scroll_view.dart';
 import 'text.dart';
 import 'text_field.dart';
+import 'divider.dart';
 
 /// All handlers for register
 List<YZDynamicBasicWidgetHandler> yzAllDynamicWidgetHandlers = [
@@ -44,4 +45,5 @@ List<YZDynamicBasicWidgetHandler> yzAllDynamicWidgetHandlers = [
   YZDialogHandler(),
   YZStatefulWidgetHandler(),
   YZStatelessWidgetHandler(),
+  YZDividerHandler(),
 ];

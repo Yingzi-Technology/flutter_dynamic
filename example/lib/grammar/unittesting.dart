@@ -1,11 +1,12 @@
 /* 
  * @Author: yz.yujingzhou 
  * @Date: 2020-12-01 11:09:56 
- * @Last Modified by: yz.yujingzhou
- * @Last Modified time: 2020-12-02 18:12:31
+ * @Last Modified by: yangyiting
+ * @Last Modified time: 2021-03-01 09:34:31
  */
 
 import 'package:flutter/material.dart';
+import 'package:yingzi_flutter_dynamicpage_example/grammar/bool.dart';
 
 import 'controlflow.dart';
 import 'list.dart';
@@ -44,7 +45,8 @@ class _UnitTestingListState extends State<UnitTestingList> {
               createItem('Number', UTNumber()),
               createItem('String', UTString()),
               createItem('List', UTList()),
-              createItem('Map', UTMap()),              
+              createItem('Map', UTMap()),  
+              createItem('bool', UTBool()),              
               createTitle('运算符(Operators)'),             
               createItem('关系运算符(Equality and relational operators)', UTRelationalOperators()),  
               createItem('逻辑运算符(Logical operators)', UTLogicalOperators()),  

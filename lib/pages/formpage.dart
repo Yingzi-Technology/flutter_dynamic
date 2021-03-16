@@ -59,13 +59,8 @@ class _YZDynamicFormPageState extends YZDynamicBaseState<YZDynamicFormPage> {
 
     List<Widget> children = [];
     for (Map json in widget.childrenJson) {
-      // GlobalKey<YZDynamicWidgetBasicState> _gkey;  
+      
       String xKey = json['xKey'];
-      // if (xKey != null && xKey.isNotEmpty) {
-      //   _gkey = GlobalKey<YZDynamicWidgetBasicState>();
-      //   widgets[xKey] = _gkey; //Save all widget/保存所有的控件
-      // }      
-      // Widget widget = YZDynamicCommon.buildWidget(json, key: _gkey, context: context);
       Widget widget = YZDynamicCommon.buildWidget(json, context: context);
       if ((widget is Column) || (widget is PreferredSizeWidget)) {
         print('Error: Form widget can not be Column or PreferredSizeWidget');

@@ -21,7 +21,7 @@ class _UTStringState extends UTBaseState<UTString> {
 
   List<Widget> getItem() {
     return [
-      createItem("String", "action:String(Hello world!));"),  
+      createItem("String", "<c:ret>=action:String(Hello world!));"),  
       createItem("String.isEmpty", "action:String.isEmpty(Hello world!));"),
       createItem("String.isNotEmpty", "action:String.isNotEmpty(Hello world!));"),
       createItem("String.+", "action:String.+(Hello, world, !));"),       
@@ -43,7 +43,9 @@ class _UTStringState extends UTBaseState<UTString> {
       createItem("String.trim", "action:String.trim(value: AbC ));"),
       createItem("String.trimLeft", "action:String.trimLeft(value: AbC ));"),
       createItem("String.trimRight", "action:String.trimRight(value: AbC ));"),
-      createItem("String.split", "action:String.split(value:AbC, pattern:b));"),
+      createItem("String.split", "<c:ret>=action:String.split(value:AbC, pattern:b));"),
+      createItem("String.allMatches", "<c:ret>=action:String.allMatches(value:AbC,string:Ab);"),
+      createItem("String.matchAsPrefix", "<c:ret>=action:String.matchAsPrefix(value:AbC,string:b);"),
     ];
   }
 
