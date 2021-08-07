@@ -18,7 +18,7 @@ class YZExpandedHandler extends YZDynamicBasicWidgetHandler {
   String get widgetName => 'Expanded';
 
   @override
-  Widget build(Map<String, dynamic> json, {Key key, BuildContext buildContext}) {
+  Widget build(Map json, {Key key, BuildContext buildContext}) {
     return _Builder(json, key:key);
   }
   
@@ -26,7 +26,7 @@ class YZExpandedHandler extends YZDynamicBasicWidgetHandler {
 
 class _Builder extends YZDynamicBaseWidget {
 
-  final Map<String, dynamic> json;
+  final Map json;
 
   _Builder(this.json, {Key key}): super(json, key: key);
 
@@ -47,7 +47,7 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
 
     //Deal with props / 处理控件属性
     YZExpandedConfig props = YZExpandedConfig.fromJson(super.config.props) ?? {};
-    int _flex = YZDinamicWidgetUtils.intAdapter(props?.flex);
+    int _flex = YZDynamicWidgetUtils.intAdapter(props?.flex);
     Widget _child = props.child == null ? null : YZDynamicCommon.buildWidget(props.child, context: context);
 
     Expanded _subwidget = Expanded(

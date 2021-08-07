@@ -3,7 +3,7 @@
 * @Date: 2020-09-02 11:21:35     
  * @Last Modified by: yz.yujingzhou
  * @Last Modified time: 2020-12-01 14:52:11
-**/   
+**/
 
 import 'package:flutter/material.dart';
 import '../tools/common.dart';
@@ -15,29 +15,26 @@ import 'basic/widget.dart';
 
 /// Text handler
 class YZTextHandler extends YZDynamicBasicWidgetHandler {
-  
   @override
   String get widgetName => 'Text';
 
   @override
-  Widget build(Map<String, dynamic> json, {Key key, BuildContext buildContext}) {
-    return _Builder(json, key:key);
+  Widget build(Map json,
+      {Key key, BuildContext buildContext}) {
+    return _Builder(json, key: key);
   }
-  
 }
 
 class _Builder extends YZDynamicBaseWidget {
+  final Map json;
 
-  final Map<String, dynamic> json;
-
-  _Builder(this.json, {Key key}): super(json, key: key);
+  _Builder(this.json, {Key key}) : super(json, key: key);
 
   @override
   _BuilderState createState() => _BuilderState();
 }
 
 class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
-
   //Deal with props / 处理控件属性
   YZTextConfig props;
   String _data;
@@ -59,15 +56,17 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
     //Deal with props / 处理控件属性
     props = YZTextConfig.fromJson(super.config.props) ?? {};
 
-    _data = YZDinamicWidgetUtils.valueAdapter(props.data, this);
-    _style = YZDinamicWidgetUtils.textStyleAdapter(props.style);   
-    _strutStyle = YZDinamicWidgetUtils.strutStyleAdapter(props.strutStyle);
-    _textAlign = YZDinamicWidgetUtils.textAlignAdapter(props.textAlign);
-    _textDirection = YZDinamicWidgetUtils.textDirectionAdapter(props.textDirection);
-    _softWrap = YZDinamicWidgetUtils.boolAdapter(props.softWrap);
-    _overflow = YZDinamicWidgetUtils.textOverflowAdapter(props.overflow);
-    _textScaleFactor = YZDinamicWidgetUtils.doubleAdapter(props.textScaleFactor);
-    _maxLines = YZDinamicWidgetUtils.intAdapter(props.maxLines);
+    _style = YZDynamicWidgetUtils.textStyleAdapter(props.style);
+    _strutStyle = YZDynamicWidgetUtils.strutStyleAdapter(props.strutStyle);
+    _textAlign = YZDynamicWidgetUtils.textAlignAdapter(props.textAlign);
+    _textDirection =
+        YZDynamicWidgetUtils.textDirectionAdapter(props.textDirection);
+    _softWrap = YZDynamicWidgetUtils.boolAdapter(props.softWrap);
+    _overflow = YZDynamicWidgetUtils.textOverflowAdapter(props.overflow);
+    _textScaleFactor =
+        YZDynamicWidgetUtils.doubleAdapter(props.textScaleFactor);
+    _maxLines = YZDynamicWidgetUtils.intAdapter(props.maxLines);
+    _maxLines = _maxLines == 0 ? null : _maxLines;
     _semanticsLabel = props.semanticsLabel;
     _textWidthBasis = _textWidthBasisAdapter(props.textWidthBasis);
   }
@@ -75,6 +74,7 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
   @override
   Widget build(BuildContext context) {
     Widget _widget;
+    _data = YZDynamicWidgetUtils.valueAdapter(props.data, this);
 
     Text _subwidget = Text(
       _data ?? '',
@@ -90,7 +90,7 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
       semanticsLabel: _semanticsLabel,
       textWidthBasis: _textWidthBasis,
       textHeightBehavior: null,
-    );  
+    );
 
     //Deal with events / 处理事件
     _widget = super.buildWithEvents(_subwidget, super.config.xEvents);
@@ -101,46 +101,45 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
   @override
   void registerActions() {
     //Deal with action / 处理事件实现
-    actionFunctions['setState'] = stateSetter; 
+    actionFunctions['setState'] = stateSetter;
   }
 
   set value(String v) {
     _data = v;
   }
 
-  void stateSetter({
-      Map params, 
-      YZDynamicRequest request,
-      List<YZDynamicActionRule> rules,
-      Map localVariables,
-      State state,
-    }) {
+  void stateSetter(BuildContext triggerContext, {
+    Map params,
+    YZDynamicRequest request,
+    List<YZDynamicActionRule> rules,
+    Map localVariables,
+    State state,
+  }) {
     if (mounted) {
       setState(() {});
     }
   }
-
 }
 
 TextWidthBasis _textWidthBasisAdapter(String str) {
-    TextWidthBasis _ret;
-    switch (str) {
-      case 'longestLine':
-        _ret = TextWidthBasis.longestLine; 
-        break;   
-      case 'parent':
-        _ret = TextWidthBasis.parent; 
-        break;                                                                   
-      default:
-    }
+  TextWidthBasis _ret;
+  switch (str) {
+    case 'longestLine':
+      _ret = TextWidthBasis.longestLine;
+      break;
+    case 'parent':
+      _ret = TextWidthBasis.parent;
+      break;
+    default:
+  }
 
-    return _ret;
+  return _ret;
 }
 
 /// The props of Text config
 class YZTextConfig {
-	String data;
-	Map style;
+  String data;
+  Map style;
   Map strutStyle;
   String textAlign;
   String textDirection;
@@ -151,8 +150,8 @@ class YZTextConfig {
   String semanticsLabel;
   String textWidthBasis;
 
-	YZTextConfig({
-    this.data, 
+  YZTextConfig({
+    this.data,
     this.style,
     this.strutStyle,
     this.textAlign,
@@ -163,22 +162,20 @@ class YZTextConfig {
     this.maxLines,
     this.semanticsLabel,
     this.textWidthBasis,
-    });
+  });
 
-	YZTextConfig.fromJson(Map<dynamic, dynamic> json) {
+  YZTextConfig.fromJson(Map<dynamic, dynamic> json) {
     json ??= {};
-		data = json['data'];
-		style = YZDynamicCommon.dynamicToMap(json['style']);
+    data = json['data'];
+    style = YZDynamicCommon.dynamicToMap(json['style']);
     strutStyle = YZDynamicCommon.dynamicToMap(json['strutStyle']);
     textAlign = json['textAlign'];
     textDirection = json['textDirection'];
     softWrap = json['softWrap'];
     overflow = json['overflow'];
     textScaleFactor = json['textScaleFactor'];
-    maxLines = json['maxLines']; 
-    semanticsLabel = json['semanticsLabel']; 
-    textWidthBasis = json['textWidthBasis']; 
-	}
-  
+    maxLines = json['maxLines'];
+    semanticsLabel = json['semanticsLabel'];
+    textWidthBasis = json['textWidthBasis'];
+  }
 }
-

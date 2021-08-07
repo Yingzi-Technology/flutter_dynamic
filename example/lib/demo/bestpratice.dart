@@ -32,7 +32,8 @@ var _dslRootWidget = {
             "children": [
               _textFieldA,
               _textFieldB,
-              _button                
+              _button,
+              _button2                
             ]
           }
         }
@@ -91,12 +92,58 @@ var _button = {
     }
   },
   "xEvents": [
+    // {
+    //   "eventType": "onClick",
+    //   "code": '''
+    //   <c:valueA>=<w:_TextFieldA>;
+    //   action:yzToast(tip:<c:valueA>)
+    //   '''
+    // },
     {
+      "name": "",
       "eventType": "onClick",
-      "code": '''
-      <c:valueA>=<w:_TextFieldA>;
-      action:yzToast(tip:<c:valueA>)
-      '''
-    }       
+      "actions": [
+        {   
+          "actionName":"yzToast",
+          "params":{"tip":"<w:_TextFieldA>"},
+          "targetKey": ""
+        }          
+      ],
+      "code": ""
+    }              
   ]
 };  
+
+var _button2 = {
+  "xKey": "_RawMaterialButton2",
+  "widgetName": "RawMaterialButton",
+  "props": {
+    "fillColor": "0xfff2f2f2",
+    "padding": "[10,0,10,0]",
+    "child": {
+      "type": "sysWidget",
+      "widgetName": "Text",
+      "props": {
+        "data": "访问传入页面的回调方法",
+        "color": "0xff123456",
+        "backgroundColor": "0xff00ff00",
+        "fontSize": "16",
+        "fontWeight": "bold",
+        "lineHeight": "1.2"
+      }
+    }
+  },
+  "xEvents": [
+    {
+      "name": "",
+      "eventType": "onClick",
+      "actions": [
+        {   
+          "actionName":"outDoorAction"
+        }          
+      ],
+      "code": ""
+    }              
+  ]
+}; 
+

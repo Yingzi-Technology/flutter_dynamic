@@ -354,7 +354,7 @@ Map formDsl = {
             var:<c:printStr>=`Print:var:<c:printStr>`;
             action:Sys.print({"value":"var:<c:printStr>"});
             var:<w:phoneOutput>=var:<w:phoneInput>;
-            action:{"targetKey":"phoneOutput","name":"setState"};
+            action:{"targetKey":"phoneOutput","actionName":"setState"};
             var:<p:total>=action:num.+({"value":"<p:index>","value1":"2"});
             action:Sys.print({"value":"<p:total>"})            
             '''

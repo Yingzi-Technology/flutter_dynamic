@@ -3,7 +3,7 @@
 * @Date: 2020-09-01 21:23:05     
  * @Last Modified by: yz.yujingzhou
  * @Last Modified time: 2020-10-22 15:03:03
-**/   
+**/
 
 import 'package:flutter/material.dart';
 import 'tools/common.dart';
@@ -30,7 +30,8 @@ class YZDynamic {
   YZDynamic._();
 
   // deprecated public
-  static Widget buildPage(BuildContext context, Map config, {YZDynamicPagePreConfig preConfig}) {
+  static Widget buildPage(BuildContext context, Map config,
+      {YZDynamicPagePreConfig preConfig}) {
     Widget widget;
 
     //You shoud register widgets first or it wouldn't create widget
@@ -38,63 +39,75 @@ class YZDynamic {
     //You shoud register sys public action first or it wouldn't be found
     YZDynamicCommon.registerSysPublicActionHandlers();
 
-    widget = YZDynamicPageTemplateBuilder.build(context, config, preConfig: preConfig);
+    widget = YZDynamicPageTemplateBuilder.build(context, config,
+        preConfig: preConfig);
 
     return widget;
   }
 
   // public
-  static Widget buildWidget(BuildContext context, Map config, {YZDynamicPagePreConfig preConfig}) {
+  static Widget buildWidget(BuildContext context, Map config,
+      {YZDynamicPagePreConfig preConfig}) {
     Widget widget;
 
+    Map json;
     if (config['page'] == null) {
-      Map json = {
+      json = {
+        "type": "custompage",
         "page": {
-            "rootWidget": config.cast<String, dynamic>()
+          "rootWidget": config.cast<String, dynamic>()
         }
-      }; 
-
-      widget = YZDynamic.buildPage(context, json, preConfig: preConfig);
+      };
+    } else {
+      json = config;
     }
 
+    widget = YZDynamic.buildPage(context, json, preConfig: preConfig);
+
     return widget;
-  }  
+  }
 
   // public
   // 相比buildPage, handle还支持处理页面的呈现方式
   // Compared to buildPage, The method of handle also supports processing the presentation of page.
-  static handle(BuildContext context, Map dsl, {YZDynamicPagePreConfig preConfig}){
-
+  static handle(BuildContext context, Map dsl,
+      {YZDynamicPagePreConfig preConfig,
+      Function(dynamic returnResult) routerPopCallBack}) {
     assert(dsl != null, 'Error: Dsl can not be null!');
-    if (dsl == null || dsl.isEmpty) {      
+    if (dsl == null || dsl.isEmpty) {
       return null;
     }
 
     Map config = dsl;
 
     Map _pageConfig = config['page'];
-    YZDynamicPageTemplateConfig _pageConfigObj = YZDynamicPageTemplateConfig.fromJson(_pageConfig);
-    String _presentMode = _pageConfigObj.presentMode;    
+    YZDynamicPageTemplateConfig _pageConfigObj =
+        YZDynamicPageTemplateConfig.fromJson(_pageConfig);
+    String _presentMode = _pageConfigObj.presentMode;
 
     YZDinamicPageMode _mode = YZDinamicPageUtils.pageMode(_presentMode);
     switch (_mode) {
       case YZDinamicPageMode.dialog:
-        () async{
+        () async {
           await showDialog(
-            context: context, 
-            builder: (BuildContext context) {
-              Widget child = YZDynamic.buildPage(context, config, preConfig: preConfig);
-              return Dialog(child: child);
-            }
-          );
+              context: context,
+              builder: (BuildContext context) {
+                Widget child =
+                    YZDynamic.buildPage(context, config, preConfig: preConfig);
+                return Dialog(child: child);
+              });
         }();
         break;
       default:
-        Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext contex){
-          return YZDynamic.buildPage(context, config, preConfig: preConfig);
-        }));
+        {
+          Future futureResultCallBack = Navigator.of(context)
+              .push(MaterialPageRoute(builder: (BuildContext contex) {
+            return YZDynamic.buildPage(context, config, preConfig: preConfig);
+          }));
+          if (null != routerPopCallBack) {
+            futureResultCallBack?.then(routerPopCallBack);
+          }
+        }
     }
-
-  }  
-
+  }
 }

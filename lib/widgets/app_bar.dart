@@ -18,7 +18,7 @@ class YZAppBarHandler extends YZDynamicBasicWidgetHandler {
   String get widgetName => 'AppBar';
 
   @override
-  Widget build(Map<String, dynamic> json, {Key key, BuildContext buildContext}) {
+  Widget build(Map json, {Key key, BuildContext buildContext}) {
     return _Builder(json, key:key);
   }
   
@@ -26,7 +26,7 @@ class YZAppBarHandler extends YZDynamicBasicWidgetHandler {
 
 class _Builder extends YZDynamicBaseWidget implements PreferredSizeWidget {
 
-  final Map<String, dynamic> json;
+  final Map json;
 
   _Builder(this.json, {Key key}): super(json, key: key);
 
@@ -76,18 +76,18 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
     _title = YZDynamicCommon.buildWidget(props.title, context: context);
     _flexibleSpace = YZDynamicCommon.buildWidget(props.flexibleSpace, context: context);
     _bottom = YZDynamicCommon.buildWidget(props.bottom, context: context);
-    _elevation = YZDinamicWidgetUtils.doubleAdapter(props.elevation);
-    _shadowColor = YZDinamicWidgetUtils.colorAdapter(props.shadowColor);
-    _backgroundColor = YZDinamicWidgetUtils.colorAdapter(props.backgroundColor);
+    _elevation = YZDynamicWidgetUtils.doubleAdapter(props.elevation);
+    _shadowColor = YZDynamicWidgetUtils.colorAdapter(props.shadowColor);
+    _backgroundColor = YZDynamicWidgetUtils.colorAdapter(props.backgroundColor);
     _brightness = _brightnessAdapter(props.brightness);
-    _primary = YZDinamicWidgetUtils.boolAdapter(props.primary);
-    _centerTitle = YZDinamicWidgetUtils.boolAdapter(props.centerTitle);
-    _excludeHeaderSemantics = YZDinamicWidgetUtils.boolAdapter(props.excludeHeaderSemantics);
-    _titleSpacing = YZDinamicWidgetUtils.doubleAdapter(props.titleSpacing);
-    _toolbarOpacity = YZDinamicWidgetUtils.doubleAdapter(props.toolbarOpacity);
-    _bottomOpacity = YZDinamicWidgetUtils.doubleAdapter(props.bottomOpacity);
-    _toolbarHeight = YZDinamicWidgetUtils.doubleAdapter(props.toolbarHeight);
-    _leadingWidth = YZDinamicWidgetUtils.doubleAdapter(props.leadingWidth);
+    _primary = YZDynamicWidgetUtils.boolAdapter(props.primary);
+    _centerTitle = YZDynamicWidgetUtils.boolAdapter(props.centerTitle);
+    _excludeHeaderSemantics = YZDynamicWidgetUtils.boolAdapter(props.excludeHeaderSemantics);
+    _titleSpacing = YZDynamicWidgetUtils.doubleAdapter(props.titleSpacing);
+    _toolbarOpacity = YZDynamicWidgetUtils.doubleAdapter(props.toolbarOpacity);
+    _bottomOpacity = YZDynamicWidgetUtils.doubleAdapter(props.bottomOpacity);
+    _toolbarHeight = YZDynamicWidgetUtils.doubleAdapter(props.toolbarHeight);
+    _leadingWidth = YZDynamicWidgetUtils.doubleAdapter(props.leadingWidth);
   }
 
   @override

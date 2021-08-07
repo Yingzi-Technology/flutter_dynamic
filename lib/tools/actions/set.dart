@@ -1,8 +1,8 @@
 /* 
  * @Author: yz.yujingzhou 
  * @Date: 2020-11-27 18:08:10 
- * @Last Modified by:   yz.yujingzhou 
- * @Last Modified time: 2020-11-27 18:08:10  
+ * @Last Modified by: yangyiting
+ * @Last Modified time: 2021-03-10 11:51:50
  */
 
 part of '../action.dart';
@@ -30,22 +30,10 @@ class YZSetHandler extends YZDynamicSysActionHandler{
   String get actionName => 'Set';
 }
 
-class YZSetContainsHandler extends YZDynamicSysActionHandler{
-  @override
-  bool func(Map params) {
-
-    if (params == null) return null;
-    
-    Set target = (params['target'] is Set) ? params['target'] : null;
-    String value = params['value']?.toString();
-    
-    return target?.contains(value);
-
-  }
-
+// uncheck
+class YZSetContainsHandler extends YZIterableContainsHandler{
   @override
   String get actionName => 'Set.contains';
-
 }
 
 class YZSetAddHandler extends YZDynamicSysActionHandler{
@@ -104,6 +92,7 @@ class YZSetRemoveHandler extends YZDynamicSysActionHandler{
 
 }
 
+// 按对象查询，返回查询到的对象
 class YZSetLookupHandler extends YZDynamicSysActionHandler{
   @override
   dynamic func(Map params) {
@@ -122,17 +111,14 @@ class YZSetLookupHandler extends YZDynamicSysActionHandler{
 
 }
 
+// 从集合中删除 elements 对象里的每一个元素
 class YZSetRemoveALlHandler extends YZDynamicSysActionHandler{
   @override
   void func(Map params) {
-
     if (params == null) return null;
-    
     Set target = (params['target'] is Set) ? params['target'] : null;
     Iterable value = (params['value'] is Iterable) ? params['value'] : null;
-    
-    return target?.removeAll(value);
-
+    target?.removeAll(value);
   }
 
   @override
@@ -140,17 +126,14 @@ class YZSetRemoveALlHandler extends YZDynamicSysActionHandler{
 
 }
 
+// 如果集合中含有 elements 中的元素，则保留，否则删除
 class YZSetRetainALlHandler extends YZDynamicSysActionHandler{
   @override
   void func(Map params) {
-
     if (params == null) return null;
-    
     Set target = (params['target'] is Set) ? params['target'] : null;
     Iterable value = (params['value'] is Iterable) ? params['value'] : null;
-    
     return target?.retainAll(value);
-
   }
 
   @override
@@ -158,6 +141,7 @@ class YZSetRetainALlHandler extends YZDynamicSysActionHandler{
 
 }
 
+// 集合中是否包含 other 中的所有元素，是则返回 true，否则返回 false
 class YZSetContainsAllHandler extends YZDynamicSysActionHandler{
   @override
   bool func(Map params) {
@@ -176,6 +160,7 @@ class YZSetContainsAllHandler extends YZDynamicSysActionHandler{
 
 }
 
+// 交集
 class YZSetIntersectionAllHandler extends YZDynamicSysActionHandler{
   @override
   Set func(Map params) {
@@ -194,6 +179,7 @@ class YZSetIntersectionAllHandler extends YZDynamicSysActionHandler{
 
 }
 
+// 并集
 class YZSetUnionHandler extends YZDynamicSysActionHandler{
   @override
   Set func(Map params) {
@@ -212,6 +198,7 @@ class YZSetUnionHandler extends YZDynamicSysActionHandler{
 
 }
 
+// 差集
 class YZSetDifferenceHandler extends YZDynamicSysActionHandler{
   @override
   Set func(Map params) {
@@ -237,7 +224,7 @@ class YZSetClearHandler extends YZDynamicSysActionHandler{
     if (params == null || params['target'] == null ) return null;
     Set target = (params['target'] is Set) ? params['target'] : null;
     
-    return target?.clear();
+    target?.clear();
 
   }
 
@@ -246,20 +233,135 @@ class YZSetClearHandler extends YZDynamicSysActionHandler{
 
 }
 
-class YZSetToSetHandler extends YZDynamicSysActionHandler{
+class YZSetToSetHandler extends YZIterableToSetHandler{
   @override
-  Set func(Map params) {
+  String get actionName => 'Set.toSet';
+}
 
+// uncheck
+class YZSetElementAtHandler extends YZIterableElementAtHandler {
+  @override
+  String get actionName => "Set.elementAt";
+}
+
+// uncheck
+class YZSetLengthHandler extends YZIterableLengthHandler {
+  @override
+  String get actionName => "Set.length";
+}
+
+// uncheck
+class YZSetIsEmptyHandler extends YZIterableIsEmptyHandler {
+  @override
+  String get actionName => "Set.isEmpty";
+}
+
+// uncheck
+class YZSetIsNotEmptyHandler extends YZIterableIsNotEmptyHandler {
+  @override
+  String get actionName => "Set.isNotEmpty";
+}
+
+// uncheck
+class YZSetFirstHandler extends YZIterableFirstHandler {
+  @override
+  String get actionName => "Set.first";
+}
+
+// uncheck
+class YZSetLastHandler extends YZIterableLastHandler {
+  @override
+  String get actionName => "Set.last";
+}
+
+// uncheck
+class YZSetFollowedByHandler extends YZIterableFollowedByHandler {
+  @override
+  String get actionName => "Set.followedBy";
+}
+
+// uncheck
+class YZSetJoinHandler extends YZIterableJoinHandler {
+  @override
+  String get actionName => "Set.join";
+}
+
+// uncheck
+class YZSetToListHandler extends YZIterableToListHandler {
+  @override
+  String get actionName => "Set.toList";
+}
+
+// uncheck
+class YZSetTakeHandler extends YZIterableTakeHandler {
+  @override
+  String get actionName => "Set.take";
+}
+
+// uncheck
+class YZSetSkipHandler extends YZIterableSkipHandler {
+  @override
+  String get actionName => "Set.skip";
+}
+
+// uncheck
+class YZSetToStringHandler extends YZIterableToStringHandler {
+  @override
+  String get actionName => "Set.toString";
+}
+
+// checked by yjz
+class YZSetIteratorHandler extends YZDynamicSysActionHandler{
+  @override
+  dynamic func(Map params) {
     if (params == null || params['target'] == null ) return null;
     Set target = (params['target'] is Set) ? params['target'] : null;
-    
-    return target?.toSet();
-
+    return target?.iterator;
   }
 
   @override
-  String get actionName => 'Set.toSet';
-
+  String get actionName => 'Set.iterator';
 }
 
-//todo: 
+// checked by yjz
+class YZSetFromHandler extends YZDynamicSysActionHandler {
+  @override
+  String get actionName => 'Set.from';
+
+  @override
+  dynamic func(Map params) {
+    if(params == null || params['elements'] == null) return null; 
+    dynamic elements = (params['elements'] is Iterable) ? params['elements'] : null;
+    return Set.from(elements);
+  }
+}
+
+// checked by yjz
+class YZSetOfHandler extends YZDynamicSysActionHandler {
+  @override
+  String get actionName => 'Set.of';
+
+  @override
+  dynamic func(Map params) {
+    if(params == null || params['elements'] == null) return null; 
+    dynamic elements = (params['elements'] is Iterable) ? params['elements'] : null;
+    return Set.of(elements);
+  }
+}
+
+// checked by yjz
+class YZSetIdentityHandler extends YZDynamicSysActionHandler {
+  @override
+  String get actionName => 'Set.identity';
+
+  @override
+  dynamic func(Map params) {
+    return Set.identity();
+  }
+}
+
+
+/// todo: 
+/// 函数：any/every/expand/firstWhere/removeWhere/fold/forEach/lastWhere/map/reduce
+///      /singleWhere/skipWhere/takeWhile/where/castfrom
+/// 泛型：cast/whereType/single

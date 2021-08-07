@@ -17,7 +17,7 @@ class YZStatelessWidgetHandler extends YZDynamicBasicWidgetHandler {
   String get widgetName => 'StatelessWidget';
 
   @override
-  Widget build(Map<String, dynamic> json, {Key key, BuildContext buildContext}) {
+  Widget build(Map json, {Key key, BuildContext buildContext}) {
     return _Builder(json, key:key);
   }
   
@@ -25,7 +25,7 @@ class YZStatelessWidgetHandler extends YZDynamicBasicWidgetHandler {
 
 class _Builder extends StatelessWidget {
 
-  final Map<String, dynamic> json;
+  final Map json;
   const _Builder(this.json, {Key key}) : super(key: key);
 
   @override

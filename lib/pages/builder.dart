@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'basic/page.dart';
 import 'custompage.dart';
 import 'formpage.dart';
+import 'formwidget.dart';
 import 'model/page_config.dart';
 
 class YZDynamicPageTemplateBuilder {
@@ -19,12 +20,13 @@ class YZDynamicPageTemplateBuilder {
     
     Map _pageConfig = config['page'];
     YZDynamicPageTemplateConfig _pageConfigObj = YZDynamicPageTemplateConfig.fromJson(_pageConfig);
-    String _pageType = _pageConfigObj.type;
-    List<Map> _children =  List.castFrom<dynamic, Map>(config['children']);
+    String _pageType = _pageConfigObj.type;    
 
     if (_pageType == 'formpage') {
+      print("-->>>formpage: ${_pageConfigObj.name}");
       Map _submitJson = config['submit'];
       Map _navbarJson = config['navbar'];
+      List<Map> _children =  List.castFrom<dynamic, Map>(config['children']);
       page = YZDynamicFormPage(
         _children, 
         submitJson: _submitJson,
@@ -33,10 +35,23 @@ class YZDynamicPageTemplateBuilder {
         navbarJson: _navbarJson
       );      
     } else {
-      page = YZDynamicCustomPage(
-        _pageConfigObj,
-        preConfig: preConfig,
-      );      
+
+      ///从设计器来的数据模型采用formpage的方式返回wigget的类型，子元素存在children中
+      if (_pageConfigObj.rootWidget == null || _pageConfigObj.rootWidget.isEmpty) {
+        print("==>>>formwidget: ${_pageConfigObj.name}");
+        List<Map> _children =  List.castFrom<dynamic, Map>(config['children']);
+        page = YZDynamicFormWidget(
+          _children, 
+          pageConfig: _pageConfigObj,
+          preConfig: preConfig,
+        ); 
+      } else {
+        print("~~>>>custompage: ${_pageConfigObj.name}");
+        page = YZDynamicCustomPage(
+          _pageConfigObj,
+          preConfig: preConfig,
+        ); 
+      }     
     }
 
     return page;

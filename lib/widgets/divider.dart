@@ -17,14 +17,14 @@ class YZDividerHandler extends YZDynamicBasicWidgetHandler {
   String get widgetName => 'Divider';
 
   @override
-  Widget build(Map<String, dynamic> json,
+  Widget build(Map json,
       {Key key, BuildContext buildContext}) {
     return _Builder(json, key: key);
   }
 }
 
 class _Builder extends YZDynamicBaseWidget {
-  final Map<String, dynamic> json;
+  final Map json;
 
   _Builder(this.json, {Key key}) : super(json, key: key);
 
@@ -47,11 +47,11 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
 
     //Deal with props / 处理控件属性
     props = YZDividerConfig.fromJson(super.config.props) ?? {};
-    _color = YZDinamicWidgetUtils.colorAdapter(props.color);
-    _height = YZDinamicWidgetUtils.doubleAdapter(props.height);
-    _thickness = YZDinamicWidgetUtils.doubleAdapter(props.thickness);
-    _indent = YZDinamicWidgetUtils.doubleAdapter(props.indent);
-    _endIndent = YZDinamicWidgetUtils.doubleAdapter(props.endIndent);
+    _color = YZDynamicWidgetUtils.colorAdapter(props.color);
+    _height = YZDynamicWidgetUtils.doubleAdapter(props.height);
+    _thickness = YZDynamicWidgetUtils.doubleAdapter(props.thickness);
+    _indent = YZDynamicWidgetUtils.doubleAdapter(props.indent);
+    _endIndent = YZDynamicWidgetUtils.doubleAdapter(props.endIndent);
   }
 
   @override
@@ -75,21 +75,8 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
   @override
   void registerActions() {
     //Deal with action / 处理事件实现
-    actionFunctions['setState'] = stateSetter;
   }
-
-  void stateSetter({
-    Map params,
-    YZDynamicRequest request,
-    List<YZDynamicActionRule> rules,
-    Map localVariables,
-    State state,
-  }) {
-    print('Execute xAction: ${this.runtimeType} setState');
-    if (mounted) {
-      setState(() {});
-    }
-  }
+  
 }
 
 class YZDividerConfig {

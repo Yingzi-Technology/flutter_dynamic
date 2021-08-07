@@ -17,7 +17,7 @@ class YZStatefulWidgetHandler extends YZDynamicBasicWidgetHandler {
   String get widgetName => 'StatefulWidget';
 
   @override
-  Widget build(Map<String, dynamic> json, {Key key, BuildContext buildContext}) {
+  Widget build(Map json, {Key key, BuildContext buildContext}) {
     return _Builder(json, key:key);
   }
   
@@ -25,7 +25,7 @@ class YZStatefulWidgetHandler extends YZDynamicBasicWidgetHandler {
 
 class _Builder extends YZDynamicBaseWidget {
 
-  final Map<String, dynamic> json;
+  final Map json;
 
   _Builder(this.json, {Key key}): super(json, key: key);
 
@@ -57,20 +57,6 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
   @override
   void registerActions() {
     //Deal with action / 处理事件实现
-    actionFunctions['setState'] = stateSetter; 
-  }
-
-  void stateSetter({
-      Map params, 
-      YZDynamicRequest request,
-      List<YZDynamicActionRule> rules,
-      Map localVariables,
-      State state,
-    }) {
-    print('Execute xAction: ${this.runtimeType} setState');
-    if (mounted) {
-      setState(() {});
-    }
   }
 
 }

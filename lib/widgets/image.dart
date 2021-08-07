@@ -12,29 +12,26 @@ import 'basic/widget.dart';
 
 /// Image handler
 class YZImageHandler extends YZDynamicBasicWidgetHandler {
-
   @override
   String get widgetName => 'Image';
 
   @override
-  Widget build(Map<String, dynamic> json, {Key key, BuildContext buildContext}) {
-    return _Builder(json, key:key);
+  Widget build(Map json,
+      {Key key, BuildContext buildContext}) {
+    return _Builder(json, key: key);
   }
-  
 }
 
 class _Builder extends YZDynamicBaseWidget {
+  final Map json;
 
-  final Map<String, dynamic> json;
-
-  _Builder(this.json, {Key key}): super(json, key: key);
+  _Builder(this.json, {Key key}) : super(json, key: key);
 
   @override
   _BuilderState createState() => _BuilderState();
 }
 
 class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
-
   @override
   void initState() {
     super.initState();
@@ -44,22 +41,26 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
   Widget build(BuildContext context) {
     Widget _widget;
     YZImageConfig props = YZImageConfig.fromJson(super.config.props) ?? {};
-    
-    String _type = props.type ?? 'asset';    
-    double _width = YZDinamicWidgetUtils.doubleAdapter(props?.width);
-    double _height = YZDinamicWidgetUtils.doubleAdapter(props?.height);
-    BoxFit _fix = YZDinamicWidgetUtils.boxfitAdapter(props?.fit);
-    Alignment _alignment = YZDinamicWidgetUtils.alignmentAdapter(props?.alignment);
-    ImageRepeat _repeat = YZDinamicWidgetUtils.imageRepeatAdapter(props?.repeat);
-    double _scale = YZDinamicWidgetUtils.doubleAdapter(props?.scale);
-    int _cacheWidth = YZDinamicWidgetUtils.intAdapter(props?.cacheWidth);
-    int _cacheHeight = YZDinamicWidgetUtils.intAdapter(props?.cacheHeight);
-    bool _isAntiAlias = YZDinamicWidgetUtils.boolAdapter(props?.isAntiAlias);
+
+    String _type = props.type ?? 'asset';
+    double _width = YZDynamicWidgetUtils.doubleAdapter(props?.width);
+    double _height = YZDynamicWidgetUtils.doubleAdapter(props?.height);
+    BoxFit _fix = YZDynamicWidgetUtils.boxfitAdapter(props?.fit);
+    Alignment _alignment =
+        YZDynamicWidgetUtils.alignmentAdapter(props?.alignment);
+    ImageRepeat _repeat =
+        YZDynamicWidgetUtils.imageRepeatAdapter(props?.repeat);
+    double _scale = YZDynamicWidgetUtils.doubleAdapter(props?.scale);
+    int _cacheWidth = YZDynamicWidgetUtils.intAdapter(props?.cacheWidth);
+    int _cacheHeight = YZDynamicWidgetUtils.intAdapter(props?.cacheHeight);
+    bool _isAntiAlias = YZDynamicWidgetUtils.boolAdapter(props?.isAntiAlias);
     FilterQuality _filterQuality = _filterQualityAdapter(props?.filterQuality);
     BlendMode _colorBlendMode = _colorBlendModeAdapter(props?.colorBlendMode);
-    Rect _centerSlice = YZDinamicWidgetUtils.rectAdapter(props?.centerSlice);
-    bool _matchTextDirection = YZDinamicWidgetUtils.boolAdapter(props?.matchTextDirection);
-    bool _gaplessPlayback = YZDinamicWidgetUtils.boolAdapter(props?.gaplessPlayback);
+    Rect _centerSlice = YZDynamicWidgetUtils.rectAdapter(props?.centerSlice);
+    bool _matchTextDirection =
+        YZDynamicWidgetUtils.boolAdapter(props?.matchTextDirection);
+    bool _gaplessPlayback =
+        YZDynamicWidgetUtils.boolAdapter(props?.gaplessPlayback);
 
     Image _subwidget;
     switch (_type) {
@@ -71,179 +72,169 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
         break;
       case 'network':
         String _src = props?.src;
-        _subwidget = Image.network(
-          _src, 
-          width: _width, 
-          height: _height, 
-          fit: _fix,
-          alignment: _alignment ?? Alignment.center,
-          repeat: _repeat ?? ImageRepeat.noRepeat,
-          scale: _scale ?? 1.0,
-          cacheHeight: _cacheHeight,
-          cacheWidth: _cacheWidth,
-          isAntiAlias: _isAntiAlias ?? false,
-          filterQuality: _filterQuality ?? FilterQuality.low,
-          colorBlendMode: _colorBlendMode,
-          centerSlice: _centerSlice,
-          matchTextDirection: _matchTextDirection ?? false,
-          gaplessPlayback: _gaplessPlayback ?? false
-          );
-        break;                
+        _src = YZDynamicWidgetUtils.valueAdapter(_src, this);
+        _subwidget = Image.network(_src,
+            width: _width,
+            height: _height,
+            fit: _fix,
+            alignment: _alignment ?? Alignment.center,
+            repeat: _repeat ?? ImageRepeat.noRepeat,
+            scale: _scale ?? 1.0,
+            cacheHeight: _cacheHeight,
+            cacheWidth: _cacheWidth,
+            isAntiAlias: _isAntiAlias ?? false,
+            filterQuality: _filterQuality ?? FilterQuality.low,
+            colorBlendMode: _colorBlendMode,
+            centerSlice: _centerSlice,
+            matchTextDirection: _matchTextDirection ?? false,
+            gaplessPlayback: _gaplessPlayback ?? false);
+        break;
       default:
         String _name = props?.name;
-        _subwidget = Image.asset(
-          _name, 
-          width: _width, 
-          height: _height, 
-          fit: _fix,
-          alignment: _alignment,
-          repeat: _repeat,
-          scale: _scale,
-          cacheHeight: _cacheHeight,
-          cacheWidth: _cacheWidth,
-          isAntiAlias: _isAntiAlias,
-          filterQuality: _filterQuality,
-          colorBlendMode: _colorBlendMode,
-          centerSlice: _centerSlice,
-          matchTextDirection: _matchTextDirection,
-          gaplessPlayback: _gaplessPlayback
-        );
-    }   
+        _subwidget = Image.asset(_name,
+            width: _width,
+            height: _height,
+            fit: _fix,
+            alignment: _alignment ?? Alignment.center,
+            repeat: _repeat ?? ImageRepeat.noRepeat,
+            scale: _scale,
+            cacheHeight: _cacheHeight,
+            cacheWidth: _cacheWidth,
+            isAntiAlias: _isAntiAlias ?? false,
+            filterQuality: _filterQuality ?? FilterQuality.low,
+            colorBlendMode: _colorBlendMode,
+            centerSlice: _centerSlice,
+            matchTextDirection: _matchTextDirection ?? false,
+            gaplessPlayback: _gaplessPlayback ?? false);
+    }
 
     //Deal with events / 处理事件
-    _widget = super.buildWithEvents(_subwidget, super.config.xEvents);     
+    _widget = super.buildWithEvents(_subwidget, super.config.xEvents);
 
-    return _widget;       
+    return _widget;
   }
 
   @override
-  void registerActions() {
+  void registerActions() {}
 
-  }
-
- 
   ///adapt dsl colorBlendMode
-  BlendMode _colorBlendModeAdapter(String str, {State state}){    
-
+  BlendMode _colorBlendModeAdapter(String str, {State state}) {
     BlendMode _ret;
     switch (str) {
       case 'clear':
-        _ret = BlendMode.clear; 
-        break;   
+        _ret = BlendMode.clear;
+        break;
       case 'color':
-        _ret = BlendMode.color; 
-        break;   
+        _ret = BlendMode.color;
+        break;
       case 'colorBurn':
-        _ret = BlendMode.colorBurn; 
-        break; 
+        _ret = BlendMode.colorBurn;
+        break;
       case 'colorDodge':
-        _ret = BlendMode.colorDodge; 
-        break;  
+        _ret = BlendMode.colorDodge;
+        break;
       case 'darken':
-        _ret = BlendMode.darken; 
-        break; 
+        _ret = BlendMode.darken;
+        break;
       case 'difference':
-        _ret = BlendMode.difference; 
+        _ret = BlendMode.difference;
         break;
       case 'dst':
-        _ret = BlendMode.dst; 
-        break;                                                                                           
+        _ret = BlendMode.dst;
+        break;
       case 'dstATop':
-        _ret = BlendMode.dstATop; 
-        break; 
+        _ret = BlendMode.dstATop;
+        break;
       case 'dstIn':
-        _ret = BlendMode.dstIn; 
-        break; 
+        _ret = BlendMode.dstIn;
+        break;
       case 'dstOut':
-        _ret = BlendMode.dstOut; 
-        break;    
+        _ret = BlendMode.dstOut;
+        break;
       case 'dstOver':
-        _ret = BlendMode.dstOver; 
-        break; 
+        _ret = BlendMode.dstOver;
+        break;
       case 'exclusion':
-        _ret = BlendMode.exclusion; 
-        break; 
+        _ret = BlendMode.exclusion;
+        break;
       case 'hardLight':
-        _ret = BlendMode.hardLight; 
-        break; 
+        _ret = BlendMode.hardLight;
+        break;
       case 'hue':
-        _ret = BlendMode.hue; 
-        break;     
+        _ret = BlendMode.hue;
+        break;
       case 'lighten':
-        _ret = BlendMode.lighten; 
-        break; 
+        _ret = BlendMode.lighten;
+        break;
       case 'luminosity':
-        _ret = BlendMode.luminosity; 
-        break; 
+        _ret = BlendMode.luminosity;
+        break;
       case 'modulate':
-        _ret = BlendMode.modulate; 
-        break; 
+        _ret = BlendMode.modulate;
+        break;
       case 'multiply':
-        _ret = BlendMode.multiply; 
-        break; 
+        _ret = BlendMode.multiply;
+        break;
       case 'overlay':
-        _ret = BlendMode.overlay; 
-        break;                                                                                           
+        _ret = BlendMode.overlay;
+        break;
       case 'plus':
-        _ret = BlendMode.plus; 
-        break;  
+        _ret = BlendMode.plus;
+        break;
       case 'saturation':
-        _ret = BlendMode.saturation; 
-        break;  
+        _ret = BlendMode.saturation;
+        break;
       case 'screen':
-        _ret = BlendMode.screen; 
-        break;  
+        _ret = BlendMode.screen;
+        break;
       case 'softLight':
-        _ret = BlendMode.softLight; 
-        break;  
+        _ret = BlendMode.softLight;
+        break;
       case 'src':
-        _ret = BlendMode.src; 
-        break; 
+        _ret = BlendMode.src;
+        break;
       case 'srcATop':
-        _ret = BlendMode.srcATop; 
-        break; 
+        _ret = BlendMode.srcATop;
+        break;
       case 'srcIn':
-        _ret = BlendMode.srcIn; 
-        break; 
+        _ret = BlendMode.srcIn;
+        break;
       case 'srcOut':
-        _ret = BlendMode.srcOut; 
-        break;   
+        _ret = BlendMode.srcOut;
+        break;
       case 'srcOver':
-        _ret = BlendMode.srcOver; 
-        break; 
+        _ret = BlendMode.srcOver;
+        break;
       case 'xor':
-        _ret = BlendMode.xor; 
-        break;                                                                                      
+        _ret = BlendMode.xor;
+        break;
       default:
     }
 
     return _ret;
-  }  
+  }
 
   ///adapt dsl filterQuality
-  FilterQuality _filterQualityAdapter(String str, {State state}){    
-
+  FilterQuality _filterQualityAdapter(String str, {State state}) {
     FilterQuality _ret;
     switch (str) {
       case 'high':
-        _ret = FilterQuality.high; 
-        break;   
+        _ret = FilterQuality.high;
+        break;
       case 'low':
-        _ret = FilterQuality.low; 
-        break;   
+        _ret = FilterQuality.low;
+        break;
       case 'medium':
-        _ret = FilterQuality.medium; 
-        break; 
+        _ret = FilterQuality.medium;
+        break;
       case 'none':
-        _ret = FilterQuality.none; 
-        break;                                                                            
+        _ret = FilterQuality.none;
+        break;
       default:
-
     }
 
     return _ret;
-  }  
-
+  }
 }
 
 class YZImageConfig {
@@ -310,5 +301,4 @@ class YZImageConfig {
     matchTextDirection = json['matchTextDirection'];
     gaplessPlayback = json['gaplessPlayback'];
   }
-
 }

@@ -465,6 +465,7 @@ class YZStringSplitHandler extends YZDynamicSysActionHandler{
 
 }
 
+// checked by yjz
 class YZStringAllMatchesHandler extends YZDynamicSysActionHandler {
   @override
   String get actionName => 'String.allMatches';
@@ -483,11 +484,11 @@ class YZStringAllMatchesHandler extends YZDynamicSysActionHandler {
   }
 }
 
+// checked by yjz
 class YZStringMatchAsPrefix extends YZDynamicSysActionHandler {
   @override
   String get actionName => 'String.matchAsPrefix';
 
-  // FIXME: 原方法返回类型后有 ? ，代表可空？
   @override
   dynamic func(Map params) {
     if(params == null) return null;

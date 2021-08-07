@@ -80,7 +80,6 @@ class YZPlusHandler extends YZDynamicSysActionHandler{
 
   @override
   String get actionName => 'num.+';
-
 }
 
 class YZSubHandler extends YZDynamicSysActionHandler{
@@ -150,6 +149,102 @@ class YZDivHandler extends YZDynamicSysActionHandler{
 
 }
 
+// uncheck: 取余 
+class YZRemainderHandler extends YZDynamicSysActionHandler {
+  @override
+  String get actionName => 'num.%';
+
+  @override
+  num func(Map params) {
+    if (params == null) return null;
+
+    num ret;
+    params.forEach((key, value) {
+      num opt = ((value is num) ? value : num.tryParse(value));
+      if (opt == null) return;
+      if (ret == null) {
+        ret = opt;
+        return;
+      } 
+      ret = ret % opt;
+    });
+    
+    return ret;
+  }
+}
+
+// uncheck: +=
+class YZPlusEqualHandler extends YZDynamicSysActionHandler{
+  @override
+  num func(Map params) {
+    if (params == null) return null;
+
+    num ret = (params['ret'] is num) ? params['ret'] : num.tryParse(params['ret']);
+    num opt = (params['opt'] is num) ? params['opt'] : num.tryParse(params['opt']);
+    
+    ret += opt;
+    
+    return ret;
+  }
+
+  @override
+  String get actionName => 'num.+=';
+}
+
+// uncheck: -=
+class YZSubEqualHandler extends YZDynamicSysActionHandler{
+  @override
+  num func(Map params) {
+    if (params == null) return null;
+
+    num ret = (params['ret'] is num) ? params['ret'] : num.tryParse(params['ret']);
+    num opt = (params['opt'] is num) ? params['opt'] : num.tryParse(params['opt']);
+    
+    ret -= opt;
+    
+    return ret;
+  }
+
+  @override
+  String get actionName => 'num.-=';
+}
+
+// uncheck: *=
+class YZMultiEqualHandler extends YZDynamicSysActionHandler{
+  @override
+  num func(Map params) {
+    if (params == null) return null;
+
+    num ret = (params['ret'] is num) ? params['ret'] : num.tryParse(params['ret']);
+    num opt = (params['opt'] is num) ? params['opt'] : num.tryParse(params['opt']);
+    
+    ret *= opt;
+    
+    return ret;
+  }
+
+  @override
+  String get actionName => 'num.*=';
+}
+
+// uncheck: /=
+class YZDivEqualHandler extends YZDynamicSysActionHandler{
+  @override
+  num func(Map params) {
+    if (params == null) return null;
+
+    num ret = (params['ret'] is num) ? params['ret'] : num.tryParse(params['ret']);
+    num opt = (params['opt'] is num) ? params['opt'] : num.tryParse(params['opt']);
+    
+    ret /= opt;
+    
+    return ret;
+  }
+
+  @override
+  String get actionName => 'num./=';
+}
+
 class YZParseHandler extends YZDynamicSysActionHandler{
   @override
   num func(Map params) {
@@ -195,7 +290,7 @@ class YZIsNaNHandler extends YZDynamicSysActionHandler{
 
     num ret;
     for (var value in params.values) {
-      ret = ((value is num) ?value : num.tryParse(value));;
+      ret = ((value is num) ?value : num.tryParse(value));
       break;
     }     
     
@@ -214,7 +309,7 @@ class YZIsInfiniteHandler extends YZDynamicSysActionHandler{
 
     num ret;
     for (var value in params.values) {
-      ret = ((value is num) ?value : num.tryParse(value));;
+      ret = ((value is num) ?value : num.tryParse(value));
       break;
     } 
     
@@ -233,7 +328,7 @@ class YZIsFiniteHandler extends YZDynamicSysActionHandler{
 
     num ret;
     for (var value in params.values) {
-      ret = ((value is num) ?value : num.tryParse(value));;
+      ret = ((value is num) ?value : num.tryParse(value));
       break;
     } 
     
@@ -252,7 +347,7 @@ class YZIsNegativeHandler extends YZDynamicSysActionHandler{
 
     num ret;
     for (var value in params.values) {
-      ret = ((value is num) ?value : num.tryParse(value));;
+      ret = ((value is num) ?value : num.tryParse(value));
       break;
     }     
     
@@ -271,7 +366,7 @@ class YZAbsHandler extends YZDynamicSysActionHandler{
 
     num ret;
     for (var value in params.values) {
-      ret = ((value is num) ?value : num.tryParse(value));;
+      ret = ((value is num) ?value : num.tryParse(value));
       break;
     } 
     
@@ -290,7 +385,7 @@ class YZClampHandler extends YZDynamicSysActionHandler{
 
     num ret;
     for (var value in params.values) {
-      ret = ((value is num) ?value : num.tryParse(value));;
+      ret = ((value is num) ?value : num.tryParse(value));
       break;
     } 
     num lowerLimit = ((params['lowerLimit'] is num) ? params['lowerLimit'] : num.tryParse(params['lowerLimit']));
@@ -311,7 +406,7 @@ class YZCeilHandler extends YZDynamicSysActionHandler{
 
     num ret;
     for (var value in params.values) {
-      ret = ((value is num) ?value : num.tryParse(value));;
+      ret = ((value is num) ?value : num.tryParse(value));
       break;
     } 
     
@@ -330,7 +425,7 @@ class YZCeilToDoubleHandler extends YZDynamicSysActionHandler{
 
     num ret;
     for (var value in params.values) {
-      ret = ((value is num) ?value : num.tryParse(value));;
+      ret = ((value is num) ?value : num.tryParse(value));
       break;
     } 
     
@@ -374,7 +469,7 @@ class YZFloorHandler extends YZDynamicSysActionHandler{
 
     num ret;
     for (var value in params.values) {
-      ret = ((value is num) ?value : num.tryParse(value));;
+      ret = ((value is num) ?value : num.tryParse(value));
       break;
     } 
     
@@ -393,7 +488,7 @@ class YZFloorToDoubleHandler extends YZDynamicSysActionHandler{
 
     num ret;
     for (var value in params.values) {
-      ret = ((value is num) ?value : num.tryParse(value));;
+      ret = ((value is num) ?value : num.tryParse(value));
       break;
     }
     
@@ -412,7 +507,7 @@ class YZRoundHandler extends YZDynamicSysActionHandler{
 
     num ret;
     for (var value in params.values) {
-      ret = ((value is num) ?value : num.tryParse(value));;
+      ret = ((value is num) ?value : num.tryParse(value));
       break;
     }
     
@@ -431,7 +526,7 @@ class YZRoundToDoubleHandler extends YZDynamicSysActionHandler{
 
     num ret;
     for (var value in params.values) {
-      ret = ((value is num) ?value : num.tryParse(value));;
+      ret = ((value is num) ?value : num.tryParse(value));
       break;
     }
     
@@ -450,7 +545,7 @@ class YZToDoubleHandler extends YZDynamicSysActionHandler{
 
     num ret;
     for (var value in params.values) {
-      ret = ((value is num) ?value : num.tryParse(value));;
+      ret = ((value is num) ?value : num.tryParse(value));
       break;
     }
     
@@ -469,7 +564,7 @@ class YZToIntHandler extends YZDynamicSysActionHandler{
 
     num ret;
     for (var value in params.values) {
-      ret = ((value is num) ?value : num.tryParse(value));;
+      ret = ((value is num) ?value : num.tryParse(value));
       break;
     }
     
@@ -488,7 +583,7 @@ class YZTruncateHandler extends YZDynamicSysActionHandler{
 
     num ret;
     for (var value in params.values) {
-      ret = ((value is num) ?value : num.tryParse(value));;
+      ret = ((value is num) ?value : num.tryParse(value));
       break;
     }
     
@@ -507,7 +602,7 @@ class YZTruncateToDoubleHandler extends YZDynamicSysActionHandler{
 
     num ret;
     for (var value in params.values) {
-      ret = ((value is num) ?value : num.tryParse(value));;
+      ret = ((value is num) ?value : num.tryParse(value));
       break;
     }
     
@@ -526,7 +621,7 @@ class YZToStringHandler extends YZDynamicSysActionHandler{
 
     num ret;
     for (var value in params.values) {
-      ret = ((value is num) ?value : num.tryParse(value));;
+      ret = ((value is num) ?value : num.tryParse(value));
       break;
     }
     
@@ -545,7 +640,7 @@ class YZToStringAsExponentialHandler extends YZDynamicSysActionHandler{
 
     num ret;
     for (var value in params.values) {
-      ret = ((value is num) ?value : num.tryParse(value));;
+      ret = ((value is num) ?value : num.tryParse(value));
       break;
     }
     

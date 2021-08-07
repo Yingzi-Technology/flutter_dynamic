@@ -14,15 +14,31 @@ export '../../tools/action.dart';
 
 mixin YZDynamicWidgetActionServer {
 
-  //获取事件对应的actions，action有3个来源：控件本身、别的控件、公共区域
+    //获取事件对应的actions，action有3个来源：控件本身、别的控件、页面区域、公共区域
   //Get actions corresponding to the event. There are three source: Self DynamicWidget/Other DynamicWidget in page/Public DynamicWidget
   List<YZDynamicActionConfig> getActionsOfEvent(
     BuildContext context,
-    YZDynamicWidgetEventType eventType, 
+    YZDynamicWidgetEventType eventType,
+    String name, 
     List<dynamic> xEvents,
     Map<String, YZDynamicActionConfig> xActions
     ) {
-      return YZDynamicActionTool.getActionsOfEvent(context, eventType, xEvents, xActions);
+
+    List<dynamic> _xEvents = xEvents;
+
+    List<YZDynamicActionConfig> actions = [];
+    _xEvents?.forEach((ejson) {
+      if (ejson is Map) {
+        YZDynamicWidgetEventConfig e = YZDynamicWidgetEventConfig.fromJson(ejson);
+        String _name = e.name;
+        YZDynamicWidgetEventType _eventType = e.eventType;
+        if (_eventType == eventType && _name == name && e?.actions != null) {        
+          actions = YZDynamicActionTool.getActionsOfSimpleActions(e?.actions, xActions, context);
+        }
+      }
+    });
+
+    return actions;    
   }
 
   //获取简单属性actions对应的actions，action有3个来源：控件本身、别的控件、公共区域

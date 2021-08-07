@@ -18,7 +18,7 @@ class YZSafeAreaHandler extends YZDynamicBasicWidgetHandler {
   String get widgetName => 'SafeArea';
 
   @override
-  Widget build(Map<String, dynamic> json, {Key key, BuildContext buildContext}) {
+  Widget build(Map json, {Key key, BuildContext buildContext}) {
     return _Builder(json, key:key);
   }
   
@@ -26,7 +26,7 @@ class YZSafeAreaHandler extends YZDynamicBasicWidgetHandler {
 
 class _Builder extends YZDynamicBaseWidget {
 
-  final Map<String, dynamic> json;
+  final Map json;
 
   _Builder(this.json, {Key key}): super(json, key: key);
 
@@ -47,12 +47,12 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
 
     //Deal with props / 处理控件属性
     YZSafeAreaConfig props = YZSafeAreaConfig.fromJson(super.config.props) ?? {};
-    bool _left = YZDinamicWidgetUtils.boolAdapter(props.left);
-    bool _top = YZDinamicWidgetUtils.boolAdapter(props.top);
-    bool _bottom = YZDinamicWidgetUtils.boolAdapter(props.bottom);
-    bool _right = YZDinamicWidgetUtils.boolAdapter(props.right);
-    EdgeInsets _minimum = YZDinamicWidgetUtils.edgeInsetAdapter(props.minimum);
-    bool _maintainBottomViewPadding = YZDinamicWidgetUtils.boolAdapter(props.maintainBottomViewPadding);
+    bool _left = YZDynamicWidgetUtils.boolAdapter(props.left);
+    bool _top = YZDynamicWidgetUtils.boolAdapter(props.top);
+    bool _bottom = YZDynamicWidgetUtils.boolAdapter(props.bottom);
+    bool _right = YZDynamicWidgetUtils.boolAdapter(props.right);
+    EdgeInsets _minimum = YZDynamicWidgetUtils.edgeInsetAdapter(props.minimum);
+    bool _maintainBottomViewPadding = YZDynamicWidgetUtils.boolAdapter(props.maintainBottomViewPadding);
     Widget _child = props.child == null ? null : YZDynamicCommon.buildWidget(props.child, context: context);
 
     SafeArea _subwidget = SafeArea(

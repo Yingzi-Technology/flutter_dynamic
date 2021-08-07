@@ -18,7 +18,19 @@ class YZMapHandler extends YZDynamicSysActionHandler{
 
   @override
   String get actionName => 'Map';
+}
 
+class YZMapEntryHandler extends YZDynamicSysActionHandler{
+  @override
+  dynamic func(Map params) {
+    if(params == null) return null;
+    dynamic key = params['key'] ?? params['key'];
+    dynamic value = params['value'] ?? params['value'];
+    return MapEntry(key, value);
+  }
+
+  @override
+  String get actionName => 'MapEntry';
 }
 
 class YZMapValueOfKeyHandler extends YZDynamicSysActionHandler{
@@ -137,16 +149,194 @@ class YZMapRemoveKeyHandler extends YZDynamicSysActionHandler{
 class YZMapClearHandler extends YZDynamicSysActionHandler{
   @override
   dynamic func(Map params) {
-
     if (params == null) return null;
-    
     Map map = (params['map'] is Map) ? params['map'] : null;
-    
     return map?.clear();
-
   }
 
   @override
   String get actionName => 'Map.clear';
-
 }
+
+class YZMapKeysHandler extends YZDynamicSysActionHandler{
+  @override
+  dynamic func(Map params) {
+    if (params == null) return null;
+    Map map = (params['map'] is Map) ? params['map'] : null;
+    return map.keys;
+  }
+
+  @override
+  String get actionName => 'Map.keys';
+}
+
+class YZMapValuesHandler extends YZDynamicSysActionHandler{
+  @override
+  dynamic func(Map params) {
+    if (params == null) return null;
+    Map map = (params['map'] is Map) ? params['map'] : null;
+    return map.values;
+  }
+
+  @override
+  String get actionName => 'Map.values';
+}
+
+class YZMapEntriesHandler extends YZDynamicSysActionHandler{
+  @override
+  dynamic func(Map params) {
+    if (params == null) return null;
+    Map map = (params['map'] is Map) ? params['map'] : null;
+    return map.entries;
+  }
+
+  @override
+  String get actionName => 'Map.entries';
+}
+
+class YZMapAddAllHandler extends YZDynamicSysActionHandler{
+  @override
+  dynamic func(Map params) {
+
+    if (params == null || params['map'] == null ) return null;
+    Map map = (params['map'] is Map) ? params['map'] : null;
+    Map other = (params['other'] is Map) ? params['other'] : null;
+    map?.addAll(other);
+  }
+
+  @override
+  String get actionName => 'Map.addAll';
+}
+
+// checked by yjz
+// FIXME: 不传入泛型如何解决这个问题
+class YZMapAddEntriesHandler extends YZDynamicSysActionHandler{
+  @override
+  dynamic func(Map params) {
+
+    if (params == null || params['map'] == null ) return;
+    Map map = (params['map'] is Map) ? params['map'] : null;
+    Iterable newIterable = (params['newEntries'] is Iterable) ? params['newEntries'] : null;
+    Iterable<MapEntry<dynamic,dynamic>> newEntries;
+    newEntries = newIterable.whereType<MapEntry<dynamic,dynamic>>();
+    if(newEntries == null) return null;
+    map?.addEntries(newEntries);
+  }
+
+  @override
+  String get actionName => 'Map.addEntries';
+}
+
+class YZMapToStringHandler extends YZDynamicSysActionHandler{
+  @override
+  dynamic func(Map params) {
+    if (params == null || params['map'] == null ) return null;
+    Map map = (params['map'] is Map) ? params['map'] : null;
+    
+    return map?.toString();
+  }
+
+  @override
+  String get actionName => 'Map.toString';
+}
+
+class YZMapFromHandler extends YZDynamicSysActionHandler{
+  @override
+  dynamic func(Map params) {
+    if (params == null || params['other'] == null ) return null;
+    Map other = (params['other'] is Map) ? params['other'] : null;
+    return Map.from(other);
+  }
+
+  @override
+  String get actionName => 'Map.from';
+}
+
+class YZMapOfHandler extends YZDynamicSysActionHandler{
+  @override
+  dynamic func(Map params) {
+    if (params == null || params['other'] == null ) return null;
+    Map other = (params['other'] is Map) ? params['other'] : null;
+    return Map.of(other);
+  }
+
+  @override
+  String get actionName => 'Map.of';
+}
+
+// checked by yjz
+class YZMapIdentityHandler extends YZDynamicSysActionHandler{
+  @override
+  dynamic func(Map params) {
+    return Map.identity();
+  }
+
+  @override
+  String get actionName => 'Map.identity';
+}
+
+// checked by yjz
+class YZMapFromEntriesHandler extends YZDynamicSysActionHandler{
+  @override
+  dynamic func(Map params) {
+    if (params == null) return null;
+    Iterable entries = (params['entries'] is Iterable) ? params['entries'] : null;
+    if(entries == null) return null;
+    entries.forEach((element) {
+      if(!(element is MapEntry)) return null;
+    });
+    return Map.fromEntries(entries);
+  }
+
+  @override
+  String get actionName => 'Map.fromEntries';
+}
+
+// checked by yjz
+// todo: 还可以传入 key 和 value，但它们是两个 function
+class YZMapFromIterableHandler extends YZDynamicSysActionHandler{
+  @override
+  dynamic func(Map params) {
+    if (params == null) return null;
+    Iterable entries = (params['entries'] is Iterable) ? params['entries'] : null;
+    if(entries == null) return null;
+    return Map.fromIterable(entries);
+  }
+
+  @override
+  String get actionName => 'Map.fromIterable';
+}
+
+// checked by yjz
+class YZMapFromIterablesHandler extends YZDynamicSysActionHandler{
+  @override
+  dynamic func(Map params) {
+    if (params == null) return null;
+    Iterable keys = (params['keys'] is Iterable) ? params['keys'] : null;
+    Iterable values = (params['values'] is Iterable) ? params['values'] : null;
+    // keys 和 values 的长度要求一致
+    if(keys == null || values == null) return null;
+    return Map.fromIterables(keys, values);
+  }
+
+  @override
+  String get actionName => 'Map.fromIterables';
+}
+
+// checked by yjz
+class YZMapUnmodifiablesHandler extends YZDynamicSysActionHandler{
+  @override
+  dynamic func(Map params) {
+    if (params == null) return null;
+    Map other = (params['other'] is Map) ? params['other'] : null;
+    return Map.unmodifiable(other);
+  }
+
+  @override
+  String get actionName => 'Map.unmodifiable';
+}
+
+
+/// todo: 
+/// 函数：forEach/map/putIfAbsent/removeWhere/update/updateAll
+/// 泛型：cast/castFrom/

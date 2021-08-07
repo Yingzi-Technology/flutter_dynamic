@@ -12,19 +12,26 @@ class YZDynamicRequest {
   String url;
   String method;
   Map<String, dynamic> params;
+  Map<String, dynamic> header;
   YZDynamicRequestResult succeed;
   YZDynamicRequestResult failed;
   String responseDataVar; //返回数据的存放变量，The storage variable of response data
 
-  YZDynamicRequest({this.url, this.method, this.params, this.responseDataVar});
+  YZDynamicRequest(
+      {this.url, this.method, this.params, this.responseDataVar, this.header});
 
   YZDynamicRequest.fromJson(Map<dynamic, dynamic> json) {
     if (json == null) return;
     url = json['url'];
     method = json['method'];
     params = YZDynamicCommon.dynamicToMap(json['params']);
-    succeed = json['succeed'] == null ? null : YZDynamicRequestResult.fromJson(json['succeed']);
-    failed = json['failed'] == null ? null : YZDynamicRequestResult.fromJson(json['failed']);
+    header = YZDynamicCommon.dynamicToMap(json['header']);
+    succeed = json['succeed'] == null
+        ? null
+        : YZDynamicRequestResult.fromJson(json['succeed']);
+    failed = json['failed'] == null
+        ? null
+        : YZDynamicRequestResult.fromJson(json['failed']);
     responseDataVar = json['responseDataVar'];
   }
 }
@@ -38,10 +45,11 @@ class YZDynamicRequestResult {
 
   YZDynamicRequestResult.fromJson(Map<dynamic, dynamic> json) {
     if (json['actions'] != null) {
-      actions = (json['actions'] as List).map((e) => YZDynamicActionConfig.fromJson(e))?.toList();
+      actions = (json['actions'] as List)
+          .map((e) => YZDynamicActionConfig.fromJson(e))
+          ?.toList();
     }
     tip = json['tip'];
     params = json['params'];
   }
-  
 }

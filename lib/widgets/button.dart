@@ -19,7 +19,7 @@ class YZRawMaterialButtonHandler extends YZDynamicBasicWidgetHandler {
   String get widgetName => 'RawMaterialButton';
 
   @override
-  Widget build(Map<String, dynamic> json, {Key key, BuildContext buildContext}) {
+  Widget build(Map json, {Key key, BuildContext buildContext}) {
     return _Builder(json, key:key);
   }
   
@@ -27,7 +27,7 @@ class YZRawMaterialButtonHandler extends YZDynamicBasicWidgetHandler {
 
 class _Builder extends YZDynamicBaseWidget {
 
-  final Map<String, dynamic> json;
+  final Map json;
 
   _Builder(this.json, {Key key}): super(json, key: key);
 
@@ -60,19 +60,19 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
 
     //Deal with props / 处理控件属性
     props = YZRawMaterialButtonConfig.fromJson(super.config.props) ?? {};
-    _textStyle = YZDinamicWidgetUtils.textStyleAdapter(props.textStyle);
-    _fillColor = YZDinamicWidgetUtils.colorAdapter(props.fillColor);
-    _focusColor = YZDinamicWidgetUtils.colorAdapter(props.focusColor);
-    _hoverColor = YZDinamicWidgetUtils.colorAdapter(props.hoverColor);
-    _highlightColor = YZDinamicWidgetUtils.colorAdapter(props.highlightColor);
-    _splashColor = YZDinamicWidgetUtils.colorAdapter(props.splashColor);
-    _elevation = YZDinamicWidgetUtils.doubleAdapter(props.elevation);
-    _focusElevation = YZDinamicWidgetUtils.doubleAdapter(props.focusElevation);
-    _hoverElevation = YZDinamicWidgetUtils.doubleAdapter(props.hoverElevation);
-    _highlightElevation = YZDinamicWidgetUtils.doubleAdapter(props.highlightElevation);
-    _disabledElevation = YZDinamicWidgetUtils.doubleAdapter(props.disabledElevation);          
-    _padding = YZDinamicWidgetUtils.edgeInsetAdapter(props.padding);
-    _clipBehavior = YZDinamicWidgetUtils.clipBehaviorAdapter(props.clipBehavior);
+    _textStyle = YZDynamicWidgetUtils.textStyleAdapter(props.textStyle);
+    _fillColor = YZDynamicWidgetUtils.colorAdapter(props.fillColor);
+    _focusColor = YZDynamicWidgetUtils.colorAdapter(props.focusColor);
+    _hoverColor = YZDynamicWidgetUtils.colorAdapter(props.hoverColor);
+    _highlightColor = YZDynamicWidgetUtils.colorAdapter(props.highlightColor);
+    _splashColor = YZDynamicWidgetUtils.colorAdapter(props.splashColor);
+    _elevation = YZDynamicWidgetUtils.doubleAdapter(props.elevation);
+    _focusElevation = YZDynamicWidgetUtils.doubleAdapter(props.focusElevation);
+    _hoverElevation = YZDynamicWidgetUtils.doubleAdapter(props.hoverElevation);
+    _highlightElevation = YZDynamicWidgetUtils.doubleAdapter(props.highlightElevation);
+    _disabledElevation = YZDynamicWidgetUtils.doubleAdapter(props.disabledElevation);          
+    _padding = YZDynamicWidgetUtils.edgeInsetAdapter(props.padding);
+    _clipBehavior = YZDynamicWidgetUtils.clipBehaviorAdapter(props.clipBehavior);
     _child = props.child == null ? null : YZDynamicCommon.buildWidget(props.child, context: context);    
   }
 
@@ -122,7 +122,7 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
     actionFunctions['setState'] = stateSetter; 
   }
 
-  void stateSetter({
+  void stateSetter(BuildContext triggerContext, {
       Map params, 
       YZDynamicRequest request,
       List<YZDynamicActionRule> rules,

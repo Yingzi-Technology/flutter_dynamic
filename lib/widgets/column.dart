@@ -18,7 +18,7 @@ class YZColumnHandler extends YZDynamicBasicWidgetHandler {
   String get widgetName => 'Column';
 
   @override
-  Widget build(Map<String, dynamic> json, {Key key, BuildContext buildContext}) {
+  Widget build(Map json, {Key key, BuildContext buildContext}) {
     return _Builder(json, key:key);
   }
   
@@ -26,7 +26,7 @@ class YZColumnHandler extends YZDynamicBasicWidgetHandler {
 
 class _Builder extends YZDynamicBaseWidget {
 
-  final Map<String, dynamic> json;
+  final Map json;
 
   _Builder(this.json, {Key key}): super(json, key: key);
 
@@ -47,12 +47,12 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
 
     //Deal with props / 处理控件属性
     YZColumnConfig props = YZColumnConfig.fromJson(super.config.props) ?? {};
-    MainAxisAlignment _mainAxisAlignment = YZDinamicWidgetUtils.mainAxisAlignmentAdapter(props.mainAxisAlignment);
-    MainAxisSize _mainAxisSize = YZDinamicWidgetUtils.mainAxisSizeAdapter(props.mainAxisSize);
-    CrossAxisAlignment _crossAxisAlignment = YZDinamicWidgetUtils.crossAxisAlignmentAdapter(props.crossAxisAlignment);
-    TextDirection _textDirection = YZDinamicWidgetUtils.textDirectionAdapter(props.textDirection);    
-    VerticalDirection _verticalDirection = YZDinamicWidgetUtils.verticalDirectionAdapter(props.verticalDirection);   
-    TextBaseline _textBaseline = YZDinamicWidgetUtils.textBaselineAdapter(props.textBaseline); 
+    MainAxisAlignment _mainAxisAlignment = YZDynamicWidgetUtils.mainAxisAlignmentAdapter(props.mainAxisAlignment);
+    MainAxisSize _mainAxisSize = YZDynamicWidgetUtils.mainAxisSizeAdapter(props.mainAxisSize);
+    CrossAxisAlignment _crossAxisAlignment = YZDynamicWidgetUtils.crossAxisAlignmentAdapter(props.crossAxisAlignment);
+    TextDirection _textDirection = YZDynamicWidgetUtils.textDirectionAdapter(props.textDirection);    
+    VerticalDirection _verticalDirection = YZDynamicWidgetUtils.verticalDirectionAdapter(props.verticalDirection);   
+    TextBaseline _textBaseline = YZDynamicWidgetUtils.textBaselineAdapter(props.textBaseline); 
     List<Widget> _children;
     if (props?.children != null) {
       _children = [];
@@ -82,20 +82,6 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
   @override
   void registerActions() {
     //Deal with action / 处理事件实现
-    actionFunctions['setState'] = stateSetter; 
-  }
-
-  void stateSetter({
-      Map params, 
-      YZDynamicRequest request,
-      List<YZDynamicActionRule> rules,
-      Map localVariables,
-      State state,
-    }) {
-    print('Execute xAction: ${this.runtimeType} stateSetter');
-    if (mounted) {
-      setState(() {});
-    }
   }
 
 }

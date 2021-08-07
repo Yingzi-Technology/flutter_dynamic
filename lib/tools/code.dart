@@ -77,7 +77,7 @@ class YZDynamicCodeUtil {
 
         String userCodeBody = code.substring(_YZDynamicUserCodeActionTag.length);
         YZDynamicActionConfig userAction = YZDynamicActionConfig(
-          name: _YZDynamicUserCodeActionTag,
+          actionName: _YZDynamicUserCodeActionTag,
           userCode: userCodeBody
         );
         result = YZDynamicActionTool.triggerActions<T>(state, [userAction], localVariables: _localVariables);  
@@ -126,7 +126,7 @@ class YZDynamicCodeUtil {
 
         String userCodeBody = command.substring(_YZDynamicUserCodeActionTag.length);
         YZDynamicActionConfig userAction = YZDynamicActionConfig(
-          name: _YZDynamicUserCodeActionTag,
+          actionName: _YZDynamicUserCodeActionTag,
           code: userCodeBody
         );
         result = YZDynamicActionTool.triggerActions<T>(state, [userAction], localVariables: _localVariables);  
@@ -148,7 +148,7 @@ class YZDynamicCodeUtil {
   // 是否要停止继续执行code
   // Whether or not stop execute code
   static bool isStopCode(YZDynamicActionConfig action, Map localVariables) {
-    if (action.name == 'Sys.return') {
+    if (action.actionName == 'Sys.return') {
       localVariables['stop'] = true;
       return true;
     }

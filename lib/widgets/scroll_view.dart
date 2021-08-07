@@ -19,7 +19,7 @@ class YZSingleChildScrollViewHandler extends YZDynamicBasicWidgetHandler {
   String get widgetName => 'SingleChildScrollView';
 
   @override
-  Widget build(Map<String, dynamic> json, {Key key, BuildContext buildContext}) {
+  Widget build(Map json, {Key key, BuildContext buildContext}) {
     return _Builder(json, key:key);
   }
   
@@ -27,7 +27,7 @@ class YZSingleChildScrollViewHandler extends YZDynamicBasicWidgetHandler {
 
 class _Builder extends YZDynamicBaseWidget {
 
-  final Map<String, dynamic> json;
+  final Map json;
 
   _Builder(this.json, {Key key}): super(json, key: key);
 
@@ -48,13 +48,13 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
 
     //Deal with props / 处理控件属性
     YZSingleChildScrollViewConfig props = YZSingleChildScrollViewConfig.fromJson(super.config.props) ?? {};
-    Axis _scrollDirection = YZDinamicWidgetUtils.axisAdapter(props.scrollDirection);
-    bool _reverse = YZDinamicWidgetUtils.boolAdapter(props.reverse);
-    bool _primary = YZDinamicWidgetUtils.boolAdapter(props.primary);
+    Axis _scrollDirection = YZDynamicWidgetUtils.axisAdapter(props.scrollDirection);
+    bool _reverse = YZDynamicWidgetUtils.boolAdapter(props.reverse);
+    bool _primary = YZDynamicWidgetUtils.boolAdapter(props.primary);
     ScrollController _controller = ScrollController();
     DragStartBehavior _dragStartBehavior = dragStartBehaviorAdapter(props.dragStartBehavior);
-    EdgeInsets _padding = YZDinamicWidgetUtils.edgeInsetAdapter(props.padding);
-    Clip _clipBehavior = YZDinamicWidgetUtils.clipBehaviorAdapter(props.clipBehavior);
+    EdgeInsets _padding = YZDynamicWidgetUtils.edgeInsetAdapter(props.padding);
+    Clip _clipBehavior = YZDynamicWidgetUtils.clipBehaviorAdapter(props.clipBehavior);
     String _restorationId = props.restorationId;
     Widget _child = props.child == null ? null : YZDynamicCommon.buildWidget(props.child, context: context);
 
