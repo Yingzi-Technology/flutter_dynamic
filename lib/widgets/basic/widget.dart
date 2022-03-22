@@ -2,7 +2,7 @@
  * @Author: yz.yujingzhou 
  * @Date: 2020-09-17 20:58:42 
  * @Last Modified by: yz.yujingzhou
- * @Last Modified time: 2020-10-28 16:51:07
+ * @Last Modified time: 2021-07-07 17:41:36
  */
 
 import 'package:flutter/material.dart';
@@ -16,7 +16,7 @@ import 'event.dart';
 
 abstract class YZDynamicBaseWidget extends StatefulWidget {
 
-  final Map<String, dynamic> json;
+  final Map json;
 
   YZDynamicBaseWidget(this.json, {Key key}): super(key: key);
 }
@@ -30,7 +30,7 @@ abstract class YZDynamicWidgetBasicState<T extends YZDynamicBaseWidget>
   
   /*
    * Widget private actions
-   * 存储控件私有的action
+   * 存储控件私有的 dsl action
    * Params shoud include a "value" key if exist
    * 如果有参数，则必须包含一个值
    */
@@ -52,13 +52,13 @@ abstract class YZDynamicWidgetBasicState<T extends YZDynamicBaseWidget>
    * 存储事件对应的actions
    * Store actions corresponding to event
    */
-  Map<YZDynamicWidgetEventType, List<YZDynamicActionConfig>> actionsOfEvent = {};
+  Map<String, List<YZDynamicActionConfig>> actionsOfEvent = {};
 
   /*
    * 存储事件对应的code
    * Store actions corresponding to event
    */
-  Map<YZDynamicWidgetEventType, String> codeOfEvent = {};
+  Map<String, String> codeOfEvent = {};
 
   /*
    * The widget identity，it is equal to formfield name
@@ -152,32 +152,41 @@ abstract class YZDynamicWidgetBasicState<T extends YZDynamicBaseWidget>
     _xEvents?.forEach((ejson) {
       if (ejson is Map) {
         YZDynamicWidgetEventConfig e = YZDynamicWidgetEventConfig.fromJson(ejson);
-        _dealActionsOfEvent(e.eventType);
-        _dealCodeOfEvent(e.eventType);   
+        String name = e.name;
+
+        _dealActionsOfEvent(e.eventType, name);
+        _dealCodeOfEvent(e.eventType, name);   
       }
     });    
   }
 
   //处理事件对应actions
   //Deal with actions corresponding to event
-  void _dealActionsOfEvent(YZDynamicWidgetEventType eventType) {
+  void _dealActionsOfEvent(YZDynamicWidgetEventType eventType, [String name]) {
 
-    List<YZDynamicActionConfig> clickActions = super.getActionsOfEvent(context, eventType, config.xEvents, this.actions);
-    actionsOfEvent[eventType] = clickActions;
+    List<YZDynamicActionConfig> clickActions = super.getActionsOfEvent(context, eventType, name, config.xEvents, this.actions);
+    if (clickActions == null || clickActions.isEmpty) {
+      return;
+    }
+    String _key = getEventKey(eventType, name);    
+    actionsOfEvent[_key] = clickActions;
 
   }
 
   //处理事件对应code
   //Deal with code corresponding to event
-  void _dealCodeOfEvent(YZDynamicWidgetEventType eventType) {
+  void _dealCodeOfEvent(YZDynamicWidgetEventType eventType, [String name]) {
 
     List<dynamic> _xEvents = config.xEvents;
 
     _xEvents?.forEach((ejson) {
       if (ejson is Map) {
         YZDynamicWidgetEventConfig e = YZDynamicWidgetEventConfig.fromJson(ejson);
-        if (e.eventType == eventType && e?.code!= null) {        
-          codeOfEvent[eventType] = e.code;
+        String _name = e.name;
+        YZDynamicWidgetEventType _eventType = e.eventType;        
+        if (_eventType == eventType && _name == name && e?.code!= null) {   
+          String _key = getEventKey(eventType, name);    
+          codeOfEvent[_key] = e.code;
         }
       }
     });
@@ -199,20 +208,31 @@ abstract class YZDynamicWidgetBasicState<T extends YZDynamicBaseWidget>
    * 点击事件入口
    */
   @override
-  void triggerEvent([YZDynamicWidgetEventType eventType]) {   
+  void triggerEvent([YZDynamicWidgetEventType eventType, String name]) {   
 
     eventType ??= YZDynamicWidgetEventType.onClick;
+
+    String _key = getEventKey(eventType, name);
     // execute code primarily
-    String code = codeOfEvent[eventType];
+    String code = codeOfEvent[_key];
     if (code != null && code.isNotEmpty){
       YZDynamicCodeUtil.execute(code, state:this);
       return;
     }    
 
-    List<YZDynamicActionConfig> actions = actionsOfEvent[eventType];
+    List<YZDynamicActionConfig> actions = actionsOfEvent[_key];
+    List<YZDynamicActionConfig> _actions = [];
+    actions?.forEach((element) {
+      YZDynamicActionConfig m = YZDynamicActionConfig();
+      _actions.add(m.fillFrom(element));
+    });    
     Map localVariables;
-    super.triggerActions(this, actions, localVariables: localVariables);
+    super.triggerActions(this, _actions, localVariables: localVariables);
 
   }  
+
+  String getEventKey([YZDynamicWidgetEventType eventType, String name]){
+    return eventType.toString() + (name ?? '');
+  }
 
 }

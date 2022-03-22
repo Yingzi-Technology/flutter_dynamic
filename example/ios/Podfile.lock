@@ -4,13 +4,10 @@ PODS:
     - Flutter
     - Toast
   - Toast (4.0.0)
-  - yz_flutter_dynamic (0.0.1):
-    - Flutter
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
-  - yz_flutter_dynamic (from `.symlinks/plugins/yz_flutter_dynamic/ios`)
 
 SPEC REPOS:
   trunk:
@@ -21,15 +18,12 @@ EXTERNAL SOURCES:
     :path: Flutter
   fluttertoast:
     :path: ".symlinks/plugins/fluttertoast/ios"
-  yz_flutter_dynamic:
-    :path: ".symlinks/plugins/yz_flutter_dynamic/ios"
 
 SPEC CHECKSUMS:
-  Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
+  Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
   fluttertoast: 6122fa75143e992b1d3470f61000f591a798cc58
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
-  yz_flutter_dynamic: 6b68051c0f2373419fe3131a9c44c1f0581ae03d
 
 PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
 
-COCOAPODS: 1.9.1
+COCOAPODS: 1.10.1

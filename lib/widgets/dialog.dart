@@ -19,7 +19,7 @@ class YZDialogHandler extends YZDynamicBasicWidgetHandler {
   String get widgetName => 'Dialog';
 
   @override
-  Widget build(Map<String, dynamic> json, {Key key, BuildContext buildContext}) {
+  Widget build(Map json, {Key key, BuildContext buildContext}) {
     return _Builder(json, key:key);
   }
   
@@ -27,7 +27,7 @@ class YZDialogHandler extends YZDynamicBasicWidgetHandler {
 
 class _Builder extends YZDynamicBaseWidget {
 
-  final Map<String, dynamic> json;
+  final Map json;
 
   _Builder(this.json, {Key key}): super(json, key: key);
 
@@ -52,11 +52,11 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
 
     //Deal with props / 处理控件属性
     props = YZDialogConfig.fromJson(super.config.props) ?? {};
-    _backgroundColor = YZDinamicWidgetUtils.colorAdapter(props.backgroundColor);
-    _insetPadding = YZDinamicWidgetUtils.edgeInsetAdapter(props.insetPadding);
-    _elevation = YZDinamicWidgetUtils.doubleAdapter(props.elevation);
-    _insetAnimationCurve = YZDinamicWidgetUtils.curveAdapter(props.insetAnimationCurve);
-    _clipBehavior = YZDinamicWidgetUtils.clipBehaviorAdapter(props.clipBehavior);
+    _backgroundColor = YZDynamicWidgetUtils.colorAdapter(props.backgroundColor);
+    _insetPadding = YZDynamicWidgetUtils.edgeInsetAdapter(props.insetPadding);
+    _elevation = YZDynamicWidgetUtils.doubleAdapter(props.elevation);
+    _insetAnimationCurve = YZDynamicWidgetUtils.curveAdapter(props.insetAnimationCurve);
+    _clipBehavior = YZDynamicWidgetUtils.clipBehaviorAdapter(props.clipBehavior);
     _child = props.child == null ? null : YZDynamicCommon.buildWidget(props.child, context: context);    
   }
 
@@ -87,7 +87,7 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
     actionFunctions['setState'] = stateSetter; 
   }
 
-  void stateSetter({
+  void stateSetter(BuildContext triggerContext, {
       Map params, 
       YZDynamicRequest request,
       List<YZDynamicActionRule> rules,

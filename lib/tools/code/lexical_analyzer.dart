@@ -82,7 +82,7 @@ class YZDynamicLexicalAnalysis {
     } 
 
     action = YZDynamicActionConfig(
-      name: "Sys.ifElse",
+      actionName: "Sys.ifElse",
       params: {
         "ifs": caseConditions,
         "else": elseBlock
@@ -120,7 +120,7 @@ class YZDynamicLexicalAnalysis {
     } 
 
     action = YZDynamicActionConfig(
-      name: "Sys.switchCase",
+      actionName: "Sys.switchCase",
       params: {
         "switch": condition,
         "cases": caseConditions,
@@ -149,7 +149,7 @@ class YZDynamicLexicalAnalysis {
         block = _YZDynamicCodeActionTag + block;
       }
       action = YZDynamicActionConfig(
-        name: "Sys.forLoop",
+        actionName: "Sys.forLoop",
         params: {
           "ivar": ivar,
           "ivalue": ivalue,
@@ -178,7 +178,7 @@ class YZDynamicLexicalAnalysis {
         block = _YZDynamicCodeActionTag + block;
       }
       action = YZDynamicActionConfig(
-        name: "Sys.while",
+        actionName: "Sys.while",
         params: {
           "condition": condition,
           "block": block

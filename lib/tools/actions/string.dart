@@ -36,11 +36,14 @@ class YZStringIsEmptyHandler extends YZDynamicSysActionHandler{
     String ret = params['value']?.toString();
     if (ret == null) {
       for (var value in params.values) {
-        ret = value.toString();
+        ret = value?.toString();
         break;
       }      
     }
 
+    if (ret == null) {
+      return true;
+    }
     return ret.isEmpty;
   }
 
@@ -462,4 +465,43 @@ class YZStringSplitHandler extends YZDynamicSysActionHandler{
 
 }
 
-//todo: replaceAllMapped/replaceFirstMapped/splitMapJoin/allMatches/matchAsPrefix
+// checked by yjz
+class YZStringAllMatchesHandler extends YZDynamicSysActionHandler {
+  @override
+  String get actionName => 'String.allMatches';
+
+  @override
+  dynamic func(Map params) {
+    if(params == null) return null;
+    String value = params['value']?.toString();
+    String string = params['string']?.toString();
+    int start;
+    if(params['start'] != null) {
+      start = int.tryParse(params['start']?.toString());
+      return value?.allMatches(string, start);
+    }
+    return value?.allMatches(string);
+  }
+}
+
+// checked by yjz
+class YZStringMatchAsPrefix extends YZDynamicSysActionHandler {
+  @override
+  String get actionName => 'String.matchAsPrefix';
+
+  @override
+  dynamic func(Map params) {
+    if(params == null) return null;
+    String value = params['value']?.toString();
+    String string = params['string']?.toString();
+    int start;
+    if(params['start'] != null) {
+      start = int.tryParse(params['start']?.toString());
+      return value?.matchAsPrefix(string, start);
+    }
+    return value?.matchAsPrefix(string);
+  }
+  
+}
+
+//todo: replaceAllMapped/replaceFirstMapped/splitMapJoin

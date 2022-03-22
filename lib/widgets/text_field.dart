@@ -3,7 +3,7 @@
 * @Date: 2020-09-02 11:21:35     
  * @Last Modified by: yz.yujingzhou
  * @Last Modified time: 2020-11-19 10:55:19
-**/   
+**/
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,32 +16,30 @@ import 'basic/widget.dart';
 
 /// TextField handler
 class YZTextFieldHandler extends YZDynamicBasicWidgetHandler {
-  
   @override
   String get widgetName => 'TextField';
 
   @override
-  Widget build(Map<String, dynamic> json, {Key key, BuildContext buildContext}) {
-    return _Builder(json, key:key);
+  Widget build(Map json,
+      {Key key, BuildContext buildContext}) {
+    return _Builder(json, key: key);
   }
-  
 }
+
 class _Builder extends YZDynamicBaseWidget {
+  final Map json;
 
-  final Map<String, dynamic> json;
-
-  _Builder(this.json, {Key key}): super(json, key: key);
+  _Builder(this.json, {Key key}) : super(json, key: key);
 
   @override
   _BuilderState createState() => _BuilderState();
 }
 
 class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
-
   TextEditingController _controller;
   FocusNode _focusNode;
   YZTextFieldConfig props;
-  
+
   String _value;
   int _maxLine;
   int _minLine;
@@ -49,7 +47,7 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
   List<TextInputFormatter> inputFormatters;
   bool _enabled;
   TextAlign _textAlign;
-  int _maxLength;  
+  int _maxLength;
   TextInputAction _textInputAction;
   TextAlignVertical _textAlignVertical;
   Color _cursorColor;
@@ -62,34 +60,32 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
     super.initState();
 
     props = YZTextFieldConfig.fromJson(super.config.props) ?? {};
-    
-    _value = props.value;
-    _maxLine = YZDinamicWidgetUtils.intAdapter(props.maxLines);
-    _minLine = YZDinamicWidgetUtils.intAdapter(props.minLines);
-    _keyboardType = YZDinamicWidgetUtils.keyboardTypeAdapter(props.keyboardType);
+
+    _value = YZDynamicWidgetUtils.valueAdapter(props.value, this);
+    _maxLine = YZDynamicWidgetUtils.intAdapter(props.maxLines);
+    _maxLine = _maxLine == 0 ? null : _maxLine;
+    _minLine = YZDynamicWidgetUtils.intAdapter(props.minLines);
+    _keyboardType =
+        YZDynamicWidgetUtils.keyboardTypeAdapter(props.keyboardType);
+
     ///Only suport WhitelistingTextInputFormatter
     ///只支持白名单验证
     inputFormatters = _inputFormattersAdapter(props.inputFormatters);
-    _enabled = YZDinamicWidgetUtils.boolAdapter(props.enabled);
-    _textAlign = YZDinamicWidgetUtils.textAlignAdapter(props.textAlign);
-    _maxLength = YZDinamicWidgetUtils.intAdapter(props.maxLength);  
-    _textInputAction = _textInputActionAdapter(props.textInputAction);  
-    _textAlignVertical = _textAlignVerticalAdapter(props.textAlignVertical);  
-    _cursorColor = YZDinamicWidgetUtils.colorAdapter(props.cursorColor);
-    _style = YZDinamicWidgetUtils.textStyleAdapter(props.style);
-    _strutStyle = YZDinamicWidgetUtils.strutStyleAdapter(props.strutStyle);
+    _enabled = YZDynamicWidgetUtils.boolAdapter(props.enabled);
+    _textAlign = YZDynamicWidgetUtils.textAlignAdapter(props.textAlign);
+    _maxLength = YZDynamicWidgetUtils.intAdapter(props.maxLength);
+    _textInputAction = _textInputActionAdapter(props.textInputAction);
+    _textAlignVertical = _textAlignVerticalAdapter(props.textAlignVertical);
+    _cursorColor = YZDynamicWidgetUtils.colorAdapter(props.cursorColor);
+    _style = YZDynamicWidgetUtils.textStyleAdapter(props.style);
+    _strutStyle = YZDynamicWidgetUtils.strutStyleAdapter(props.strutStyle);
     _decoration = _inputDecorationAdapter(props.decoration);
 
-    _controller = TextEditingController.fromValue(
-        TextEditingValue(
-          text: _value ?? '',
-          selection: TextSelection.fromPosition(TextPosition(
-                        affinity: TextAffinity.downstream,
-                        offset: (_value ?? '').length
-                        )
-          )
-        )
-      );
+    _controller = TextEditingController.fromValue(TextEditingValue(
+        text: _value ?? '',
+        selection: TextSelection.fromPosition(TextPosition(
+            affinity: TextAffinity.downstream,
+            offset: (_value ?? '').length))));
     properties['controller'] = _controller;
 
     _focusNode = FocusNode();
@@ -97,9 +93,9 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
   }
 
   @override
-  void dispose() {  
+  void dispose() {
     _controller?.dispose();
-    _focusNode?.dispose();       
+    _focusNode?.dispose();
     super.dispose();
   }
 
@@ -110,12 +106,12 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
     widget = TextField(
       controller: _controller,
       focusNode: _focusNode,
-      decoration: _decoration,      
+      decoration: _decoration,
       keyboardType: _keyboardType,
       textInputAction: _textInputAction,
       textCapitalization: TextCapitalization.none,
-      style: _style, 
-      strutStyle: _strutStyle,       
+      style: _style,
+      strutStyle: _strutStyle,
       textAlign: _textAlign ?? TextAlign.start,
       textAlignVertical: _textAlignVertical,
       textDirection: null,
@@ -129,13 +125,12 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
       maxLines: _maxLine ?? 1,
       minLines: _minLine,
       expands: false,
-      maxLength: _maxLength,  
-      maxLengthEnforced: true,      
+      maxLength: _maxLength,
       inputFormatters: inputFormatters,
-      enabled: _enabled,    
+      enabled: _enabled,
       cursorColor: _cursorColor,
-      scrollPadding: EdgeInsets.zero,   
-      enableInteractiveSelection: true,           
+      scrollPadding: EdgeInsets.zero,
+      enableInteractiveSelection: true,
     );
 
     return widget;
@@ -144,8 +139,8 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
   @override
   void registerActions() {
     //Deal with action / 处理事件实现
-    actionFunctions['stateSetter'] = _stateSetter; 
-    actionFunctions['validate'] = _validate; 
+    actionFunctions['stateSetter'] = _stateSetter;
+    actionFunctions['validate'] = _validate;
   }
 
   String get value {
@@ -156,79 +151,71 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
     _controller.text = v;
   }
 
-  void _stateSetter({
-      Map params, 
-      YZDynamicRequest request,
-      List<YZDynamicActionRule> rules,
-      Map localVariables,
-      State state,
-    }) {
+  void _stateSetter(BuildContext triggerContext, {
+    Map params,
+    YZDynamicRequest request,
+    List<YZDynamicActionRule> rules,
+    Map localVariables,
+    State state,
+  }) {
     if (mounted) {
       setState(() {});
     }
   }
 
-  bool _validate({
-      Map params, 
-      YZDynamicRequest request,
-      List<YZDynamicActionRule> rules,   
-      Map localVariables,
-      State state, 
+  bool _validate(BuildContext triggerContext, {
+    Map params,
+    YZDynamicRequest request,
+    List<YZDynamicActionRule> rules,
+    Map localVariables,
+    State state,
   }) {
+    bool ret = YZDynamicRuleUtil.validate(rules,
+        value: this.value, callback: (index, tip) {});
 
-    bool ret = YZDynamicRuleUtil.validate(
-      rules, 
-      value: this.value, 
-      callback: (index, tip) {
-        
-      }
-    );
-        
     return ret;
-  }  
-
+  }
 }
 
-List<TextInputFormatter> _inputFormattersAdapter(List<String> formats){
+List<TextInputFormatter> _inputFormattersAdapter(List<String> formats) {
   if (formats == null) return null;
   List<TextInputFormatter> result = [];
-  for (String f in formats) {      
+  for (String f in formats) {
     result.add(FilteringTextInputFormatter.allow(RegExp(f)));
   }
   return result;
 }
 
 InputDecoration _inputDecorationAdapter(dynamic raw) {
+  if (raw == null) return null;
 
-    if (raw == null) return null;
+  Map _config = YZDynamicCommon.dynamicToMap(raw);
 
-    Map _config = YZDynamicCommon.dynamicToMap(raw); 
+  String _hint;
+  if (_config['hintText'] != null) {
+    _hint = _config['hintText'];
+  }
 
-    String _hint;
-    if (_config['hint'] != null) {
-      _hint = _config['hint'];
-    }
+  TextStyle _hintStyle;
+  if (_config['hintStyle'] != null) {
+    _hintStyle = YZDynamicWidgetUtils.textStyleAdapter(_config['hintStyle']);
+  }
 
-    TextStyle _hintStyle;
-    if (_config['hintStyle'] != null) {
-      _hintStyle = YZDinamicWidgetUtils.textStyleAdapter(_config['hintStyle']);
-    } 
-
-    return InputDecoration(
+  return InputDecoration(
       labelText: null,
       labelStyle: null,
       helperText: null,
       helperStyle: null,
       helperMaxLines: null,
       hintText: _hint ?? '',
-      hintStyle: _hintStyle, 
+      hintStyle: _hintStyle,
       hintMaxLines: null,
       errorText: null,
       errorStyle: null,
       errorMaxLines: null,
-      isCollapsed: false,        
+      isCollapsed: false,
       isDense: true,
-      contentPadding: EdgeInsets.zero,  
+      contentPadding: EdgeInsets.zero,
       prefixText: null,
       prefixStyle: null,
       suffixText: null,
@@ -240,91 +227,87 @@ InputDecoration _inputDecorationAdapter(dynamic raw) {
       focusColor: null,
       hoverColor: null,
       errorBorder: null,
-      focusedBorder: null,  
+      focusedBorder: null,
       focusedErrorBorder: null,
       disabledBorder: null,
-      enabledBorder: null,            
-      border: InputBorder.none,               
+      enabledBorder: null,
+      border: InputBorder.none,
       enabled: true,
       semanticCounterText: null,
-      alignLabelWithHint: null
-    );
+      alignLabelWithHint: null);
 }
 
 TextAlignVertical _textAlignVerticalAdapter(String str) {
-    TextAlignVertical _ret;
-    switch (str) {
-      case 'bottom':
-        _ret = TextAlignVertical.bottom; 
-        break;   
-      case 'center':
-        _ret = TextAlignVertical.center; 
-        break;  
-      case 'top':
-        _ret = TextAlignVertical.top; 
-        break;                                                                      
-      default:
+  TextAlignVertical _ret;
+  switch (str) {
+    case 'bottom':
+      _ret = TextAlignVertical.bottom;
+      break;
+    case 'center':
+      _ret = TextAlignVertical.center;
+      break;
+    case 'top':
+      _ret = TextAlignVertical.top;
+      break;
+    default:
+  }
 
-    }
-
-    return _ret;
+  return _ret;
 }
 
-
 TextInputAction _textInputActionAdapter(String str) {
-    TextInputAction _ret;
-    switch (str) {
-      case 'continueAction':
-        _ret = TextInputAction.continueAction; 
-        break;   
-      case 'done':
-        _ret = TextInputAction.done; 
-        break;  
-      case 'emergencyCall':
-        _ret = TextInputAction.emergencyCall; 
-        break;
-      case 'go':
-        _ret = TextInputAction.go; 
-        break;     
-      case 'join':
-        _ret = TextInputAction.join; 
-        break;  
-      case 'newline':
-        _ret = TextInputAction.newline; 
-        break;  
-      case 'next':
-        _ret = TextInputAction.next; 
-        break;    
-      case 'none':
-        _ret = TextInputAction.none; 
-        break; 
-      case 'previous':
-        _ret = TextInputAction.previous; 
-        break; 
-      case 'route':
-        _ret = TextInputAction.route; 
-        break;    
-      case 'search':
-        _ret = TextInputAction.search; 
-        break;  
-      case 'send':
-        _ret = TextInputAction.send; 
-        break;   
-      case 'unspecified':
-        _ret = TextInputAction.unspecified; 
-        break;                                                                           
-      default:
+  TextInputAction _ret;
+  switch (str) {
+    case 'continueAction':
+      _ret = TextInputAction.continueAction;
+      break;
+    case 'done':
+      _ret = TextInputAction.done;
+      break;
+    case 'emergencyCall':
+      _ret = TextInputAction.emergencyCall;
+      break;
+    case 'go':
+      _ret = TextInputAction.go;
+      break;
+    case 'join':
+      _ret = TextInputAction.join;
+      break;
+    case 'newline':
+      _ret = TextInputAction.newline;
+      break;
+    case 'next':
+      _ret = TextInputAction.next;
+      break;
+    case 'none':
+      _ret = TextInputAction.none;
+      break;
+    case 'previous':
+      _ret = TextInputAction.previous;
+      break;
+    case 'route':
+      _ret = TextInputAction.route;
+      break;
+    case 'search':
+      _ret = TextInputAction.search;
+      break;
+    case 'send':
+      _ret = TextInputAction.send;
+      break;
+    case 'unspecified':
+      _ret = TextInputAction.unspecified;
+      break;
+    default:
+  }
 
-    }
-
-    return _ret;
+  return _ret;
 }
 
 /// The props of TextField config
 class YZTextFieldConfig {
-	String value;
+  String value;
   String hint;
-	String maxLines;
+  String maxLines;
   String keyboardType;
   List<String> inputFormatters;
   String enabled;
@@ -338,10 +321,10 @@ class YZTextFieldConfig {
   Map strutStyle;
   Map decoration;
 
-	YZTextFieldConfig({
-    this.value, 
+  YZTextFieldConfig({
+    this.value,
     this.hint,
-    this.maxLines, 
+    this.maxLines,
     this.keyboardType,
     this.inputFormatters,
     this.enabled,
@@ -354,13 +337,13 @@ class YZTextFieldConfig {
     this.style,
     this.strutStyle,
     this.decoration,
-    });
+  });
 
-	YZTextFieldConfig.fromJson(Map<dynamic, dynamic> json) {
+  YZTextFieldConfig.fromJson(Map<dynamic, dynamic> json) {
     json ??= {};
-		value = json['value'];
+    value = json['value'];
     hint = json['hint'];
-		maxLines = json['maxLines'];
+    maxLines = json['maxLines'];
     keyboardType = json['keyboardType'];
     inputFormatters = json['inputFormatters'];
     enabled = json['enabled'];
@@ -373,6 +356,5 @@ class YZTextFieldConfig {
     style = YZDynamicCommon.dynamicToMap(json['style']);
     strutStyle = YZDynamicCommon.dynamicToMap(json['strutStyle']);
     decoration = YZDynamicCommon.dynamicToMap(json['decoration']);
-	}
-
+  }
 }

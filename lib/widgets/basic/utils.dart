@@ -2,8 +2,8 @@
 * @Author: yz.yujingzhou     
 * @Date: 2020-09-02 12:02:10     
  * @Last Modified by: yz.yujingzhou
- * @Last Modified time: 2020-11-26 18:26:06
-**/   
+ * @Last Modified time: 2021-01-25 11:24:18
+**/
 
 import 'dart:convert';
 
@@ -11,11 +11,26 @@ import 'package:flutter/material.dart';
 import '../../tools/code.dart';
 import '../../tools/common.dart';
 
-class YZDinamicWidgetUtils {
-  YZDinamicWidgetUtils._();
-  
+class YZDynamicWidgetUtils {
+  YZDynamicWidgetUtils._();
+
+  //return string
+  static String valueAdapter(String str, State state) {
+    dynamic _ret = YZDynamicWidgetUtils.resultAdapter(str, state);
+
+    return _ret?.toString() ?? '';
+  }
+
+  //return object
+  static dynamic resultAdapter(String str, State state) {
+    String trimStr = str?.trim();
+    dynamic _ret = YZDynamicVariableUtil.getValueOfVariable(trimStr, state: state);
+
+    return _ret;
+  }  
+
   ///adapt dsl alignment to the flutter Alignment
-  static Alignment alignmentAdapter(String alignmentString){
+  static Alignment alignmentAdapter(String alignmentString) {
     Alignment alignment;
     switch (alignmentString) {
       case 'center':
@@ -52,7 +67,7 @@ class YZDinamicWidgetUtils {
   }
 
   ///adapt dsl text align to the flutter TextAlign
-  static TextAlign textAlignAdapter(String alignmentString){
+  static TextAlign textAlignAdapter(String alignmentString) {
     TextAlign alignment;
     switch (alignmentString) {
       case 'center':
@@ -77,12 +92,15 @@ class YZDinamicWidgetUtils {
     }
 
     return alignment;
-  }  
+  }
 
   ///adapt dsl color to the flutter color 0xff123456
-  static Color colorAdapter(String colorString){
+  static Color colorAdapter(String colorString) {
     Color color;
     if (colorString != null) {
+      if (colorString.startsWith('#')) {
+        colorString.replaceFirst('#', '0xff');
+      }
       int v = int.tryParse(colorString);
       color = v != null ? Color(v) : null;
     }
@@ -91,49 +109,49 @@ class YZDinamicWidgetUtils {
   }
 
   ///adapt dsl fontWeight to the flutter fontWeight
-  static FontWeight fontWeightAdapter(String fontWeightString){
+  static FontWeight fontWeightAdapter(String fontWeightString) {
     FontWeight fontWeight;
     switch (fontWeightString) {
       case 'bold':
-        fontWeight = FontWeight.bold; 
+        fontWeight = FontWeight.bold;
         break;
       case '500':
-        fontWeight = FontWeight.w600; 
+        fontWeight = FontWeight.w600;
         break;
       case '800':
-        fontWeight = FontWeight.w800; 
-        break;                        
+        fontWeight = FontWeight.w800;
+        break;
       default:
     }
 
     return fontWeight;
-  }  
+  }
 
   ///adapt dsl fontStyle to the flutter fontStyle
-  static FontStyle fontStypeAdapter(String fontStypeString){
+  static FontStyle fontStypeAdapter(String fontStypeString) {
     FontStyle fontStyle;
     switch (fontStypeString) {
       case 'normal':
-        fontStyle = FontStyle.normal; 
+        fontStyle = FontStyle.normal;
         break;
       case 'italic':
-        fontStyle = FontStyle.italic; 
-        break;                       
+        fontStyle = FontStyle.italic;
+        break;
       default:
     }
 
     return fontStyle;
-  }   
+  }
 
   ///adapt dsl edgeInset to the flutter EdgeInsets [left, top, right, bottom]
-  static EdgeInsets edgeInsetAdapter(dynamic edgeInsetList){
+  static EdgeInsets edgeInsetAdapter(dynamic edgeInsetList) {
     if (edgeInsetList == null) return null;
-    
+
     return YZDynamicCommon.edgeInsetAdapter(edgeInsetList);
-  } 
+  }
 
   ///adapt dsl rect to the flutter Rect [left, top, right, bottom]
-  static Rect rectAdapter(dynamic rectRaW){
+  static Rect rectAdapter(dynamic rectRaW) {
     Rect _ret;
     if (rectRaW == null || rectRaW.isEmpty) {
       return null;
@@ -154,67 +172,65 @@ class YZDinamicWidgetUtils {
     }
 
     _ret = Rect.fromLTRB(
-      YZDynamicCommon.parseDouble(rectList[0]), 
-      YZDynamicCommon.parseDouble(rectList[1]),
-      YZDynamicCommon.parseDouble(rectList[2]), 
-      YZDynamicCommon.parseDouble(rectList[3])
-    );
+        YZDynamicCommon.parseDouble(rectList[0]),
+        YZDynamicCommon.parseDouble(rectList[1]),
+        YZDynamicCommon.parseDouble(rectList[2]),
+        YZDynamicCommon.parseDouble(rectList[3]));
 
     return _ret;
-  }  
+  }
 
   ///adapt dsl color to the flutter color 0xff123456
-  static double doubleAdapter(String colorString){
+  static double doubleAdapter(String colorString) {
     if (colorString == null) return null;
-
+    if (colorString == "infinity") return double.infinity;
     return YZDynamicCommon.parseDouble(num.tryParse(colorString));
-  }  
+  }
 
   ///adapt dsl color to the flutter color 0xff123456
-  static int intAdapter(String colorString){
-    if (colorString == null) return null;
+  static int intAdapter(String str) {
+    if (str == null) return null;
 
-    return YZDynamicCommon.parseInt(num.tryParse(colorString));
-  }   
+    return YZDynamicCommon.parseInt(num.tryParse(str));
+  }
 
   ///adapt dsl TextInputType to the flutter TextInputType
-  static TextInputType inputTypeAdapter(String inputTypeString){
+  static TextInputType inputTypeAdapter(String inputTypeString) {
     TextInputType inputType;
     switch (inputTypeString) {
       case 'datetime':
-        inputType = TextInputType.datetime; 
+        inputType = TextInputType.datetime;
         break;
       case 'emailAddress':
-        inputType = TextInputType.emailAddress; 
+        inputType = TextInputType.emailAddress;
         break;
       case 'number':
-        inputType = TextInputType.number; 
-        break;   
+        inputType = TextInputType.number;
+        break;
       case 'phone':
-        inputType = TextInputType.phone; 
-        break; 
+        inputType = TextInputType.phone;
+        break;
       case 'multiline':
-        inputType = TextInputType.multiline; 
-        break;    
+        inputType = TextInputType.multiline;
+        break;
       case 'text':
-        inputType = TextInputType.text; 
-        break;      
+        inputType = TextInputType.text;
+        break;
       case 'url':
-        inputType = TextInputType.url; 
-        break;   
+        inputType = TextInputType.url;
+        break;
       case 'visiblePassword':
-        inputType = TextInputType.visiblePassword; 
-        break;                                                       
+        inputType = TextInputType.visiblePassword;
+        break;
       default:
     }
 
     return inputType;
-  }  
+  }
 
   ///adapt dsl bool
-  static bool boolAdapter(String str, {State state}){    
-
-    //If value is code 
+  static bool boolAdapter(String str, {State state}) {
+    //If value is code
     if (YZDynamicCodeUtil.isCode(str)) {
       dynamic codeResult = YZDynamicCodeUtil.execute(str, state: state);
       if (codeResult is bool) return codeResult ?? false;
@@ -223,571 +239,641 @@ class YZDinamicWidgetUtils {
     bool _bool;
     switch (str) {
       case 'true':
-        _bool = true; 
-        break;   
+        _bool = true;
+        break;
       case 'false':
-        _bool = false; 
-        break;                                                     
+        _bool = false;
+        break;
       default:
-
     }
 
     return _bool;
-  }  
+  }
 
   ///adapt dsl list
-  static List listAdapter<T>(String str, {State state}){    
+  static List listAdapter<T>(String str, {State state}) {
     if (str == null || str.isEmpty) return null;
 
-    //If value is code 
+    //If value is code
     if (YZDynamicCodeUtil.isCode(str)) {
       dynamic codeResult = YZDynamicCodeUtil.execute<T>(str, state: state);
-      if (codeResult is List) return codeResult;
-      else return null;
+      if (codeResult is List)
+        return codeResult;
+      else
+        return null;
     }
 
     if (!str.startsWith('[')) return null;
     return jsonDecode(str.replaceAll(r"\s", ""));
-  }  
+  }
 
   ///adapt dsl boxfit
-  static BoxFit boxfitAdapter(String str){    
-
+  static BoxFit boxfitAdapter(String str) {
     BoxFit _boxFit;
     switch (str) {
       case 'contain':
-        _boxFit = BoxFit.contain; 
-        break;   
+        _boxFit = BoxFit.contain;
+        break;
       case 'cover':
-        _boxFit = BoxFit.cover; 
-        break;    
+        _boxFit = BoxFit.cover;
+        break;
       case 'fill':
-        _boxFit = BoxFit.fill; 
-        break; 
+        _boxFit = BoxFit.fill;
+        break;
       case 'fitHeight':
-        _boxFit = BoxFit.fitHeight; 
-        break; 
+        _boxFit = BoxFit.fitHeight;
+        break;
       case 'fitWidth':
-        _boxFit = BoxFit.fitWidth; 
-        break; 
+        _boxFit = BoxFit.fitWidth;
+        break;
       case 'none':
-        _boxFit = BoxFit.none; 
-        break;  
+        _boxFit = BoxFit.none;
+        break;
       case 'scaleDown':
-        _boxFit = BoxFit.scaleDown; 
-        break;                                                                                          
+        _boxFit = BoxFit.scaleDown;
+        break;
       default:
     }
 
     return _boxFit;
-  }  
-  
-  ///adapt dsl imageRepeat
-  static ImageRepeat imageRepeatAdapter(String str){    
+  }
 
+  ///adapt dsl StackFit
+  static StackFit stackFitAdapter(String str) {
+    StackFit _boxFit;
+    switch (str) {
+      case 'loose':
+        _boxFit = StackFit.loose;
+        break;
+      case 'expand':
+        _boxFit = StackFit.expand;
+        break;
+      case 'passthrough':
+        _boxFit = StackFit.passthrough;
+        break;
+
+      default:
+    }
+
+    return _boxFit;
+  }
+
+  static Overflow overflowAdapter(String str) {
+    Overflow _ret;
+    switch (str) {
+      case 'clip':
+        _ret = Overflow.clip;
+        break;
+      case 'visible':
+        _ret = Overflow.visible;
+        break;
+      default:
+    }
+
+    return _ret;
+  }
+
+  ///adapt dsl imageRepeat
+  static ImageRepeat imageRepeatAdapter(String str) {
     ImageRepeat _ret;
     switch (str) {
       case 'noRepeat':
-        _ret = ImageRepeat.noRepeat; 
-        break;   
+        _ret = ImageRepeat.noRepeat;
+        break;
       case 'repeat':
-        _ret = ImageRepeat.repeat; 
-        break;   
+        _ret = ImageRepeat.repeat;
+        break;
       case 'repeatX':
-        _ret = ImageRepeat.repeatX; 
-        break; 
+        _ret = ImageRepeat.repeatX;
+        break;
       case 'repeatY':
-        _ret = ImageRepeat.repeatY; 
-        break;                                                                            
+        _ret = ImageRepeat.repeatY;
+        break;
       default:
-
     }
 
     return _ret;
-  } 
+  }
 
-  ///adapt dsl 
-  static MainAxisAlignment mainAxisAlignmentAdapter(String str){    
-
+  ///adapt dsl
+  static MainAxisAlignment mainAxisAlignmentAdapter(String str) {
     MainAxisAlignment _ret;
     switch (str) {
       case 'center':
-        _ret = MainAxisAlignment.center; 
-        break;   
+        _ret = MainAxisAlignment.center;
+        break;
       case 'end':
-        _ret = MainAxisAlignment.end; 
-        break;   
+        _ret = MainAxisAlignment.end;
+        break;
       case 'spaceAround':
-        _ret = MainAxisAlignment.spaceAround; 
-        break; 
+        _ret = MainAxisAlignment.spaceAround;
+        break;
       case 'spaceBetween':
-        _ret = MainAxisAlignment.spaceBetween; 
-        break;    
+        _ret = MainAxisAlignment.spaceBetween;
+        break;
       case 'spaceEvenly':
-        _ret = MainAxisAlignment.spaceEvenly; 
+        _ret = MainAxisAlignment.spaceEvenly;
         break;
       case 'start':
-        _ret = MainAxisAlignment.start; 
-        break;                                                                                        
+        _ret = MainAxisAlignment.start;
+        break;
       default:
-
     }
 
     return _ret;
-  }  
+  }
 
-  ///adapt dsl 
-  static MainAxisSize mainAxisSizeAdapter(String str){    
-
+  ///adapt dsl
+  static MainAxisSize mainAxisSizeAdapter(String str) {
     MainAxisSize _ret;
     switch (str) {
       case 'max':
-        _ret = MainAxisSize.max; 
-        break;   
+        _ret = MainAxisSize.max;
+        break;
       case 'min':
-        _ret = MainAxisSize.min; 
-        break;   
+        _ret = MainAxisSize.min;
+        break;
       default:
-
     }
 
     return _ret;
-  }  
+  }
 
   ///adapt dsl
-  static CrossAxisAlignment crossAxisAlignmentAdapter(String str){    
-
+  static CrossAxisAlignment crossAxisAlignmentAdapter(String str) {
     CrossAxisAlignment _ret;
     switch (str) {
       case 'baseline':
-        _ret = CrossAxisAlignment.baseline; 
-        break;   
+        _ret = CrossAxisAlignment.baseline;
+        break;
       case 'center':
-        _ret = CrossAxisAlignment.center; 
-        break;   
+        _ret = CrossAxisAlignment.center;
+        break;
       case 'end':
-        _ret = CrossAxisAlignment.end; 
-        break; 
+        _ret = CrossAxisAlignment.end;
+        break;
       case 'start':
-        _ret = CrossAxisAlignment.start; 
-        break;    
+        _ret = CrossAxisAlignment.start;
+        break;
       case 'stretch':
-        _ret = CrossAxisAlignment.stretch; 
+        _ret = CrossAxisAlignment.stretch;
         break;
       default:
-
     }
 
     return _ret;
-  } 
+  }
 
   ///adapt dsl
-  static TextDirection textDirectionAdapter(String str){    
+  static WrapAlignment wrapAlignmentAdapter(String str) {
+    WrapAlignment _ret;
+    switch (str) {
+      case 'center':
+        _ret = WrapAlignment.center;
+        break;
+      case 'end':
+        _ret = WrapAlignment.end;
+        break;
+      case 'spaceAround':
+        _ret = WrapAlignment.spaceAround;
+        break;
+      case 'spaceBetween':
+        _ret = WrapAlignment.spaceBetween;
+        break;
+      case 'spaceEvenly':
+        _ret = WrapAlignment.spaceEvenly;
+        break;
+      case 'start':
+        _ret = WrapAlignment.start;
+        break;
+      default:
+    }
 
+    return _ret;
+  }
+
+  ///adapt dsl
+  static WrapCrossAlignment wrapCrossAlignmentAdapter(String str) {
+    WrapCrossAlignment _ret;
+    switch (str) {
+      case 'center':
+        _ret = WrapCrossAlignment.center;
+        break;
+      case 'end':
+        _ret = WrapCrossAlignment.end;
+        break;
+      case 'start':
+        _ret = WrapCrossAlignment.start;
+        break;
+      default:
+    }
+
+    return _ret;
+  }
+
+  ///adapt dsl
+  static TextDirection textDirectionAdapter(String str) {
     TextDirection _ret;
     switch (str) {
       case 'ltr':
-        _ret = TextDirection.ltr; 
-        break;   
+        _ret = TextDirection.ltr;
+        break;
       case 'rtl':
-        _ret = TextDirection.rtl; 
-        break;  
+        _ret = TextDirection.rtl;
+        break;
       default:
-
     }
 
     return _ret;
   }
 
   ///adapt dsl
-  static VerticalDirection verticalDirectionAdapter(String str){    
-
+  static VerticalDirection verticalDirectionAdapter(String str) {
     VerticalDirection _ret;
     switch (str) {
       case 'down':
-        _ret = VerticalDirection.down; 
-        break;   
+        _ret = VerticalDirection.down;
+        break;
       case 'up':
-        _ret = VerticalDirection.up; 
-        break;  
+        _ret = VerticalDirection.up;
+        break;
       default:
-
-    }
-
-    return _ret;
-  } 
-
-  ///adapt dsl
-  static TextBaseline textBaselineAdapter(String str){    
-
-    TextBaseline _ret;
-    switch (str) {
-      case 'alphabetic':
-        _ret = TextBaseline.alphabetic; 
-        break;   
-      case 'ideographic':
-        _ret = TextBaseline.ideographic; 
-        break;  
-      default:
-
-    }
-
-    return _ret;
-  } 
-
-  ///adapt dsl
-  static Axis axisAdapter(String str){    
-
-    Axis _ret;
-    switch (str) {
-      case 'horizontal':
-        _ret = Axis.horizontal; 
-        break;   
-      case 'vertical':
-        _ret = Axis.vertical; 
-        break;  
-      default:
-
     }
 
     return _ret;
   }
 
   ///adapt dsl
-  static Clip clipBehaviorAdapter(String str){    
-
-    Clip _ret;
+  static TextBaseline textBaselineAdapter(String str) {
+    TextBaseline _ret;
     switch (str) {
-      case 'antiAlias':
-        _ret = Clip.antiAlias; 
-        break;   
-      case 'antiAliasWithSaveLayer':
-        _ret = Clip.antiAliasWithSaveLayer; 
-        break;  
-      case 'hardEdge':
-        _ret = Clip.hardEdge; 
+      case 'alphabetic':
+        _ret = TextBaseline.alphabetic;
         break;
-      case 'none':
-        _ret = Clip.none; 
-        break;                
+      case 'ideographic':
+        _ret = TextBaseline.ideographic;
+        break;
       default:
-
     }
 
     return _ret;
-  }    
+  }
 
   ///adapt dsl
-  static TextStyle textStyleAdapter(dynamic raw){    
+  static Axis axisAdapter(String str) {
+    Axis _ret;
+    switch (str) {
+      case 'horizontal':
+        _ret = Axis.horizontal;
+        break;
+      case 'vertical':
+        _ret = Axis.vertical;
+        break;
+      default:
+    }
 
+    return _ret;
+  }
+
+  ///adapt dsl
+  static Clip clipBehaviorAdapter(String str) {
+    Clip _ret;
+    switch (str) {
+      case 'antiAlias':
+        _ret = Clip.antiAlias;
+        break;
+      case 'antiAliasWithSaveLayer':
+        _ret = Clip.antiAliasWithSaveLayer;
+        break;
+      case 'hardEdge':
+        _ret = Clip.hardEdge;
+        break;
+      case 'none':
+        _ret = Clip.none;
+        break;
+      default:
+    }
+
+    return _ret;
+  }
+
+  ///adapt dsl
+  static TextStyle textStyleAdapter(dynamic raw) {
     if (raw == null) return null;
 
-    Map _config = YZDynamicCommon.dynamicToMap(raw); 
+    Map _config = YZDynamicCommon.dynamicToMap(raw);
 
     Color _color;
     if (_config['color'] != null) {
-      _color = YZDinamicWidgetUtils.colorAdapter(_config['color']);
+      _color = YZDynamicWidgetUtils.colorAdapter(_config['color']);
     }
 
     Color _backgroundColor;
     if (_config['background'] != null) {
-      _backgroundColor = YZDinamicWidgetUtils.colorAdapter(_config['background']);
+      _backgroundColor =
+          YZDynamicWidgetUtils.colorAdapter(_config['background']);
     }
 
     double _fontSize;
     if (_config['fontSize'] != null) {
-      _fontSize = YZDinamicWidgetUtils.doubleAdapter(_config['fontSize']);
-    }    
+      _fontSize = YZDynamicWidgetUtils.doubleAdapter(_config['fontSize']);
+    }
 
     FontWeight _fontWeight;
     if (_config['fontWeight'] != null) {
-      _fontWeight = YZDinamicWidgetUtils.fontWeightAdapter(_config['fontWeight']);
-    }   
+      _fontWeight =
+          YZDynamicWidgetUtils.fontWeightAdapter(_config['fontWeight']);
+    }
 
     FontStyle _fontStyle;
-    if (_config['fontWeight'] != null) {
-      _fontStyle = YZDinamicWidgetUtils.fontStypeAdapter(_config['fontStyle']);
-    }  
+    if (_config['fontStyle'] != null) {
+      _fontStyle = YZDynamicWidgetUtils.fontStypeAdapter(_config['fontStyle']);
+    }
 
     double _letterSpacing;
     if (_config['letterSpacing'] != null) {
-      _letterSpacing = YZDinamicWidgetUtils.doubleAdapter(_config['letterSpacing']);
-    }   
+      _letterSpacing =
+          YZDynamicWidgetUtils.doubleAdapter(_config['letterSpacing']);
+    }
 
     double _wordSpacing;
     if (_config['wordSpacing'] != null) {
-      _wordSpacing = YZDinamicWidgetUtils.doubleAdapter(_config['wordSpacing']);
-    }   
+      _wordSpacing = YZDynamicWidgetUtils.doubleAdapter(_config['wordSpacing']);
+    }
 
     double _height;
     if (_config['height'] != null) {
-      _height = YZDinamicWidgetUtils.doubleAdapter(_config['height']);
-    }               
+      _height = YZDynamicWidgetUtils.doubleAdapter(_config['height']);
+    }
 
     String _fontFamily;
     if (_config['fontFamily'] != null) {
       _fontFamily = _config['fontFamily'];
-    }  
+    }
 
     String _package;
     if (_config['package'] != null) {
       _package = _config['package'];
-    }     
+    }
 
     TextStyle _ret = TextStyle(
-      color: _color,
-      backgroundColor: _backgroundColor,
-      fontSize: _fontSize,
-      fontWeight: _fontWeight,
-      fontStyle: _fontStyle,
-      letterSpacing: _letterSpacing,
-      wordSpacing: _wordSpacing,
-      height: _height,
-      fontFamily: _fontFamily,
-      package: _package
-    );
+        color: _color,
+        backgroundColor: _backgroundColor,
+        fontSize: _fontSize,
+        fontWeight: _fontWeight,
+        fontStyle: _fontStyle,
+        letterSpacing: _letterSpacing,
+        wordSpacing: _wordSpacing,
+        height: _height,
+        fontFamily: _fontFamily,
+        package: _package);
 
     return _ret;
-  }  
+  }
 
   ///adapt dsl
-  static StrutStyle strutStyleAdapter(dynamic raw){    
-
+  static StrutStyle strutStyleAdapter(dynamic raw) {
     if (raw == null) return null;
 
-    Map _config = YZDynamicCommon.dynamicToMap(raw); 
+    Map _config = YZDynamicCommon.dynamicToMap(raw);
 
     double _leading;
     if (_config['leading'] != null) {
-      _leading = YZDinamicWidgetUtils.doubleAdapter(_config['leading']);
+      _leading = YZDynamicWidgetUtils.doubleAdapter(_config['leading']);
     }
 
     bool _forceStrutHeight;
     if (_config['forceStrutHeight'] != null) {
-      _forceStrutHeight = YZDinamicWidgetUtils.boolAdapter(_config['forceStrutHeight']);
+      _forceStrutHeight =
+          YZDynamicWidgetUtils.boolAdapter(_config['forceStrutHeight']);
     }
 
     double _fontSize;
     if (_config['fontSize'] != null) {
-      _fontSize = YZDinamicWidgetUtils.doubleAdapter(_config['fontSize']);
-    }    
+      _fontSize = YZDynamicWidgetUtils.doubleAdapter(_config['fontSize']);
+    }
 
     FontWeight _fontWeight;
     if (_config['fontWeight'] != null) {
-      _fontWeight = YZDinamicWidgetUtils.fontWeightAdapter(_config['fontWeight']);
-    }   
+      _fontWeight =
+          YZDynamicWidgetUtils.fontWeightAdapter(_config['fontWeight']);
+    }
 
     FontStyle _fontStyle;
     if (_config['fontWeight'] != null) {
-      _fontStyle = YZDinamicWidgetUtils.fontStypeAdapter(_config['fontStyle']);
-    }  
+      _fontStyle = YZDynamicWidgetUtils.fontStypeAdapter(_config['fontStyle']);
+    }
 
     String _debugLabel;
     if (_config['debugLabel'] != null) {
       _debugLabel = _config['debugLabel'];
-    }   
+    }
 
     double _height;
     if (_config['height'] != null) {
-      _height = YZDinamicWidgetUtils.doubleAdapter(_config['height']);
-    }               
+      _height = YZDynamicWidgetUtils.doubleAdapter(_config['height']);
+    }
 
     String _fontFamily;
     if (_config['fontFamily'] != null) {
       _fontFamily = _config['fontFamily'];
-    }  
+    }
 
     String _package;
     if (_config['package'] != null) {
       _package = _config['package'];
-    }     
+    }
 
     StrutStyle _ret = StrutStyle(
-      fontSize: _fontSize,
-      fontWeight: _fontWeight,
-      fontStyle: _fontStyle,
-      height: _height,
-      leading: _leading,
-      forceStrutHeight: _forceStrutHeight,
-      debugLabel: _debugLabel,
-      fontFamily: _fontFamily,
-      package: _package
-    );
+        fontSize: _fontSize,
+        fontWeight: _fontWeight,
+        fontStyle: _fontStyle,
+        height: _height,
+        leading: _leading,
+        forceStrutHeight: _forceStrutHeight,
+        debugLabel: _debugLabel,
+        fontFamily: _fontFamily,
+        package: _package);
 
     return _ret;
-  }   
-    
-  ///adapt dsl
-  static TextInputType keyboardTypeAdapter(String str){    
+  }
 
+  ///adapt dsl
+  static TextInputType keyboardTypeAdapter(String str) {
     TextInputType _ret;
     switch (str) {
       case 'datetime':
-        _ret = TextInputType.datetime; 
-        break;   
+        _ret = TextInputType.datetime;
+        break;
       case 'emailAddress':
-        _ret = TextInputType.emailAddress; 
-        break;  
+        _ret = TextInputType.emailAddress;
+        break;
       case 'multiline':
-        _ret = TextInputType.multiline; 
+        _ret = TextInputType.multiline;
         break;
       case 'name':
-        _ret = TextInputType.name; 
-        break;   
+        _ret = TextInputType.name;
+        break;
       case 'number':
-        _ret = TextInputType.number; 
-        break;   
+        _ret = TextInputType.number;
+        break;
       case 'phone':
-        _ret = TextInputType.phone; 
-        break;   
+        _ret = TextInputType.phone;
+        break;
       case 'streetAddress':
-        _ret = TextInputType.streetAddress; 
-        break;   
+        _ret = TextInputType.streetAddress;
+        break;
       case 'text':
-        _ret = TextInputType.text; 
-        break; 
+        _ret = TextInputType.text;
+        break;
       case 'url':
-        _ret = TextInputType.url; 
-        break; 
+        _ret = TextInputType.url;
+        break;
       case 'visiblePassword':
-        _ret = TextInputType.visiblePassword; 
-        break;                                                              
+        _ret = TextInputType.visiblePassword;
+        break;
       default:
     }
 
     return _ret;
-  }   
+  }
 
   ///adapt dsl
   static ImageProvider imageProviderAdapter(dynamic raw) {
-
     if (raw == null) return null;
 
-    Map _config = YZDynamicCommon.dynamicToMap(raw); 
+    Map _config = YZDynamicCommon.dynamicToMap(raw);
     if (_config == null) return null;
 
     String _runtimeType = _config['runtimeType'];
     if (_runtimeType == 'AssetImage') {
       String _assetName = _config['assetName'];
       String _package = _config['package'];
-      if (_assetName == null) return null; 
-      return AssetImage(
-        _assetName,
-        package: _package     
-      );
+      if (_assetName == null) return null;
+      return AssetImage(_assetName, package: _package);
     } else {
       String _url = _config['url'];
-      double _scale = YZDinamicWidgetUtils.doubleAdapter(_config['scale']);
-      if (_url == null) return null; 
-      return NetworkImage(
-        _url,
-        scale: _scale
-      );
+      double _scale = YZDynamicWidgetUtils.doubleAdapter(_config['scale']);
+      if (_url == null) return null;
+      return NetworkImage(_url, scale: _scale ?? 1.0);
     }
-
   }
 
   ///adapt dsl
-  static BorderStyle borderStyleAdapter(String str){    
-
+  static BorderStyle borderStyleAdapter(String str) {
     BorderStyle _ret;
     switch (str) {
       case 'none':
-        _ret = BorderStyle.none; 
-        break;   
+        _ret = BorderStyle.none;
+        break;
       case 'solid':
-        _ret = BorderStyle.solid; 
-        break;                                                               
+        _ret = BorderStyle.solid;
+        break;
       default:
     }
 
     return _ret;
-  }  
+  }
 
   ///adapt dsl
   static Border borderAdapter(dynamic raw) {
-
     if (raw == null) return null;
 
-    Map _config = YZDynamicCommon.dynamicToMap(raw); 
+    Map _config = YZDynamicCommon.dynamicToMap(raw);
 
     String _type = _config['type'];
     if (_type == 'side') {
       BorderSide _left;
       if (_config['left'] != null) {
-        _left = YZDinamicWidgetUtils.borderSideAdapter(_config['left']);
+        _left = YZDynamicWidgetUtils.borderSideAdapter(_config['left']);
       }
       BorderSide _right;
       if (_config['right'] != null) {
-        _right = YZDinamicWidgetUtils.borderSideAdapter(_config['right']);
-      }   
+        _right = YZDynamicWidgetUtils.borderSideAdapter(_config['right']);
+      }
       BorderSide _top;
       if (_config['top'] != null) {
-        _top = YZDinamicWidgetUtils.borderSideAdapter(_config['top']);
-      }   
+        _top = YZDynamicWidgetUtils.borderSideAdapter(_config['top']);
+      }
       BorderSide _bottom;
       if (_config['bottom'] != null) {
-        _bottom = YZDinamicWidgetUtils.borderSideAdapter(_config['bottom']);
-      }                
-      return Border(
-        left: _left,
-        right: _right,
-        top: _top,
-        bottom: _bottom
-      );      
-    } else {    
+        _bottom = YZDynamicWidgetUtils.borderSideAdapter(_config['bottom']);
+      }
+      return Border(left: _left, right: _right, top: _top, bottom: _bottom);
+    } else {
       return Border.all(
-        color: YZDinamicWidgetUtils.colorAdapter(_config['color']) ?? const Color(0xFF000000),
-        width: YZDinamicWidgetUtils.doubleAdapter(_config['width']) ?? 1.0,
-        style: YZDinamicWidgetUtils.borderStyleAdapter(_config['style']) ?? BorderStyle.solid,        
+        color: YZDynamicWidgetUtils.colorAdapter(_config['color']) ??
+            const Color(0xFF000000),
+        width: YZDynamicWidgetUtils.doubleAdapter(_config['width']) ?? 1.0,
+        style: YZDynamicWidgetUtils.borderStyleAdapter(_config['style']) ??
+            BorderStyle.solid,
       );
     }
-
   }
 
   static BorderSide borderSideAdapter(dynamic raw) {
     if (raw == null) return null;
 
-    Map _config = YZDynamicCommon.dynamicToMap(raw); 
+    Map _config = YZDynamicCommon.dynamicToMap(raw);
 
     return BorderSide(
-      color: YZDinamicWidgetUtils.colorAdapter(_config['color']) ?? const Color(0xFF000000),
-      width: YZDinamicWidgetUtils.doubleAdapter(_config['width']) ?? 1.0,
-      style: YZDinamicWidgetUtils.borderStyleAdapter(_config['style']) ?? BorderStyle.solid,
+      color: YZDynamicWidgetUtils.colorAdapter(_config['color']) ??
+          const Color(0xFF000000),
+      width: YZDynamicWidgetUtils.doubleAdapter(_config['width']) ?? 1.0,
+      style: YZDynamicWidgetUtils.borderStyleAdapter(_config['style']) ??
+          BorderStyle.solid,
     );
   }
 
   static BorderRadius borderRadiusAdapter(dynamic raw) {
     if (raw == null) return null;
 
-    Map _config = YZDynamicCommon.dynamicToMap(raw); 
+    Map _config = YZDynamicCommon.dynamicToMap(raw);
     String _type = _config['type'];
     if (_type == 'only') {
       return BorderRadius.only(
-        topLeft: YZDinamicWidgetUtils.radiusAdapter(_config['topLeft']) ?? Radius.zero,
-        topRight: YZDinamicWidgetUtils.radiusAdapter(_config['topRight']) ?? Radius.zero,
-        bottomLeft: YZDinamicWidgetUtils.radiusAdapter(_config['bottomLeft']) ?? Radius.zero,
-        bottomRight: YZDinamicWidgetUtils.radiusAdapter(_config['bottomRight']) ?? Radius.zero,
+        topLeft: YZDynamicWidgetUtils.radiusAdapter(_config['topLeft']) ??
+            Radius.zero,
+        topRight: YZDynamicWidgetUtils.radiusAdapter(_config['topRight']) ??
+            Radius.zero,
+        bottomLeft: YZDynamicWidgetUtils.radiusAdapter(_config['bottomLeft']) ??
+            Radius.zero,
+        bottomRight:
+            YZDynamicWidgetUtils.radiusAdapter(_config['bottomRight']) ??
+                Radius.zero,
       );
     } else {
       return BorderRadius.circular(
-        YZDinamicWidgetUtils.doubleAdapter(_config['radius'])
-      );
+          YZDynamicWidgetUtils.doubleAdapter(_config['radius']));
     }
-
   }
 
-  static Radius radiusAdapter(String str) {
-    if (str == null || str.isEmpty) return null;
+  static Radius radiusAdapter(dynamic raw) {
+    if (raw == null) return null;
+    if (raw is String) {
+      if (raw.isEmpty) return null;
 
-    double _radius = YZDinamicWidgetUtils.doubleAdapter(str);
-    return Radius.circular(_radius);
+      double _radius = YZDynamicWidgetUtils.doubleAdapter(raw);
+      return Radius.circular(_radius);
+    }
+
+    Map _config = YZDynamicCommon.dynamicToMap(raw);
+    String _type = _config['type'];
+    if (_type == 'circular') {
+      return Radius.circular(
+          YZDynamicWidgetUtils.doubleAdapter(_config['radius']));
+    } else if (_type == 'elliptical') {
+      return Radius.elliptical(YZDynamicWidgetUtils.doubleAdapter(_config['x']),
+          YZDynamicWidgetUtils.doubleAdapter(_config['y']));
+    } else {
+      return Radius.circular(0);
+    }
   }
 
   static List<BoxShadow> boxShadowAdapter(dynamic raw) {
     if (raw == null) return null;
 
-    List _config = YZDynamicCommon.dynamicToList(raw); 
+    List _config = YZDynamicCommon.dynamicToList(raw);
 
     List<BoxShadow> _ret;
     if (_config != null) {
@@ -796,53 +882,50 @@ class YZDinamicWidgetUtils {
     _config?.forEach((e) {
       Map _e = e as Map;
       _ret.add(BoxShadow(
-        color: YZDinamicWidgetUtils.colorAdapter(_e['color']) ?? Color(0xFF000000),
-        offset: YZDinamicWidgetUtils.offsetAdapter(_e['offset']) ?? Offset.zero,
-        blurRadius: YZDinamicWidgetUtils.doubleAdapter(_e['blurRadius']) ?? 0.0,
-        spreadRadius: YZDinamicWidgetUtils.doubleAdapter(_e['spreadRadius']) ?? 0.0,
+        color:
+            YZDynamicWidgetUtils.colorAdapter(_e['color']) ?? Color(0xFF000000),
+        offset: YZDynamicWidgetUtils.offsetAdapter(_e['offset']) ?? Offset.zero,
+        blurRadius: YZDynamicWidgetUtils.doubleAdapter(_e['blurRadius']) ?? 0.0,
+        spreadRadius:
+            YZDynamicWidgetUtils.doubleAdapter(_e['spreadRadius']) ?? 0.0,
       ));
     });
     return _ret;
-  }  
+  }
 
   static Offset offsetAdapter(dynamic raw) {
     if (raw == null) return null;
 
-    Map _config = YZDynamicCommon.dynamicToMap(raw); 
+    Map _config = YZDynamicCommon.dynamicToMap(raw);
     if (_config == null) return null;
 
-    return Offset(
-      YZDinamicWidgetUtils.doubleAdapter(_config['dx']),
-      YZDinamicWidgetUtils.doubleAdapter(_config['dy'])
-    );
-  }  
- 
+    return Offset(YZDynamicWidgetUtils.doubleAdapter(_config['dx']),
+        YZDynamicWidgetUtils.doubleAdapter(_config['dy']));
+  }
+
   /// This is an interface that allows [LinearGradient], [RadialGradient], and
   /// [SweepGradient] classes to be used interchangeably in [BoxDecoration]s.
   static Gradient gradientAdapter(dynamic raw) {
     if (raw == null) return null;
 
-    Map _config = YZDynamicCommon.dynamicToMap(raw); 
+    Map _config = YZDynamicCommon.dynamicToMap(raw);
     if (_config == null) return null;
 
     String _runtimeType = _config['runtimeType'];
     if (_runtimeType == 'LinearGradient') {
-
-    } else {
-
-    }
+    } else {}
     return null;
-  }  
+  }
 
   static BoxShape boxShapeAdapter(String str) {
     BoxShape _ret;
     switch (str) {
       case 'circle':
-        _ret = BoxShape.circle; 
-        break;   
+        _ret = BoxShape.circle;
+        break;
       case 'rectangle':
-        _ret = BoxShape.rectangle; 
-        break;                                                               
+        _ret = BoxShape.rectangle;
+        break;
       default:
     }
 
@@ -850,93 +933,238 @@ class YZDinamicWidgetUtils {
   }
 
   ///adapt dsl
-  static TextOverflow textOverflowAdapter(String str){    
-
+  static TextOverflow textOverflowAdapter(String str) {
     TextOverflow _ret;
     switch (str) {
       case 'clip':
-        _ret = TextOverflow.clip; 
-        break;   
+        _ret = TextOverflow.clip;
+        break;
       case 'ellipsis':
-        _ret = TextOverflow.ellipsis; 
-        break;   
+        _ret = TextOverflow.ellipsis;
+        break;
       case 'fade':
-        _ret = TextOverflow.fade; 
-        break;  
+        _ret = TextOverflow.fade;
+        break;
       case 'visible':
-        _ret = TextOverflow.visible; 
-        break;                                                                    
+        _ret = TextOverflow.visible;
+        break;
       default:
-
     }
 
     return _ret;
-  } 
-    
- ///adapt dsl
-  static Size sizeAdapter(dynamic raw) {
+  }
 
+  ///adapt dsl
+  static Size sizeAdapter(dynamic raw) {
     if (raw == null) return null;
 
-    Map _config = YZDynamicCommon.dynamicToMap(raw); 
+    Map _config = YZDynamicCommon.dynamicToMap(raw);
     return Size(
-      YZDinamicWidgetUtils.doubleAdapter(_config['color']) ?? double.infinity,
-      YZDinamicWidgetUtils.doubleAdapter(_config['width']) ?? double.infinity
-    );
-
-  }  
+        YZDynamicWidgetUtils.doubleAdapter(_config['color']) ?? double.infinity,
+        YZDynamicWidgetUtils.doubleAdapter(_config['width']) ??
+            double.infinity);
+  }
 
   ///adapt dsl
   static Curve curveAdapter(String str) {
-
     if (str == null) return null;
 
     Curve _ret;
     switch (str) {
       case 'bounceIn':
-        _ret = Curves.bounceIn; 
-        break;   
+        _ret = Curves.bounceIn;
+        break;
       case 'bounceInOut':
-        _ret = Curves.bounceInOut; 
-        break;   
+        _ret = Curves.bounceInOut;
+        break;
       case 'bounceOut':
-        _ret = Curves.bounceOut; 
-        break;  
+        _ret = Curves.bounceOut;
+        break;
       case 'decelerate':
-        _ret = Curves.decelerate; 
-        break; 
+        _ret = Curves.decelerate;
+        break;
       case 'linear':
-        _ret = Curves.linear; 
-        break; 
+        _ret = Curves.linear;
+        break;
       case 'ease':
-        _ret = Curves.ease; 
-        break; 
+        _ret = Curves.ease;
+        break;
       case 'easeIn':
-        _ret = Curves.easeIn; 
-        break; 
+        _ret = Curves.easeIn;
+        break;
       case 'easeInBack':
-        _ret = Curves.easeInBack; 
-        break; 
+        _ret = Curves.easeInBack;
+        break;
       case 'easeInCirc':
-        _ret = Curves.easeInCirc; 
-        break;    
+        _ret = Curves.easeInCirc;
+        break;
       case 'easeInCubic':
-        _ret = Curves.easeInCubic; 
-        break; 
+        _ret = Curves.easeInCubic;
+        break;
       case 'easeInExpo':
-        _ret = Curves.easeInExpo; 
-        break; 
+        _ret = Curves.easeInExpo;
+        break;
       case 'easeInOut':
-        _ret = Curves.easeInOut; 
-        break; 
+        _ret = Curves.easeInOut;
+        break;
       case 'easeOut':
-        _ret = Curves.easeOut; 
-        break;                       
+        _ret = Curves.easeOut;
+        break;
       default:
-
     }
 
     return _ret;
   }
-   
+
+  ///adapt dsl
+  static ScrollViewKeyboardDismissBehavior
+      scrollViewKeyboardDismissBehaviorAdapter(String str) {
+    ScrollViewKeyboardDismissBehavior _ret;
+    switch (str) {
+      case 'manual':
+        _ret = ScrollViewKeyboardDismissBehavior.manual;
+        break;
+      case 'onDrag':
+        _ret = ScrollViewKeyboardDismissBehavior.onDrag;
+        break;
+      default:
+    }
+
+    return _ret;
+  }
+
+  ///adapt dsl
+  static MaterialTapTargetSize materialTapTargetSizeAdapter(String str) {
+    MaterialTapTargetSize _ret;
+    switch (str) {
+      case 'padded':
+        _ret = MaterialTapTargetSize.padded;
+        break;
+      case 'shrinkWrap':
+        _ret = MaterialTapTargetSize.shrinkWrap;
+        break;
+      default:
+    }
+
+    return _ret;
+  }
+
+  ///adapt dsl
+  static HitTestBehavior hitTestBehaviorSizeAdapter(String str) {
+    HitTestBehavior _ret;
+    switch (str) {
+      case 'deferToChild':
+        _ret = HitTestBehavior.deferToChild;
+        break;
+      case 'translucent':
+        _ret = HitTestBehavior.translucent;
+        break;
+      case 'opaque':
+        _ret = HitTestBehavior.opaque;
+        break;
+      default:
+    }
+
+    return _ret;
+  }
+
+  ///adapt dsl
+  static BoxDecoration boxDecorationAdapter(dynamic raw) {
+    if (raw == null) return null;
+
+    Map _config = YZDynamicCommon.dynamicToMap(raw);
+
+    Color _color;
+    if (_config['color'] != null) {
+      _color = YZDynamicWidgetUtils.colorAdapter(_config['color']);
+    }
+
+    DecorationImage _image;
+    if (_config['image'] != null) {
+      _image = decorationImageAdapter(_config['image']);
+    }
+
+    BoxBorder _border;
+    if (_config['border'] != null) {
+      _border = YZDynamicWidgetUtils.borderAdapter(_config['border']);
+    }
+
+    BorderRadius _borderRadius;
+    if (_config['borderRadius'] != null) {
+      _borderRadius =
+          YZDynamicWidgetUtils.borderRadiusAdapter(_config['borderRadius']);
+    }
+
+    List<BoxShadow> _boxShadow;
+    if (_config['boxShadow'] != null) {
+      _boxShadow = YZDynamicWidgetUtils.boxShadowAdapter(_config['boxShadow']);
+    }
+
+    BoxShape _shape;
+    if (_config['shape'] != null) {
+      _shape = YZDynamicWidgetUtils.boxShapeAdapter(_config['shape']);
+    }
+
+    return BoxDecoration(
+        color: _color,
+        image: _image,
+        border: _border,
+        borderRadius: _borderRadius,
+        boxShadow: _boxShadow,
+        gradient: null,
+        backgroundBlendMode: null,
+        shape: _shape ?? BoxShape.rectangle);
+  }
+
+  static DecorationImage decorationImageAdapter(dynamic raw) {
+    if (raw == null) return null;
+
+    Map _config = YZDynamicCommon.dynamicToMap(raw);
+
+    ImageProvider _image;
+    if (_config['image'] != null) {
+      _image = YZDynamicWidgetUtils.imageProviderAdapter(_config['image']);
+    }
+
+    BoxFit _fit;
+    if (_config['fit'] != null) {
+      _fit = YZDynamicWidgetUtils.boxfitAdapter(_config['fit']);
+    }
+
+    Alignment _alignment;
+    if (_config['alignment'] != null) {
+      _alignment = YZDynamicWidgetUtils.alignmentAdapter(_config['alignment']);
+    }
+
+    Rect _centerSlice;
+    if (_config['centerSlice'] != null) {
+      _centerSlice = YZDynamicWidgetUtils.rectAdapter(_config['centerSlice']);
+    }
+
+    ImageRepeat _repeat;
+    if (_config['repeat'] != null) {
+      _repeat = YZDynamicWidgetUtils.imageRepeatAdapter(_config['repeat']);
+    }
+
+    bool _matchTextDirection;
+    if (_config['matchTextDirection'] != null) {
+      _matchTextDirection =
+          YZDynamicWidgetUtils.boolAdapter(_config['matchTextDirection']);
+    }
+
+    double _scale;
+    if (_config['_scale'] != null) {
+      _scale = YZDynamicWidgetUtils.doubleAdapter(_config['_scale']);
+    }
+
+    return DecorationImage(
+        image: _image,
+        colorFilter: null,
+        fit: _fit,
+        alignment: _alignment ?? Alignment.center,
+        centerSlice: _centerSlice,
+        repeat: _repeat ?? ImageRepeat.noRepeat,
+        matchTextDirection: _matchTextDirection ?? false,
+        scale: _scale ?? 1.0);
+  }
 }

@@ -1,11 +1,14 @@
 /* 
  * @Author: yz.yujingzhou 
  * @Date: 2020-12-01 11:09:56 
- * @Last Modified by: yz.yujingzhou
- * @Last Modified time: 2020-12-02 18:12:31
+ * @Last Modified by: yangyiting
+ * @Last Modified time: 2021-03-24 17:47:18
  */
 
 import 'package:flutter/material.dart';
+import 'package:yingzi_flutter_dynamicpage_example/grammar/bool.dart';
+import 'package:yingzi_flutter_dynamicpage_example/grammar/math.dart';
+import 'package:yingzi_flutter_dynamicpage_example/grammar/set.dart';
 
 import 'controlflow.dart';
 import 'list.dart';
@@ -14,6 +17,9 @@ import 'number.dart';
 import 'operators_lo.dart';
 import 'operators_re.dart';
 import 'string.dart';
+import 'user_code.dart';
+
+import 'package:yz_flutter_dynamic/main.dart';
 
 class UnitTestingList extends StatefulWidget {
   @override
@@ -21,6 +27,12 @@ class UnitTestingList extends StatefulWidget {
 }
 
 class _UnitTestingListState extends State<UnitTestingList> {
+
+  @override
+  void initState() {
+    super.initState();    
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,7 +47,10 @@ class _UnitTestingListState extends State<UnitTestingList> {
               createItem('Number', UTNumber()),
               createItem('String', UTString()),
               createItem('List', UTList()),
-              createItem('Map', UTMap()),              
+              createItem('Set', UTSet()),
+              createItem('Map', UTMap()),  
+              createItem('bool', UTBool()), 
+              createItem('Math', UTMath()),              
               createTitle('运算符(Operators)'),             
               createItem('关系运算符(Equality and relational operators)', UTRelationalOperators()),  
               createItem('逻辑运算符(Logical operators)', UTLogicalOperators()),  
@@ -43,7 +58,9 @@ class _UnitTestingListState extends State<UnitTestingList> {
               createItem('if and else', UTIfElse()), 
               createItem('switch case', UTSwitchCase()),   
               createItem('forloop', UTForloop()),    
-              createItem('while', UTWhile()),                                   
+              createItem('while', UTWhile()),    
+              createTitle('User Code'),                                 
+              createItem('User Code', UTUserCode()),  
             ],
           ),
         )

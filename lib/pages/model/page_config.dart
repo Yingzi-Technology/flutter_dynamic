@@ -2,7 +2,7 @@
 * @Author: yz.yujingzhou     
 * @Date: 2020-09-02 10:48:50     
  * @Last Modified by: yz.yujingzhou
- * @Last Modified time: 2020-11-03 14:27:21
+ * @Last Modified time: 2021-01-27 14:57:17
 **/   
 
 import 'dart:convert';
@@ -57,18 +57,15 @@ class YZDynamicPageTemplateConfig {
 
 class YZDynamicPageProps {
   List padding;
+  String backgraoundColor;
 
-  YZDynamicPageProps({this.padding});
+  YZDynamicPageProps({this.padding, this.backgraoundColor});
 
   YZDynamicPageProps.fromJson(Map<dynamic, dynamic> json) {
     padding = json['padding'] == null ? null : jsonDecode(json['padding']);
+    backgraoundColor = json['backgraoundColor'];
   }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['padding'] = this.padding;
-    return data;
-  }
+  
 }
 
 class YZDynamicPageLifecycle {

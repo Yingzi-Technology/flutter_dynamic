@@ -19,7 +19,7 @@ Map demoDsl =
     "entrane": {}, 
     "props": {},
     "xVar": {
-      "initData": "初始化变量"
+      "initData": "Initialize Value"
     }, 
     "xActions": {}   
   }
@@ -73,8 +73,14 @@ var _dslRootWidget = {
                           "xKey": "",
                           "widgetName": "Column",
                           "props": {
-                            "children": [             
-                              container, 
+                            "children": [    
+                              {
+                                "xKey": "_StatefulWidget",
+                                "widgetName": "StatefulWidget",
+                                "props": {
+                                  "build": container
+                                }
+                              },  
                               sizedBox,
                               textField,
                               sizedBox,
@@ -164,7 +170,7 @@ var textField = {
       "fontWeight": "bold"
     },
     "keyboardType": "number",
-    "value": "Input",
+    "value": "var:<g:person.name>",
     "decoration" : {          
       "hint": "'TextField' hint: Please enter value",
       "border": {
@@ -348,7 +354,7 @@ Map formDsl = {
             var:<c:printStr>=`Print:var:<c:printStr>`;
             action:Sys.print({"value":"var:<c:printStr>"});
             var:<w:phoneOutput>=var:<w:phoneInput>;
-            action:{"targetKey":"phoneOutput","name":"setState"};
+            action:{"targetKey":"phoneOutput","actionName":"setState"};
             var:<p:total>=action:num.+({"value":"<p:index>","value1":"2"});
             action:Sys.print({"value":"<p:total>"})            
             '''

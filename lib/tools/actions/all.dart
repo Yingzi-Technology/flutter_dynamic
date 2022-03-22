@@ -1,8 +1,8 @@
 /* 
  * @Author: yz.yujingzhou 
  * @Date: 2020-11-27 18:22:39 
- * @Last Modified by: yz.yujingzhou
- * @Last Modified time: 2020-11-27 18:31:32
+ * @Last Modified by: yangyiting
+ * @Last Modified time: 2021-03-24 17:45:27
  */
 
 part of '../action.dart';
@@ -36,6 +36,24 @@ List<YZDynamicActionHandler> yzAllDynamicExitHandlers = [
   YZListRemoveLastHandler(),
   YZListSublistHandler(),
   YZListAsMapHandler(),
+  YZListReplaceRangeHandler(),
+  YZListFillRangeHandler(),
+  YZListRemoveRangeHandler(),
+  YZListSetRangeHandler(),
+  YZListGetRangeHandler(),
+  YZListShuffleHandler(),
+  YZListCopyRangeHandler(),
+  YZListUnmodifiableHandler(),
+  YZListFromHandler(),
+  YZListOfHandler(),
+  YZListFollowedByHandler(),
+  YZListContainsHandler(),
+  YZListJoinHandler(),
+  YZListToSetHandler(),
+  YZListTakeHandler(),
+  YZListSkipHandler(),
+  YZListElementAtHandler(),
+  YZListToStringHandler(),
 
   //String
   YZStringHandler(),
@@ -60,7 +78,9 @@ List<YZDynamicActionHandler> yzAllDynamicExitHandlers = [
   YZStringTrimHandler(),
   YZStringTrimLeftHandler(),
   YZStringTrimRightHandler(),
-  YZStringSplitHandler(),  
+  YZStringSplitHandler(), 
+  YZStringAllMatchesHandler(),
+  YZStringMatchAsPrefix(), 
 
   //RegExp
   YZRegExpHasMatchHandler(),  
@@ -73,6 +93,11 @@ List<YZDynamicActionHandler> yzAllDynamicExitHandlers = [
   YZMultiHandler(),
   YZSubHandler(),
   YZDivHandler(),
+  YZRemainderHandler(),
+  YZPlusEqualHandler(),
+  YZSubEqualHandler(),
+  YZMultiEqualHandler(),
+  YZDivEqualHandler(),
   YZParseHandler(),
   YZTryParseHandler(),
   YZIsNaNHandler(),
@@ -99,6 +124,7 @@ List<YZDynamicActionHandler> yzAllDynamicExitHandlers = [
 
   //Map
   YZMapHandler(),
+  YZMapEntryHandler(),
   YZMapValueOfKeyHandler(),
   YZMapIsEmptyHandler(),
   YZMapIsNotEmptyHandler(),
@@ -106,7 +132,20 @@ List<YZDynamicActionHandler> yzAllDynamicExitHandlers = [
   YZMapContainsValueHandler(),
   YZMapContainsKeyHandler(),
   YZMapRemoveKeyHandler(),
-  YZMapClearHandler(),  
+  YZMapClearHandler(),
+  YZMapKeysHandler(),
+  YZMapValuesHandler(),
+  YZMapEntriesHandler(),
+  YZMapAddAllHandler(),
+  YZMapAddEntriesHandler(),
+  YZMapToStringHandler(),
+  YZMapFromHandler(),
+  YZMapOfHandler(),
+  YZMapIdentityHandler(),
+  YZMapFromEntriesHandler(),
+  YZMapFromIterableHandler(),
+  YZMapFromIterablesHandler(),
+  YZMapUnmodifiablesHandler(),
 
   //Set
   YZSetHandler(),
@@ -122,7 +161,40 @@ List<YZDynamicActionHandler> yzAllDynamicExitHandlers = [
   YZSetUnionHandler(),
   YZSetDifferenceHandler(),
   YZSetClearHandler(),
-  YZSetToSetHandler(),  
+  YZSetToSetHandler(),
+  YZSetElementAtHandler(),
+  YZSetLengthHandler(),
+  YZSetIsEmptyHandler(),
+  YZSetIsNotEmptyHandler(),
+  YZSetFirstHandler(),
+  YZSetLastHandler(),
+  YZSetFollowedByHandler(),
+  YZSetJoinHandler(),
+  YZSetToListHandler(),
+  YZSetTakeHandler(),
+  YZSetSkipHandler(),
+  YZSetToStringHandler(),
+  YZSetIteratorHandler(),
+  YZSetFromHandler(),
+  YZSetOfHandler(),
+  YZSetIdentityHandler(),
+
+  // Iterable
+  YZIterableHandler(),
+  YZIterableLengthHandler(),
+  YZIterableIsEmptyHandler(),
+  YZIterableIsNotEmptyHandler(),
+  YZIterableFirstHandler(),
+  YZIterableLastHandler(),
+  YZIterableFollowedByHandler(),
+  YZIterableContainsHandler(),
+  YZIterableJoinHandler(),
+  YZIterableToListHandler(),
+  YZIterableToSetHandler(),
+  YZIterableTakeHandler(),
+  YZIterableSkipHandler(),
+  YZIterableElementAtHandler(),
+  YZIterableToStringHandler(),
 
   //control flow
   YZIfElseHandler(),
@@ -132,9 +204,10 @@ List<YZDynamicActionHandler> yzAllDynamicExitHandlers = [
 
   //Sys
   YZBoolHandler(),
-  YZSysReturnHandler(),
-  YZSysPrintHandler(),   
   YZSysBoolHandler(),
+  YZSysBoolToStringHandler(),
+  YZSysReturnHandler(),
+  YZSysPrintHandler(),
   YZSysEqHandler(),
   YZSysNeqHandler(),
   YZSysGtHandler(),
@@ -146,4 +219,26 @@ List<YZDynamicActionHandler> yzAllDynamicExitHandlers = [
   YZSysAndHandler(),
   YZSysOrHandler(),
 
+  // Math
+  YZMathSqrtHandler(),
+  YZMathExpHandler(),
+  YZMathLogHandler(),
+  YZMathMinHandler(),
+  YZMathMaxHandler(),
+  YZMathPowHandler(),
+  YZMathSinHandler(),
+  YZMathCosHandler(),
+  YZMathTanHandler(),
+  YZMathASinHandler(),
+  YZMathACosHandler(),
+  YZMathATanHandler(),
+  YZMathATan2Handler(),
+  YZMathEHandler(),
+  YZMathLn10Handler(),
+  YZMathLn2Handler(),
+  YZMathLog2eHandler(),
+  YZMathLog10eHandler(),
+  YZMathPiHandler(),
+  YZMathSqrt12Handler(),
+  YZMathSqrt2Handler(),
 ];

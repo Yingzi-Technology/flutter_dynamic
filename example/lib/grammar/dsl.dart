@@ -8,10 +8,23 @@
 getDemoDsl(String code) {
 
   code = code.trim();
-  if (!code.startsWith("var")) {
-    code = "var:<c:ret>=$code;";
-  } else if (!code.endsWith(';')){
-    code = '$code;';
+
+  var result;
+  if (code.startsWith('userCode:')) {
+    result = code;
+  } else {
+    result = '''code:
+        $code
+        var:<c:r>=`The result is: var:<c:ret>`;      
+        action:Sys.print(var:<c:r>);        
+        action:String(var:<c:ret>)
+      ''';
+
+    if (!code.startsWith("var")) {
+      code = "var:<c:ret>=$code;";
+    } else if (!code.endsWith(';')){
+      code = '$code;';
+    }      
   }
 
   var text = {
@@ -22,14 +35,18 @@ getDemoDsl(String code) {
       "data": "var:<w:_Text.result>",
     },
     "xVar": {
-      "result": '''code:
-        $code
-        var:<c:r>=`The result is: var:<c:ret>`;      
-        action:Sys.print(var:<c:r>);        
-        action:String(var:<c:ret>)
-      '''
+      "result": result
     }
   };
+
+  var tip = {
+    "xKey": "_TextTip",
+    "type": "sysWidget",
+    "widgetName": "Text",
+    "props": {
+      "data": "如果希望显示语句结果，需要把语句结果赋值给<c:ret>，如<c:ret>=num.+(1,2)；\n\r输出结果如下：\n\r",
+    }
+  };  
 
   var _dslRootWidget = {
     "xKey": "",
@@ -58,7 +75,8 @@ getDemoDsl(String code) {
                   "xKey": "",
                   "widgetName": "Column",
                   "props": {
-                    "children": [    
+                    "children": [  
+                      tip,
                       text,                        
                     ]
                   }

@@ -18,7 +18,7 @@ class YZScaffoldHandler extends YZDynamicBasicWidgetHandler {
   String get widgetName => 'Scaffold';
 
   @override
-  Widget build(Map<String, dynamic> json, {Key key, BuildContext buildContext}) {
+  Widget build(Map json, {Key key, BuildContext buildContext}) {
     return _Builder(json, key:key);
   }
   
@@ -26,7 +26,7 @@ class YZScaffoldHandler extends YZDynamicBasicWidgetHandler {
 
 class _Builder extends YZDynamicBaseWidget {
 
-  final Map<String, dynamic> json;
+  final Map json;
 
   _Builder(this.json, {Key key}): super(json, key: key);
 
@@ -69,7 +69,6 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
       bottomSheet: null,
       backgroundColor: null,
       resizeToAvoidBottomInset: null,
-      resizeToAvoidBottomPadding: null,
       primary: true,
       drawerDragStartBehavior: DragStartBehavior.start,
       extendBody: false,

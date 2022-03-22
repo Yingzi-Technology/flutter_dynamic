@@ -14,6 +14,6 @@ abstract class YZDynamicBasicWidgetHandler {
   String get widgetName;
 
   /// parse the json map into a flutter widget.
-  Widget build(Map<String, dynamic> json, {Key key, BuildContext buildContext});
+  Widget build(Map json, {Key key, BuildContext buildContext});
 
 }

@@ -20,7 +20,7 @@ class YZPaddingHandler extends YZDynamicBasicWidgetHandler {
   String get widgetName => 'Padding';
 
   @override
-  Widget build(Map<String, dynamic> json, {Key key, BuildContext buildContext}) {
+  Widget build(Map json, {Key key, BuildContext buildContext}) {
     return _Builder(json, key:key);
   }
   
@@ -28,7 +28,7 @@ class YZPaddingHandler extends YZDynamicBasicWidgetHandler {
 
 class _Builder extends YZDynamicBaseWidget {
 
-  final Map<String, dynamic> json;
+  final Map json;
 
   _Builder(this.json, {Key key}): super(json, key: key);
 
@@ -49,7 +49,7 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
 
     //Deal with props / 处理控件属性
     YZPaddingConfig props = YZPaddingConfig.fromJson(super.config.props) ?? {};
-    EdgeInsets _padding = YZDinamicWidgetUtils.edgeInsetAdapter(props.padding);
+    EdgeInsets _padding = YZDynamicWidgetUtils.edgeInsetAdapter(props.padding);
     Widget _child = props.child == null ? null : YZDynamicCommon.buildWidget(props.child, context: context);
 
     Padding _subwidget = Padding(
@@ -66,20 +66,6 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
   @override
   void registerActions() {
     //Deal with action / 处理事件实现
-    actionFunctions['setState'] = stateSetter; 
-  }
-
-  void stateSetter({
-      Map params, 
-      YZDynamicRequest request,
-      List<YZDynamicActionRule> rules,
-      Map localVariables,
-      State state,
-    }) {
-    print('Execute xAction: ${this.runtimeType} stateSetter');
-    if (mounted) {
-      setState(() {});
-    }
   }
 
 }

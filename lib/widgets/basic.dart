@@ -19,7 +19,7 @@ class YZSizedBoxHandler extends YZDynamicBasicWidgetHandler {
   String get widgetName => 'SizedBox';
 
   @override
-  Widget build(Map<String, dynamic> json, {Key key, BuildContext buildContext}) {
+  Widget build(Map json, {Key key, BuildContext buildContext}) {
     
     //Deal with props / 处理控件属性
     YZDynamicWidgetConfig config = YZDynamicWidgetConfig.fromJson(json);   
@@ -40,15 +40,15 @@ class YZSizedBoxHandler extends YZDynamicBasicWidgetHandler {
         );         
         break;  
       case 'fromSize':
-        Size _size = YZDinamicWidgetUtils.sizeAdapter(props?.size);
+        Size _size = YZDynamicWidgetUtils.sizeAdapter(props?.size);
         _widget = SizedBox.fromSize(
           size: _size,
           child: _child
         );         
         break;              
       default:
-        double _width = YZDinamicWidgetUtils.doubleAdapter(props?.width);
-        double _height = YZDinamicWidgetUtils.doubleAdapter(props?.height);      
+        double _width = YZDynamicWidgetUtils.doubleAdapter(props?.width);
+        double _height = YZDynamicWidgetUtils.doubleAdapter(props?.height);      
         _widget = SizedBox(
           width: _width,
           height: _height,
