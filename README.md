@@ -8,6 +8,8 @@ EN: The flutter_dynamic is an engine that create flutter application dynamically
 * [Github地址](https://github.com/Yingzi-Technology/flutter_dynamic)
 * [153768151@qq.com](https://github.com/fisherjoe) - feel free to contact me
 
+[![Stargazers over time](https://starchart.cc/Yingzi-Technology/flutter_dynamic.svg)](https://starchart.cc/Yingzi-Technology/flutter_dynamic)
+
 ## Best practice
 > Dynamically create similar UI and interactive pages. If you have read the document, you can follow us step by step to create an interesting dynamic page. [Best practice](https://github.com/Yingzi-Technology/flutter_dynamic/blob/master/doc/bestpratice.md)
 
