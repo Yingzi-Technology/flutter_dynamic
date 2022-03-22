@@ -5,6 +5,9 @@
  * @Last Modified time: 2020-11-03 11:47:33
  */
 
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'basic/utils.dart';
 import 'basic/handler.dart';
@@ -17,7 +20,7 @@ class YZImageHandler extends YZDynamicBasicWidgetHandler {
 
   @override
   Widget build(Map json,
-      {Key key, BuildContext buildContext}) {
+      {Key? key, BuildContext? buildContext}) {
     return _Builder(json, key: key);
   }
 }
@@ -25,7 +28,7 @@ class YZImageHandler extends YZDynamicBasicWidgetHandler {
 class _Builder extends YZDynamicBaseWidget {
   final Map json;
 
-  _Builder(this.json, {Key key}) : super(json, key: key);
+  _Builder(this.json, {Key? key}) : super(json, key: key);
 
   @override
   _BuilderState createState() => _BuilderState();
@@ -40,40 +43,47 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
   @override
   Widget build(BuildContext context) {
     Widget _widget;
-    YZImageConfig props = YZImageConfig.fromJson(super.config.props) ?? {};
+    YZImageConfig props = YZImageConfig.fromJson(super.config?.props ?? {});
 
-    String _type = props.type ?? 'asset';
-    double _width = YZDynamicWidgetUtils.doubleAdapter(props?.width);
-    double _height = YZDynamicWidgetUtils.doubleAdapter(props?.height);
-    BoxFit _fix = YZDynamicWidgetUtils.boxfitAdapter(props?.fit);
-    Alignment _alignment =
-        YZDynamicWidgetUtils.alignmentAdapter(props?.alignment);
-    ImageRepeat _repeat =
-        YZDynamicWidgetUtils.imageRepeatAdapter(props?.repeat);
-    double _scale = YZDynamicWidgetUtils.doubleAdapter(props?.scale);
-    int _cacheWidth = YZDynamicWidgetUtils.intAdapter(props?.cacheWidth);
-    int _cacheHeight = YZDynamicWidgetUtils.intAdapter(props?.cacheHeight);
-    bool _isAntiAlias = YZDynamicWidgetUtils.boolAdapter(props?.isAntiAlias);
-    FilterQuality _filterQuality = _filterQualityAdapter(props?.filterQuality);
-    BlendMode _colorBlendMode = _colorBlendModeAdapter(props?.colorBlendMode);
-    Rect _centerSlice = YZDynamicWidgetUtils.rectAdapter(props?.centerSlice);
-    bool _matchTextDirection =
-        YZDynamicWidgetUtils.boolAdapter(props?.matchTextDirection);
-    bool _gaplessPlayback =
-        YZDynamicWidgetUtils.boolAdapter(props?.gaplessPlayback);
+    String? _type = props.type ?? 'asset';
+    double? _width = YZDynamicWidgetUtils.doubleAdapter(props.width);
+    double? _height = YZDynamicWidgetUtils.doubleAdapter(props.height);
+    BoxFit? _fix = YZDynamicWidgetUtils.boxfitAdapter(props.fit);
+    Alignment? _alignment =
+        YZDynamicWidgetUtils.alignmentAdapter(props.alignment);
+    ImageRepeat? _repeat =
+        YZDynamicWidgetUtils.imageRepeatAdapter(props.repeat);
+    double? _scale = YZDynamicWidgetUtils.doubleAdapter(props.scale);
+    int? _cacheWidth = YZDynamicWidgetUtils.intAdapter(props.cacheWidth);
+    int? _cacheHeight = YZDynamicWidgetUtils.intAdapter(props.cacheHeight);
+    bool? _isAntiAlias = YZDynamicWidgetUtils.boolAdapter(props.isAntiAlias);
+    FilterQuality? _filterQuality = _filterQualityAdapter(props.filterQuality);
+    BlendMode? _colorBlendMode = _colorBlendModeAdapter(props.colorBlendMode);
+    Rect? _centerSlice = YZDynamicWidgetUtils.rectAdapter(props.centerSlice);
+    bool? _matchTextDirection =
+        YZDynamicWidgetUtils.boolAdapter(props.matchTextDirection);
+    bool? _gaplessPlayback =
+        YZDynamicWidgetUtils.boolAdapter(props.gaplessPlayback);
 
-    Image _subwidget;
+    Image? _subwidget;
     switch (_type) {
       case 'file':
         _subwidget = null;
         break;
       case 'memory':
+        String? _src = props.src;
         _subwidget = null;
+        if (_src != null && _src.startsWith('data:')) {
+          _src = _src.replaceFirst('data:image/jpeg;base64,', '');
+        }  
+        if (_src == null) break;   
+        Uint8List bytes = base64Decode(_src);
+        _subwidget = Image.memory(bytes);        
         break;
       case 'network':
-        String _src = props?.src;
+        String? _src = props.src;
         _src = YZDynamicWidgetUtils.valueAdapter(_src, this);
-        _subwidget = Image.network(_src,
+        _subwidget = Image.network(_src!,
             width: _width,
             height: _height,
             fit: _fix,
@@ -90,8 +100,8 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
             gaplessPlayback: _gaplessPlayback ?? false);
         break;
       default:
-        String _name = props?.name;
-        _subwidget = Image.asset(_name,
+        String? _name = props.name;
+        _subwidget = Image.asset(_name!,
             width: _width,
             height: _height,
             fit: _fix,
@@ -109,7 +119,7 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
     }
 
     //Deal with events / 处理事件
-    _widget = super.buildWithEvents(_subwidget, super.config.xEvents);
+    _widget = super.buildWithEvents(_subwidget!, super.config?.xEvents);
 
     return _widget;
   }
@@ -118,8 +128,8 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
   void registerActions() {}
 
   ///adapt dsl colorBlendMode
-  BlendMode _colorBlendModeAdapter(String str, {State state}) {
-    BlendMode _ret;
+  BlendMode? _colorBlendModeAdapter(String? str) {
+    BlendMode? _ret;
     switch (str) {
       case 'clear':
         _ret = BlendMode.clear;
@@ -215,8 +225,8 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
   }
 
   ///adapt dsl filterQuality
-  FilterQuality _filterQualityAdapter(String str, {State state}) {
-    FilterQuality _ret;
+  FilterQuality? _filterQualityAdapter(String? str) {
+    FilterQuality? _ret;
     switch (str) {
       case 'high':
         _ret = FilterQuality.high;
@@ -238,25 +248,25 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
 }
 
 class YZImageConfig {
-  String type; //asset/network/file/memory
-  String name;
-  String bytes;
-  String file;
-  String src;
-  String width;
-  String height;
-  String fit;
-  String alignment;
-  String repeat;
-  String scale;
-  String cacheWidth;
-  String cacheHeight;
-  String isAntiAlias;
-  String filterQuality;
-  String colorBlendMode;
-  String centerSlice;
-  String matchTextDirection;
-  String gaplessPlayback;
+  String? type; //asset/network/file/memory
+  String? name;
+  String? bytes;
+  String? file;
+  String? src;
+  String? width;
+  String? height;
+  String? fit;
+  String? alignment;
+  String? repeat;
+  String? scale;
+  String? cacheWidth;
+  String? cacheHeight;
+  String? isAntiAlias;
+  String? filterQuality;
+  String? colorBlendMode;
+  String? centerSlice;
+  String? matchTextDirection;
+  String? gaplessPlayback;
 
   YZImageConfig(
       {this.type,
@@ -279,7 +289,7 @@ class YZImageConfig {
       this.matchTextDirection,
       this.gaplessPlayback});
 
-  YZImageConfig.fromJson(Map<dynamic, dynamic> json) {
+  YZImageConfig.fromJson(Map<dynamic, dynamic>? json) {
     json ??= {};
     type = json['type'];
     name = json['name'];

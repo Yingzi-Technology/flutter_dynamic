@@ -21,7 +21,7 @@ class YZTextFieldHandler extends YZDynamicBasicWidgetHandler {
 
   @override
   Widget build(Map json,
-      {Key key, BuildContext buildContext}) {
+      {Key? key, BuildContext? buildContext}) {
     return _Builder(json, key: key);
   }
 }
@@ -29,37 +29,37 @@ class YZTextFieldHandler extends YZDynamicBasicWidgetHandler {
 class _Builder extends YZDynamicBaseWidget {
   final Map json;
 
-  _Builder(this.json, {Key key}) : super(json, key: key);
+  _Builder(this.json, {Key? key}) : super(json, key: key);
 
   @override
   _BuilderState createState() => _BuilderState();
 }
 
 class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
-  TextEditingController _controller;
-  FocusNode _focusNode;
-  YZTextFieldConfig props;
+  late TextEditingController _controller;
+  FocusNode? _focusNode;
+  late YZTextFieldConfig props;
 
-  String _value;
-  int _maxLine;
-  int _minLine;
-  TextInputType _keyboardType;
-  List<TextInputFormatter> inputFormatters;
-  bool _enabled;
-  TextAlign _textAlign;
-  int _maxLength;
-  TextInputAction _textInputAction;
-  TextAlignVertical _textAlignVertical;
-  Color _cursorColor;
-  TextStyle _style;
-  StrutStyle _strutStyle;
-  InputDecoration _decoration;
+  String? _value;
+  int? _maxLine;
+  int? _minLine;
+  TextInputType? _keyboardType;
+  List<TextInputFormatter>? inputFormatters;
+  bool? _enabled;
+  TextAlign? _textAlign;
+  int? _maxLength;
+  TextInputAction? _textInputAction;
+  TextAlignVertical? _textAlignVertical;
+  Color? _cursorColor;
+  TextStyle? _style;
+  StrutStyle? _strutStyle;
+  InputDecoration? _decoration;
 
   @override
   void initState() {
     super.initState();
 
-    props = YZTextFieldConfig.fromJson(super.config.props) ?? {};
+    props = YZTextFieldConfig.fromJson(super.config?.props ?? {});
 
     _value = YZDynamicWidgetUtils.valueAdapter(props.value, this);
     _maxLine = YZDynamicWidgetUtils.intAdapter(props.maxLines);
@@ -94,7 +94,7 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
 
   @override
   void dispose() {
-    _controller?.dispose();
+    _controller.dispose();
     _focusNode?.dispose();
     super.dispose();
   }
@@ -147,28 +147,28 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
     return _controller.text;
   }
 
-  set value(String v) {
-    _controller.text = v;
+  set value(String? v) {
+    _controller.text = v!;
   }
 
-  void _stateSetter(BuildContext triggerContext, {
-    Map params,
-    YZDynamicRequest request,
-    List<YZDynamicActionRule> rules,
-    Map localVariables,
-    State state,
+  void _stateSetter(BuildContext? triggerContext, {
+    Map? params,
+    YZDynamicRequest? request,
+    List<YZDynamicActionRule>? rules,
+    Map? localVariables,
+    State? state,
   }) {
     if (mounted) {
       setState(() {});
     }
   }
 
-  bool _validate(BuildContext triggerContext, {
-    Map params,
-    YZDynamicRequest request,
-    List<YZDynamicActionRule> rules,
-    Map localVariables,
-    State state,
+  bool _validate(BuildContext? triggerContext, {
+    Map? params,
+    YZDynamicRequest? request,
+    List<YZDynamicActionRule>? rules,
+    Map? localVariables,
+    State? state,
   }) {
     bool ret = YZDynamicRuleUtil.validate(rules,
         value: this.value, callback: (index, tip) {});
@@ -177,7 +177,7 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
   }
 }
 
-List<TextInputFormatter> _inputFormattersAdapter(List<String> formats) {
+List<TextInputFormatter>? _inputFormattersAdapter(List<String>? formats) {
   if (formats == null) return null;
   List<TextInputFormatter> result = [];
   for (String f in formats) {
@@ -186,17 +186,17 @@ List<TextInputFormatter> _inputFormattersAdapter(List<String> formats) {
   return result;
 }
 
-InputDecoration _inputDecorationAdapter(dynamic raw) {
+InputDecoration? _inputDecorationAdapter(dynamic? raw) {
   if (raw == null) return null;
 
-  Map _config = YZDynamicCommon.dynamicToMap(raw);
+  Map _config = YZDynamicCommon.dynamicToMap(raw)!;
 
-  String _hint;
+  String? _hint;
   if (_config['hintText'] != null) {
     _hint = _config['hintText'];
   }
 
-  TextStyle _hintStyle;
+  TextStyle? _hintStyle;
   if (_config['hintStyle'] != null) {
     _hintStyle = YZDynamicWidgetUtils.textStyleAdapter(_config['hintStyle']);
   }
@@ -237,8 +237,8 @@ InputDecoration _inputDecorationAdapter(dynamic raw) {
       alignLabelWithHint: null);
 }
 
-TextAlignVertical _textAlignVerticalAdapter(String str) {
-  TextAlignVertical _ret;
+TextAlignVertical? _textAlignVerticalAdapter(String? str) {
+  TextAlignVertical? _ret;
   switch (str) {
     case 'bottom':
       _ret = TextAlignVertical.bottom;
@@ -255,8 +255,8 @@ TextAlignVertical _textAlignVerticalAdapter(String str) {
   return _ret;
 }
 
-TextInputAction _textInputActionAdapter(String str) {
-  TextInputAction _ret;
+TextInputAction? _textInputActionAdapter(String? str) {
+  TextInputAction? _ret;
   switch (str) {
     case 'continueAction':
       _ret = TextInputAction.continueAction;
@@ -305,21 +305,21 @@ TextInputAction _textInputActionAdapter(String str) {
 
 /// The props of TextField config
 class YZTextFieldConfig {
-  String value;
-  String hint;
-  String maxLines;
-  String keyboardType;
-  List<String> inputFormatters;
-  String enabled;
-  String textAlign;
-  String maxLength;
-  String minLines;
-  String textInputAction;
-  String textAlignVertical;
-  String cursorColor;
-  Map style;
-  Map strutStyle;
-  Map decoration;
+  String? value;
+  String? hint;
+  String? maxLines;
+  String? keyboardType;
+  List<String>? inputFormatters;
+  String? enabled;
+  String? textAlign;
+  String? maxLength;
+  String? minLines;
+  String? textInputAction;
+  String? textAlignVertical;
+  String? cursorColor;
+  Map? style;
+  Map? strutStyle;
+  Map? decoration;
 
   YZTextFieldConfig({
     this.value,
@@ -339,7 +339,7 @@ class YZTextFieldConfig {
     this.decoration,
   });
 
-  YZTextFieldConfig.fromJson(Map<dynamic, dynamic> json) {
+  YZTextFieldConfig.fromJson(Map<dynamic, dynamic>? json) {
     json ??= {};
     value = json['value'];
     hint = json['hint'];

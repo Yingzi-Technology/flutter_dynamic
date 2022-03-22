@@ -15,12 +15,12 @@ import 'model/page_config.dart';
 class YZDynamicPageTemplateBuilder {
   YZDynamicPageTemplateBuilder._();
 
-  static Widget build(BuildContext context, Map config, {YZDynamicPagePreConfig preConfig}) {
+  static Widget build(BuildContext context, Map config, {YZDynamicPagePreConfig? preConfig}) {
     Widget page;
     
     Map _pageConfig = config['page'];
     YZDynamicPageTemplateConfig _pageConfigObj = YZDynamicPageTemplateConfig.fromJson(_pageConfig);
-    String _pageType = _pageConfigObj.type;    
+    String? _pageType = _pageConfigObj.type;    
 
     if (_pageType == 'formpage') {
       print("-->>>formpage: ${_pageConfigObj.name}");
@@ -37,7 +37,7 @@ class YZDynamicPageTemplateBuilder {
     } else {
 
       ///从设计器来的数据模型采用formpage的方式返回wigget的类型，子元素存在children中
-      if (_pageConfigObj.rootWidget == null || _pageConfigObj.rootWidget.isEmpty) {
+      if (_pageConfigObj.rootWidget == null || _pageConfigObj.rootWidget!.isEmpty) {
         print("==>>>formwidget: ${_pageConfigObj.name}");
         List<Map> _children =  List.castFrom<dynamic, Map>(config['children']);
         page = YZDynamicFormWidget(

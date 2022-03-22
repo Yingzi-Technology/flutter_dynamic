@@ -30,57 +30,71 @@ class YZDynamicCommon {
 
   /// Public action storage
   /// 公开action存储变量，无论是系统还是扩展的action最终需要注册到这里
-  static Map<String, YZDynamicActionHandler> _publicActionHandlers = {};
+  static Map<String, YZDynamicActionHandler>? _publicActionHandlers = {};
   static bool isPageExitHandlersMounted = false;
 
   /// Global variable storage
   /// 全局变量
-  static Map<String, dynamic> _globalActionHandlers = {};
+  static Map<String, dynamic>? _globalActionHandlers = {};
 
   /// Widget property adaptive interceptor
   /// Widget属性适配拦截器{"widgetName": (config){}}，可以对元件的配置属生拦截更改后并重新返回
   static Map<String, Map Function(Map)> _widgetConfigInterceptor = {};  
 
   static addGlobalVariable(String k, dynamic v) {
-    _globalActionHandlers[k] = v;
+    _globalActionHandlers![k] = v;
   }
 
   static dynamic getGlobalVariable(String k) {
-    return _globalActionHandlers[k];
+    return _globalActionHandlers![k];
   }
 
-  static void setGlobalVariable(List<String> subvariables, dynamic assinment) {
+  static void setGlobalVariable(List<String>? subvariables, dynamic? assinment) {
     if (subvariables == null || subvariables.isEmpty) return;
 
-    Map _variables;
+    Map? _variables;
     int _start = 0;
 
     _variables = _globalActionHandlers;
 
-    if (_variables == null || !(_variables is Map)) return;
+   YZDynamicCommon.setValueToMapByKeychain(_variables, subvariables, _start, assinment);
+  }
 
-    int len = subvariables.length;
-    for (var i = _start; i < len; i++) {
-      String key = subvariables[i];
+  /// 按照字典键链赋值(如k1.k2.k3赋值'xx')，则结果{"k1":{"k2":{"k3":'xx'}}}
+  static void setValueToMapByKeychain(Map? storage, List<String> keychains, int start, dynamic value) {
+    if (storage == null || storage is! Map) return;
 
-      if (i == len - 1) {
-        _variables[key] = assinment;
-        break;
-      }
-
-      dynamic _value = _variables[key];
-      if (_value == null) {
-        _value = {};
+    //寻找存储字典并赋值
+    int len = keychains.length;
+    dynamic _value;
+    for (var i = start; i < len; i++) {
+      String key = keychains[i];
+      
+      if (i == start) {                
+        if (i == len - 1) {
+          storage[key] = value;
+          break;
+        } else { //进入下一个循前准备好存储字典
+          if (storage[key] == null || storage[key] is! Map) {
+            storage[key] = {};
+          }
+          _value = storage[key];
+        }      
       } else {
-        if (!(_value is Map)) {
-          _value = {};
-        }
-      }
-      _variables = _value;
+        if (i == len - 1) {
+          _value[key] = value;
+          break;
+        } else { //进入下一个循前准备好存储字典
+          if (_value[key] == null || _value[key] is! Map) {
+            _value[key] = {};
+          }          
+        }        
+      } 
+
     }
   }
 
-  static addWidgetConfigInterceptor(String k,  Function(Map) v) {
+  static addWidgetConfigInterceptor(String k,  Map Function(Map) v) {
     if (_widgetConfigInterceptor[k] != null) {
       assert(_widgetConfigInterceptor[k] == null, "Error: The interceptor of \"$k\" widget has been exist!");
       return;
@@ -89,23 +103,35 @@ class YZDynamicCommon {
   }  
 
   ///Build widget
-  static Widget buildWidget(Map json, {Key key, BuildContext context}) {
+  static Widget? buildWidget(Map? json, {Key? key, BuildContext? context}) {
     if (json == null) return null;
-    YZDynamicBasicWidgetHandler handler = _widgetHandlers[json['widgetName']];
-    if (handler == null) return null;
-    Function interceptor = _widgetConfigInterceptor[json['widgetName']];
-    if (interceptor != null){
-      json = interceptor(json);
+    if (json['xInterceptor'] != false) {
+      Function? interceptor = _widgetConfigInterceptor[json['widgetName']];
+      if (interceptor != null){
+        //不再进行二次拦截
+        json['xInterceptor'] = false;          
+        json = interceptor(json);       
+      }    
     }
+    YZDynamicBasicWidgetHandler? handler = _widgetHandlers[json!['widgetName']];
+    if (handler == null) return null;
     if (key == null) {
       key = json['xKeyObj'];
     }
-    return handler.build(json, key: key, buildContext: context);
+    
+    Widget widget = handler.build(json, key: key, buildContext: context);
+
+    //渲染完后恢复原数据模型
+    if (json['xInterceptor'] == false) {
+      json.remove('xInterceptor');
+    }
+
+    return widget;
   }
 
   ///It should register widget handler, because flutter don't support reflect,
   ///因为flutter不支持反射，所以只能先注册能用的句柄
-  static reginsterWidgetHandler(YZDynamicBasicWidgetHandler handler) {
+  static reginsterWidgetHandler(YZDynamicBasicWidgetHandler? handler) {
     if (handler == null) return;
 
     _widgetHandlers[handler.widgetName] = handler;
@@ -117,15 +143,15 @@ class YZDynamicCommon {
     if (YZDynamicCommon.isSysWidgetHandlersMounted) return;
     YZDynamicCommon.isSysWidgetHandlersMounted = true;
 
-    for (Object item in yzAllDynamicWidgetHandlers) {
+    for (YZDynamicBasicWidgetHandler item in yzAllDynamicWidgetHandlers) {
       YZDynamicCommon.reginsterWidgetHandler(item);
     }
   }
 
   ///Get system public action by actionName
   ///获取系统公开action
-  static YZDynamicActionHandler publicActionHandler(String actionName) {
-    return _publicActionHandlers[actionName];
+  static YZDynamicActionHandler? publicActionHandler(String actionName) {
+    return _publicActionHandlers![actionName];
   }
 
   ///Register system public action handler. Engine will find the handler for the actionName in register pool.
@@ -134,24 +160,24 @@ class YZDynamicCommon {
     if (YZDynamicCommon.isPageExitHandlersMounted) return;
     YZDynamicCommon.isPageExitHandlersMounted = true;
 
-    for (Object item in yzAllDynamicExitHandlers) {
+    for (YZDynamicActionHandler item in yzAllDynamicExitHandlers) {
       YZDynamicCommon.reginsterPublicActionHandler(item);
     }
   }
 
   ///It should register public action handler, Because flutter don't support reflect,
   ///扩展注册public action的句柄，当用户自定义public action时需要注册才能被dsl配置识别
-  static reginsterPublicActionHandler(YZDynamicActionHandler handler) {
+  static reginsterPublicActionHandler(YZDynamicActionHandler? handler) {
     if (handler == null) return;
 
-    assert(_publicActionHandlers[handler.actionName] == null,
+    assert(_publicActionHandlers![handler.actionName] == null,
         'Warning: There is a handle in pool with the same name!');
-    _publicActionHandlers[handler.actionName] = handler;
+    _publicActionHandlers![handler.actionName!] = handler;
   }
 
   ///获取所有表单元素内容
   ///Get all page widget value
-  static List<YZDynamicPageResult> getAllWidgetValues(BuildContext context) {
+  static List<YZDynamicPageResult>? getAllWidgetValues(BuildContext context) {
     return YZDynamicBasePage.getAllWidgetValues(context);
   }
 
@@ -159,14 +185,14 @@ class YZDynamicCommon {
   ///analysis the given value, supporting constant/variable/code/action/``
   ///num/int/double/String/bool/List/Map/ regard as action:xxx
   static String analysisValue(String valueBody,
-      {State state, BuildContext context, Map localVariables}) {
+      {State? state, BuildContext? context, Map? localVariables}) {
     String trimValueBody = valueBody.trim();
     return YZDynamicVariableUtil.getValueOfVariable(trimValueBody,
         state: state, context: context, localVariables: localVariables);
   }
 
   ///adapt dsl edgeInset to the flutter EdgeInsets [left, top, right, bottom]或left, top, right, bottom
-  static EdgeInsets edgeInsetAdapter(dynamic edgeInsetRaW) {
+  static EdgeInsets? edgeInsetAdapter(dynamic edgeInsetRaW) {
     EdgeInsets edgeInset;
     if (edgeInsetRaW == null || edgeInsetRaW.isEmpty) {
       return null;
@@ -177,10 +203,8 @@ class YZDynamicCommon {
       if (edgeInsetRaW.startsWith('[')) {
         edgeInsetList = jsonDecode(edgeInsetRaW);
       } else {
-        List l = edgeInsetRaW?.trim()?.split(',');
+        List<String> l = edgeInsetRaW.trim().split(',');
         edgeInsetList = l;
-        print('Error: edgeInset format is not valided');
-        return null;
       }
     } else if (edgeInsetRaW is List) {
       edgeInsetList = edgeInsetRaW;
@@ -204,28 +228,28 @@ class YZDynamicCommon {
     }
 
     edgeInset = EdgeInsets.fromLTRB(
-        YZDynamicCommon.parseDouble(edgeInsetList[0]),
-        YZDynamicCommon.parseDouble(edgeInsetList[1]),
-        YZDynamicCommon.parseDouble(edgeInsetList[2]),
-        YZDynamicCommon.parseDouble(edgeInsetList[3]));
+        YZDynamicCommon.parseDouble(edgeInsetList[0])!,
+        YZDynamicCommon.parseDouble(edgeInsetList[1])!,
+        YZDynamicCommon.parseDouble(edgeInsetList[2])!,
+        YZDynamicCommon.parseDouble(edgeInsetList[3])!);
 
     return edgeInset;
   }
 
-  static double parseDouble(dynamic v) {
+  static double? parseDouble(dynamic v) {
     if (v == null) return null;
-    num _v = v as num;
-    return _v.toDouble();
+    num? _v = (v is num) ? v : (num.tryParse(v));
+    return _v?.toDouble();
   }
 
-  static int parseInt(dynamic v) {
+  static int? parseInt(dynamic v) {
     if (v == null) return null;
     num _v = v as num;
     return _v.toInt();
   }
 
-  static Map dynamicToMap(dynamic raw) {
-    Map resultMap;
+  static Map? dynamicToMap(dynamic? raw) {
+    Map? resultMap;
     if (raw != null) {
       if (raw is Map) {
         resultMap = raw;
@@ -236,17 +260,24 @@ class YZDynamicCommon {
     if (resultMap != null && resultMap['widgetName'] != null) {
       String type = resultMap['props']['type'];
       resultMap = resultMap['props'];
-      resultMap['type'] = type;
+      resultMap!['type'] = type;
     }
     return resultMap;
   }
 
-  static List dynamicToList(dynamic raw) {
+  static List? dynamicToList(dynamic? raw) {
     if (raw != null) {
       if (raw is List) {
         return raw;
-      } else if ((raw is String) && raw.startsWith('[')) {
-        return json.decode(raw);
+      } else if (raw is String) {
+        if (raw.startsWith('[')) {
+          return jsonDecode(raw);
+        } else {
+          List? l = raw.trim().split(',');
+          if (l.length >= 4) {
+            return [double.parse(l[0]), double.parse(l[1]), double.parse(l[2]), double.parse(l[3])];
+          }
+        }        
       }
     }
     return null;

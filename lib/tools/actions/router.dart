@@ -9,17 +9,16 @@ part of '../action.dart';
 
 class YZRouterPopHandler extends YZDynamicPublicActionHandler{
   @override
-  void action(BuildContext context, {
-      Map params, 
-      YZDynamicRequest request,
-      List<YZDynamicActionRule> rules,
-      Map localVariables,
-      State state,
+  void action(BuildContext? context, {
+      Map? params, 
+      YZDynamicRequest? request,
+      List<YZDynamicActionRule>? rules,
+      Map? localVariables,
+      State? state,
     }) {
     print('xAction: YZPagePopHandler Router.pop');
 
-    assert(context != null, 'Then param context should not be null!');
-
+    if (context == null) return; 
     Navigator.of(context).pop();
   }
 

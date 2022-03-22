@@ -19,48 +19,54 @@ import '../model/page_config.dart';
 class YZDynamicBasePage extends StatefulWidget {
   //页面参数
   //Page config
-  final YZDynamicPageTemplateConfig pageConfig;
+  final YZDynamicPageTemplateConfig? pageConfig;
 
   //入参 YZDynamicVariable 里的name对应{}里的引用变量
   //Entrance variables. The name in YZDynamicVariable is corresponding to the {variable}
-  final YZDynamicPagePreConfig preConfig;
+  final YZDynamicPagePreConfig? preConfig;
 
   YZDynamicBasePage({this.pageConfig, this.preConfig});
 
-  static YZDynamicBaseState of(BuildContext context) {
-    final YZDynamicBaseState state =
+  static YZDynamicBaseState? of(BuildContext context) {
+    final YZDynamicBaseState? state =
         context.findAncestorStateOfType<YZDynamicBaseState>();
     return state;
   }
 
   ///获取某个表单元素的State
   ///Get xKey widget's state
-  static YZDynamicWidgetBasicState widgetStateOf(
-      BuildContext context, String xKey) {
-    YZDynamicBaseState state = YZDynamicBasePage.of(context);
-    dynamic gKey = state.widgets[xKey];
+  static YZDynamicWidgetBasicState? widgetStateOf(
+      BuildContext? context, String? xKey) {
+    YZDynamicBaseState? state = YZDynamicBasePage.of(context!);
+    dynamic gKey = state!.widgets[xKey];
     if ((gKey is GlobalKey) &&
         (gKey.currentState is YZDynamicWidgetBasicState)) {
-      return gKey.currentState;
+      return gKey.currentState as YZDynamicWidgetBasicState;
     }
     return null;
   }
 
   ///获取页面的action
   ///Get page action
-  static YZDynamicActionConfig pageActionOf(
-      BuildContext context, String actionName,
-      [String xKey]) {
-    YZDynamicBaseState state = YZDynamicBasePage.of(context);
+  static YZDynamicActionConfig? pageActionOf(
+      BuildContext context, String? actionName,
+      {String? xKey, State? state}) {
+    YZDynamicBaseState? _state = YZDynamicBasePage.of(context) ?? (state as YZDynamicBaseState);
     if (actionName == null || actionName.isEmpty) return null;
 
-    YZDynamicActionConfig action;
+    YZDynamicActionConfig? action;
     //支持targetKey.actionName查找
     if (xKey != null) {
-      action = state.actions["$xKey.$actionName"];
+      action = _state.actions!["$xKey.$actionName"];      
+      if (action == null) {
+        action = _state.actions![actionName];
+        if (action?.targetKey == xKey) {
+          return action;
+        }
+      }
     }
     if (action == null) {
-      action = state.actions[actionName];
+      action = _state.actions![actionName];
     }
     if (xKey != null && action?.targetKey != xKey) {
       return null;
@@ -71,16 +77,16 @@ class YZDynamicBasePage extends StatefulWidget {
 
   ///获取所有表单元素所有内容
   ///Get all page widget value
-  static List<YZDynamicPageResult> getAllWidgetValues(BuildContext context) {
+  static List<YZDynamicPageResult>? getAllWidgetValues(BuildContext context) {
     List<YZDynamicPageResult> result = [];
 
-    YZDynamicBaseState state = YZDynamicBasePage.of(context);
-    Map<String, dynamic> widgets = state.widgets;
-    widgets.forEach((String key, dynamic value) {
+    YZDynamicBaseState? state = YZDynamicBasePage.of(context);
+    Map<String, dynamic>? widgets = state?.widgets;
+    widgets?.forEach((String key, dynamic value) {
       if (value is GlobalKey<YZDynamicWidgetBasicState>) {
         GlobalKey<YZDynamicWidgetBasicState> gKey = value;
-        YZDynamicWidgetBasicState state = gKey.currentState;
-        if (state?.isFormField == true) {
+        YZDynamicWidgetBasicState state = gKey.currentState as YZDynamicWidgetBasicState;
+        if (state.isFormField == true) {
           result.add(YZDynamicPageResult(
               xKey: key, value: state.value, properties: state.properties));
         }
@@ -92,113 +98,100 @@ class YZDynamicBasePage extends StatefulWidget {
 
   /// 获取某个变量值；查找范围是g/p/w（全局/页面/控件），如果dsl以<p:variableName>标识，则获取页面级变量，如果<w:variableName>则获取控件值，如果<scope:variableName>内是<scope:xxx.xxx>则表示按对象逐级查找，如果找到类型是Map则允许继续查找否则停止查找，如 Object.SomeObject/Object.Map[]
   /// Get variable which scope is g/p/w（global/page/widget）；If variable mark with <p:>, it is for page variable, or <w:> for the widget value. If <scope:variableName> is occupied by <scope:xxx.xx>, find by object pattern. It can continue when the result found is map or stop.
-  static dynamic getVariable(BuildContext context, String name,
-      {YZDynamicVariableType type = YZDynamicVariableType.page, State state}) {
+  static dynamic getVariable(BuildContext? context, String? name,
+      {YZDynamicVariableType type = YZDynamicVariableType.page, State? state}) {
     context ??= state?.context;
     if (type == YZDynamicVariableType.widget) {
-      YZDynamicBaseState _state = YZDynamicBasePage.of(context);
-      Map<String, dynamic> widgets = _state.widgets;
+      YZDynamicBaseState? _state = YZDynamicBasePage.of(context!);
+      Map<String, dynamic> widgets = _state!.widgets;
       dynamic widget = widgets[name];
 
       if (widget != null && (widget is GlobalKey<YZDynamicWidgetBasicState>)) {
         GlobalKey<YZDynamicWidgetBasicState> gKey = widget;
-        YZDynamicWidgetBasicState state = gKey.currentState;
+        YZDynamicWidgetBasicState? state = gKey.currentState;
         return state?.value;
       }
     } else if (type == YZDynamicVariableType.widgetProperties) {
-      YZDynamicBaseState _state = YZDynamicBasePage.of(context);
-      Map<String, dynamic> widgets = _state.widgets;
+      YZDynamicBaseState? _state = YZDynamicBasePage.of(context!);
+      Map<String, dynamic> widgets = _state!.widgets;
       dynamic widget = widgets[name];
 
       if (widget != null && (widget is GlobalKey<YZDynamicWidgetBasicState>)) {
         GlobalKey<YZDynamicWidgetBasicState> gKey = widget;
-        YZDynamicWidgetBasicState state = gKey.currentState;
+        YZDynamicWidgetBasicState? state = gKey.currentState;
         return state?.properties;
       }
     } else {
-      YZDynamicBaseState _state;
+      YZDynamicBaseState? _state;
       if (state is YZDynamicBaseState) {
         _state = state;
       } else {
-        _state = YZDynamicBasePage.of(context);
+        _state = YZDynamicBasePage.of(context!);
       }
-      Map variables = _state.properties;
-      return variables[name];
+      Map? variables = _state!.properties;
+      return variables![name];
     }
 
     return null;
   }
 
   static void setVariable(
-      BuildContext context, List<String> subvariables, dynamic assinment,
-      [YZDynamicVariableType type = YZDynamicVariableType.page, State state]) {
+      BuildContext context, List<String>? subvariables, dynamic assinment,
+      [YZDynamicVariableType type = YZDynamicVariableType.page, State? state]) {
     if (subvariables == null || subvariables.isEmpty) return;
 
-    Map _variables;
+    Map? _variables;
     int _start = 0;
     if (type == YZDynamicVariableType.widget) {
       String targetKey = subvariables[0];
-      YZDynamicBaseState state = YZDynamicBasePage.of(context);
-      Map<String, dynamic> widgets = state.widgets;
+      YZDynamicBaseState? state = YZDynamicBasePage.of(context);
+      Map<String, dynamic> widgets = state!.widgets;
       dynamic widget = widgets[targetKey];
 
       if (widget != null && (widget is GlobalKey<YZDynamicWidgetBasicState>)) {
         GlobalKey<YZDynamicWidgetBasicState> gKey = widget;
-        YZDynamicWidgetBasicState state = gKey.currentState;
-        state.value = assinment;
+        YZDynamicWidgetBasicState? state = gKey.currentState;
+        state!.value = assinment;
       }
       return;
     } else if (type == YZDynamicVariableType.widgetProperties) {
       if (subvariables.length < 2) return;
-      _start = 1;
+      _start = 1; //从下标为0时对应的是targetKey
 
       String targetKey = subvariables[0];
-      YZDynamicBaseState state = YZDynamicBasePage.of(context);
-      Map<String, dynamic> widgets = state.widgets;
+      YZDynamicBaseState? state = YZDynamicBasePage.of(context);
+      Map<String, dynamic> widgets = state!.widgets;
       dynamic widget = widgets[targetKey];
 
       if (widget != null && (widget is GlobalKey<YZDynamicWidgetBasicState>)) {
         GlobalKey<YZDynamicWidgetBasicState> gKey = widget;
-        YZDynamicWidgetBasicState state = gKey.currentState;
+        YZDynamicWidgetBasicState state = gKey.currentState as YZDynamicWidgetBasicState;
 
-        _variables = state?.properties;
+        _variables = state.properties;
       }
     } else {
-      // YZDynamicBaseState state = YZDynamicBasePage.of(context);
-
-      _variables = (state as YZDynamicBaseState).properties;
+      if (state is YZDynamicBaseState) {
+        _variables = state.properties;
+      } else if (state is YZDynamicWidgetBasicState) {
+        YZDynamicBaseState? _state = YZDynamicBasePage.of(state.context);
+        _variables = _state!.properties;
+      }
     }
 
-    if (_variables == null || !(_variables is Map)) return;
+    YZDynamicCommon.setValueToMapByKeychain(_variables, subvariables, _start, assinment);
 
-    int len = subvariables.length;
-    for (var i = _start; i < len; i++) {
-      String key = subvariables[i];
-
-      if (i == len - 1) {
-        _variables[key] = assinment;
-        break;
-      }
-
-      dynamic _value = _variables[key];
-      if (_value == null) {
-        _value = {};
-      } else {
-        if (!(_value is Map)) {
-          _value = {};
-        }
-      }
-      _variables = _value;
-    }
   }
 
   @override
-  State<StatefulWidget> createState() => null;
+  State<StatefulWidget> createState() {
+    throw UnimplementedError();
+  }
+
 }
 
 ///The basic page state
 class YZDynamicBaseState<T extends YZDynamicBasePage> extends State<T> {
-  YZDynamicPageTemplateConfig pageConfig;
+  YZDynamicPageTemplateConfig? pageConfig;
 
   /*
    * Widget private actions
@@ -206,20 +199,21 @@ class YZDynamicBaseState<T extends YZDynamicBasePage> extends State<T> {
    * Params shoud include a "value" key if exist
    * 如果有参数，则必须包含一个值
    */
-  Map<String, YZDynamicActionConfig> actions = {};
+  Map<String, YZDynamicActionConfig>? actions = {};
 
   /*
    * Page private actions 
    * 页面私有的事件方法实现
    */
-  Map<String, YZDynamicActionFunction> actionFunctions = {};
+  Map<String, YZDynamicActionFunction>? actionFunctions = {};
 
   ///需要把事件的实现方法注册到[actionFunctions]并定义一个对应的name，否则配置将无法调用相应的事件实现
   ///You should register page action on [actionFunctions] with a name, or it wouldn't invoke when called
   ///子类产现需要调用super.registerActions();
   ///Implimentation of sub class should call super.registerActions();
   void registerActions() {
-    actionFunctions['refresh'] = refresh;
+    actionFunctions!['setState'] = refresh;
+    actionFunctions!['refresh'] = refresh; //兼容防非旧版本
   }
 
   /// Store the widget of page
@@ -229,22 +223,22 @@ class YZDynamicBaseState<T extends YZDynamicBasePage> extends State<T> {
   Map<String, dynamic> widgets = {};
 
   void registerWidgets(String xKey, dynamic obj) {
-    if (xKey == null || obj == null) return;
+    if (obj == null) return;
     if (widgets[xKey] != null) return;
     widgets[xKey] = obj;
   }
 
   void unRegisterWidgets() {
-    widgets?.forEach((key, gkey) {
+    widgets.forEach((key, gkey) {
       if (gkey is GlobalKey) {
-        gkey?.currentState?.dispose();
+        gkey.currentState?.dispose();
       }
     }); 
   }  
 
   /// 存储入参的地方，方便控件或页面使用的时候查找
   /// Store the class variable for using by widget or page
-  Map properties = {};
+  Map? properties = {};
 
   bool _isStateMouned = false;
 
@@ -258,19 +252,19 @@ class YZDynamicBaseState<T extends YZDynamicBasePage> extends State<T> {
     super.initState();
 
     pageConfig = widget.pageConfig;
-    dealParams(widget.preConfig?.params);
+    // dealParams(widget.preConfig?.params);
     dealPreActions(widget.preConfig?.actions);
 
-    Map xVar = pageConfig.xVar;
+    Map? xVar = pageConfig?.xVar;
     defineVariable(xVar);
 
-    if (pageConfig?.xActions != null) actions.addAll(pageConfig?.xActions);
+    if (pageConfig?.xActions != null) actions!.addAll(pageConfig!.xActions!);
 
     if (widget.preConfig?.initState != null) {
-      widget.preConfig?.initState();
+      widget.preConfig?.initState!();
     }
 
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       for (FrameCallback callback in _postFrameCallbacks) {
         callback(timeStamp);
       }
@@ -282,7 +276,7 @@ class YZDynamicBaseState<T extends YZDynamicBasePage> extends State<T> {
   @override
   void didChangeDependencies() {
     if (!_isStateMouned) {
-      dealLifecycleInitState(this, pageConfig?.state?.initState, context);
+      dealLifecycle(this, pageConfig?.state?.initState, context);
     }
 
     _isStateMouned = true;
@@ -292,16 +286,18 @@ class YZDynamicBaseState<T extends YZDynamicBasePage> extends State<T> {
 
   @override
   Widget build(BuildContext context) {
+    dealParams(widget.preConfig?.params);
+    
     if (widget.preConfig?.build != null) {
-      widget.preConfig?.build(context);
+      widget.preConfig?.build!(context);
     }
-    dealLifecycleInitState(this, pageConfig?.state?.build, context);
-    return null;
+    dealLifecycle(this, pageConfig?.state?.build, context);
+    return SizedBox();
   }
 
   @override
   void dispose() {
-    dealLifecycleInitState(this, pageConfig?.state?.dispose, context);
+    dealLifecycle(this, pageConfig?.state?.dispose, context);
     unRegisterWidgets();   
 
     super.dispose();    
@@ -315,9 +311,9 @@ class YZDynamicBaseState<T extends YZDynamicBasePage> extends State<T> {
 
   ///根据dsl预生成widget的key
   ///Generate widget key by dsl
-  void dealWidgetKey(Map w) {
+  void dealWidgetKey(Map? w) {
     if (w == null || !(w is Map)) return;
-    String xKey = w['xKey'];
+    String? xKey = w['xKey'];
     dynamic xKeyObj = w['xKeyObj'];
     if (xKey != null && xKey.isNotEmpty) {
       if (xKeyObj != null) {
@@ -329,14 +325,14 @@ class YZDynamicBaseState<T extends YZDynamicBasePage> extends State<T> {
       registerWidgets(xKey, xKeyObj);
     }
 
-    Map props = w['props'];
+    Map? props = w['props'];
     if (props != null && (props is Map)) {
-      Map child = props['child'];
+      Map? child = props['child'];
       if (child != null && (child is Map)) {
         dealWidgetKey(child);
       }
 
-      List children = props['children'];
+      List? children = props['children'];
       if (children != null && (children is List)) {
         children.forEach((element) {
           dealWidgetKey(element as Map);
@@ -347,51 +343,52 @@ class YZDynamicBaseState<T extends YZDynamicBasePage> extends State<T> {
 
   ///处理入参
   ///Deal the entrance variables
-  void dealParams(List<YZDynamicVariable> params) {
+  void dealParams(List<YZDynamicVariable>? params) {
     if (params == null) return;
     params.forEach((YZDynamicVariable param) {
-      properties[param.name] = param?.value;
+      properties![param.name] = param.value;
     });
   }
 
   ///处理入参action
   ///Deal the entrance action
-  void dealPreActions(List<YZDynamicActionHandler> actions) {
+  void dealPreActions(List<YZDynamicActionHandler>? actions) {
     if (actions == null) return;
     actions.forEach((YZDynamicActionHandler action) {
-      actionFunctions[action?.actionName] = action?.action;
+      actionFunctions![action.actionName!] = action.action;
     });
   }  
 
   ///处理DSL变量xVar
   ///Deal the DSL variables xVar
-  void defineVariable(Map json) {
+  void defineVariable(Map? json) {
     if (json == null) return;
     json.forEach((key, value) {
-      if (properties[key] != null) return;
-      properties[key] = YZDynamicVariableUtil.getValueOfVariable(value,
+      if (properties![key] != null) return;
+      properties![key] = YZDynamicVariableUtil.getValueOfVariable(value,
           state: this, context: context);
     });
   }
 
   ///处理页面生命周期 initState
   ///Deal page state initState
-  void dealLifecycleInitState(
-      YZDynamicBaseState state, List<YZDynamicActionConfig> acts,
-      [BuildContext context]) {
+  void dealLifecycle(
+      YZDynamicBaseState state, List<YZDynamicActionConfig>? acts,
+      [BuildContext? context]) {
     if (acts == null) return;
 
-    if (acts != null && acts.isNotEmpty) {
-      YZDynamicActionTool.triggerActions(this, acts);
+    if (acts.isNotEmpty) {
+      List<YZDynamicActionConfig>? _actions = YZDynamicActionTool.getFullfillActions(acts, this.actions, context, state);
+      YZDynamicActionTool.triggerActions(this, _actions);
     }
   }
 
-  refresh( BuildContext triggerContext, 
-      {Map<dynamic, dynamic> params,
-      YZDynamicRequest request,
-      List<YZDynamicActionRule> rules,
-      Map<dynamic, dynamic> localVariables,
-      State<StatefulWidget> state}) {
+  refresh( BuildContext? triggerContext, 
+      {Map<dynamic, dynamic>? params,
+      YZDynamicRequest? request,
+      List<YZDynamicActionRule>? rules,
+      Map<dynamic, dynamic>? localVariables,
+      State<StatefulWidget>? state}) {
     if (mounted) {
       setState(() {});
     }
@@ -399,9 +396,9 @@ class YZDynamicBaseState<T extends YZDynamicBasePage> extends State<T> {
 }
 
 class YZDynamicPageResult {
-  String xKey;
-  String value;
-  Map properties;
+  String? xKey;
+  String? value;
+  Map? properties;
 
   YZDynamicPageResult({this.xKey, this.value, this.properties});
 
@@ -430,29 +427,29 @@ class YZDynamicPagePreConfig {
 
   //入参 YZDynamicVariable 里的name对应{}里的引用变量
   //Entrance variables. The name in YZDynamicVariable is corresponding to the {variable}
-  List<YZDynamicVariable> params;
+  List<YZDynamicVariable>? params;
 
   //页面私有action
   //Page private action
-  List<YZDynamicPageActionHandler> actions;
+  List<YZDynamicPageActionHandler>? actions;
 
-  //进入页面前
+  //进入页面前【加载前】
   //Before entrance
   // Function beforeEntrance;
 
-  //初始化页面时
+  //初始化页面时【初始化完成后】
   //When initState
-  Function initState;
+  Function? initState;
 
-  //页面构建过程中
+  //页面创建程中【创建页面】
   //When page render
-  Function(BuildContext context) build;
+  Function(BuildContext context)? build;
 
-  //页面销毁时
+  //页面销毁时【离开页面前】
   //When page dispose
-  Function dispose;
+  Function? dispose;
 
-  //页面消失
+  //页面消失【离开页面后】
   //When page leave
   // Function afterLeave;
 

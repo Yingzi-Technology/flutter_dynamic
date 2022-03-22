@@ -19,7 +19,7 @@ class YZFlexibleHandler extends YZDynamicBasicWidgetHandler {
 
   @override
   Widget build(Map json,
-      {Key key, BuildContext buildContext}) {
+      {Key? key, BuildContext? buildContext}) {
     return _Builder(json, key: key);
   }
 }
@@ -27,7 +27,7 @@ class YZFlexibleHandler extends YZDynamicBasicWidgetHandler {
 class _Builder extends YZDynamicBaseWidget {
   final Map json;
 
-  _Builder(this.json, {Key key}) : super(json, key: key);
+  _Builder(this.json, {Key? key}) : super(json, key: key);
 
   @override
   _BuilderState createState() => _BuilderState();
@@ -45,17 +45,17 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
 
     //Deal with props / 处理控件属性
     YZFlexibleConfig props =
-        YZFlexibleConfig.fromJson(super.config.props) ?? {};
-    int _flex = YZDynamicWidgetUtils.intAdapter(props?.flex);
-    Widget _child = props.child == null
+        YZFlexibleConfig.fromJson(super.config?.props ?? {});
+    int? _flex = YZDynamicWidgetUtils.intAdapter(props.flex);
+    Widget? _child = props.child == null
         ? null
         : YZDynamicCommon.buildWidget(props.child, context: context);
 
     Flexible _subwidget =
-        Flexible(flex: _flex ?? 1, fit: FlexFit.loose, child: _child);
+        Flexible(flex: _flex ?? 1, fit: FlexFit.loose, child: _child!);
 
     //Deal with events / 处理事件
-    _widget = super.buildWithEvents(_subwidget, super.config.xEvents);
+    _widget = super.buildWithEvents(_subwidget, super.config?.xEvents);
 
     return _widget;
   }
@@ -66,12 +66,12 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
 
 /// The props of Flexible config
 class YZFlexibleConfig {
-  String flex;
-  Map child;
+  String? flex;
+  Map? child;
 
   YZFlexibleConfig({this.flex, this.child});
 
-  YZFlexibleConfig.fromJson(Map<dynamic, dynamic> json) {
+  YZFlexibleConfig.fromJson(Map<dynamic, dynamic>? json) {
     json ??= {};
     flex = json['flex'];
     child = json['child'];

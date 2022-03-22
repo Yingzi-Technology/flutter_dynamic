@@ -13,8 +13,8 @@ import 'model/page_config.dart';
 /// 用户自定义页面
 /// User customize page
 class YZDynamicCustomPage extends YZDynamicBasePage {
-  final YZDynamicPageTemplateConfig pageConfig;
-  final YZDynamicPagePreConfig preConfig;
+  final YZDynamicPageTemplateConfig? pageConfig;
+  final YZDynamicPagePreConfig? preConfig;
 
   YZDynamicCustomPage(this.pageConfig, {this.preConfig})
       : super(pageConfig: pageConfig, preConfig: preConfig);
@@ -25,7 +25,7 @@ class YZDynamicCustomPage extends YZDynamicBasePage {
 
 class _YZDynamicCustomPageState
     extends YZDynamicBaseState<YZDynamicCustomPage> {
-  Map _rootWidgetJson;
+  Map? _rootWidgetJson;
 
   @override
   void initState() {
@@ -33,8 +33,8 @@ class _YZDynamicCustomPageState
 
     _rootWidgetJson = widget.pageConfig?.rootWidget;
     if (_rootWidgetJson != null &&
-        _rootWidgetJson['widgetName'] == 'Scaffold') {
-      Map props = _rootWidgetJson['props'];
+        _rootWidgetJson!['widgetName'] == 'Scaffold') {
+      Map? props = _rootWidgetJson!['props'];
       if (props != null) {
         Map appBar = props['appBar'];
         dealWidgetKey(appBar);
@@ -55,7 +55,7 @@ class _YZDynamicCustomPageState
   Widget build(BuildContext context) {
     super.build(context);
 
-    Widget _rootWidget =
+    Widget? _rootWidget =
         YZDynamicCommon.buildWidget(_rootWidgetJson, context: context);
 
     assert(_rootWidget != null, 'Error: rootWidget can not be null! Do you mean formwidget?');

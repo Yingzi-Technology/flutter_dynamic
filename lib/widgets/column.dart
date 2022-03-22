@@ -18,7 +18,7 @@ class YZColumnHandler extends YZDynamicBasicWidgetHandler {
   String get widgetName => 'Column';
 
   @override
-  Widget build(Map json, {Key key, BuildContext buildContext}) {
+  Widget build(Map json, {Key? key, BuildContext? buildContext}) {
     return _Builder(json, key:key);
   }
   
@@ -28,7 +28,7 @@ class _Builder extends YZDynamicBaseWidget {
 
   final Map json;
 
-  _Builder(this.json, {Key key}): super(json, key: key);
+  _Builder(this.json, {Key? key}): super(json, key: key);
 
   @override
   _BuilderState createState() => _BuilderState();
@@ -46,20 +46,20 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
     Widget _widget;
 
     //Deal with props / 处理控件属性
-    YZColumnConfig props = YZColumnConfig.fromJson(super.config.props) ?? {};
-    MainAxisAlignment _mainAxisAlignment = YZDynamicWidgetUtils.mainAxisAlignmentAdapter(props.mainAxisAlignment);
-    MainAxisSize _mainAxisSize = YZDynamicWidgetUtils.mainAxisSizeAdapter(props.mainAxisSize);
-    CrossAxisAlignment _crossAxisAlignment = YZDynamicWidgetUtils.crossAxisAlignmentAdapter(props.crossAxisAlignment);
-    TextDirection _textDirection = YZDynamicWidgetUtils.textDirectionAdapter(props.textDirection);    
-    VerticalDirection _verticalDirection = YZDynamicWidgetUtils.verticalDirectionAdapter(props.verticalDirection);   
-    TextBaseline _textBaseline = YZDynamicWidgetUtils.textBaselineAdapter(props.textBaseline); 
-    List<Widget> _children;
-    if (props?.children != null) {
+    YZColumnConfig props = YZColumnConfig.fromJson(super.config?.props ?? {});
+    MainAxisAlignment? _mainAxisAlignment = YZDynamicWidgetUtils.mainAxisAlignmentAdapter(props.mainAxisAlignment);
+    MainAxisSize? _mainAxisSize = YZDynamicWidgetUtils.mainAxisSizeAdapter(props.mainAxisSize);
+    CrossAxisAlignment? _crossAxisAlignment = YZDynamicWidgetUtils.crossAxisAlignmentAdapter(props.crossAxisAlignment);
+    TextDirection? _textDirection = YZDynamicWidgetUtils.textDirectionAdapter(props.textDirection);    
+    VerticalDirection? _verticalDirection = YZDynamicWidgetUtils.verticalDirectionAdapter(props.verticalDirection);   
+    TextBaseline? _textBaseline = YZDynamicWidgetUtils.textBaselineAdapter(props.textBaseline); 
+    List<Widget>? _children;
+    if (props.children != null) {
       _children = [];
-      props?.children?.forEach((e) {
-        Widget _child = YZDynamicCommon.buildWidget(e, context: context);   
+      props.children?.forEach((e) {
+        Widget? _child = YZDynamicCommon.buildWidget(e, context: context);   
         if (_child == null)return;
-        _children.add(_child);        
+        _children!.add(_child);        
       });
     } 
 
@@ -70,11 +70,11 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
       textDirection: _textDirection,
       verticalDirection: _verticalDirection ?? VerticalDirection.down,
       textBaseline: _textBaseline,
-      children: _children,
+      children: _children!,
     );  
 
     //Deal with events / 处理事件
-    _widget = super.buildWithEvents(_subwidget, super.config.xEvents);
+    _widget = super.buildWithEvents(_subwidget, super.config?.xEvents);
 
     return _widget;
   }
@@ -88,13 +88,13 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
 
 /// The props of Column config
 class YZColumnConfig {
-  String mainAxisAlignment;
-  String mainAxisSize;
-  String crossAxisAlignment;
-  String textDirection;
-  String verticalDirection;
-  String textBaseline;
-  List<Map> children;
+  String? mainAxisAlignment;
+  String? mainAxisSize;
+  String? crossAxisAlignment;
+  String? textDirection;
+  String? verticalDirection;
+  String? textBaseline;
+  List<Map>? children;
 
   YZColumnConfig(
       {this.mainAxisAlignment,
@@ -105,7 +105,7 @@ class YZColumnConfig {
       this.textBaseline,
       this.children});
 
-  YZColumnConfig.fromJson(Map<dynamic, dynamic> json) {
+  YZColumnConfig.fromJson(Map<dynamic, dynamic>? json) {
     json ??= {};
     mainAxisAlignment = json['mainAxisAlignment'];
     mainAxisSize = json['mainAxisSize'];
@@ -114,9 +114,9 @@ class YZColumnConfig {
     verticalDirection = json['verticalDirection'];
     textBaseline = json['textBaseline'];
     if (json['children'] != null) {
-      children = new List<Map>();
+      children = <Map>[];
       json['children'].forEach((v) {
-        children.add(v);
+        children!.add(v);
       });
     }
   }

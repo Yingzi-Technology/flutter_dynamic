@@ -17,7 +17,7 @@ class YZStatefulWidgetHandler extends YZDynamicBasicWidgetHandler {
   String get widgetName => 'StatefulWidget';
 
   @override
-  Widget build(Map json, {Key key, BuildContext buildContext}) {
+  Widget build(Map json, {Key? key, BuildContext? buildContext}) {
     return _Builder(json, key:key);
   }
   
@@ -27,7 +27,7 @@ class _Builder extends YZDynamicBaseWidget {
 
   final Map json;
 
-  _Builder(this.json, {Key key}): super(json, key: key);
+  _Builder(this.json, {Key? key}): super(json, key: key);
 
   @override
   _BuilderState createState() => _BuilderState();
@@ -36,20 +36,20 @@ class _Builder extends YZDynamicBaseWidget {
 class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
 
   //Deal with props / 处理控件属性
-  YZStatefulWidgetConfig props;
+  late YZStatefulWidgetConfig props;
   
   @override
   void initState() {
     super.initState();
 
     //Deal with props / 处理控件属性
-    props = YZStatefulWidgetConfig.fromJson(super.config.props) ?? {};    
+    props = YZStatefulWidgetConfig.fromJson(super.config?.props ?? {});    
   }
 
   @override
   Widget build(BuildContext context) {
 
-    Widget _build = props.build == null ? null : YZDynamicCommon.buildWidget(props.build, context: context);    
+    Widget _build = props.build == null ? SizedBox() : YZDynamicCommon.buildWidget(props.build, context: context)!;    
     return _build;
 
   }
@@ -63,13 +63,13 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
 
 /// The props of StatefulWidget config
 class YZStatefulWidgetConfig {
-  Map build;
+  Map? build;
 
   YZStatefulWidgetConfig(
       {this.build
       });
 
-  YZStatefulWidgetConfig.fromJson(Map<dynamic, dynamic> json) {
+  YZStatefulWidgetConfig.fromJson(Map<dynamic, dynamic>? json) {
     json ??= {};
     build = json['build'];
   }

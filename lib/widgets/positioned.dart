@@ -18,7 +18,7 @@ class YZPositionedHandler extends YZDynamicBasicWidgetHandler {
 
   @override
   Widget build(Map json,
-      {Key key, BuildContext buildContext}) {
+      {Key? key, BuildContext? buildContext}) {
     return _Builder(json, key: key);
   }
 }
@@ -26,7 +26,7 @@ class YZPositionedHandler extends YZDynamicBasicWidgetHandler {
 class _Builder extends YZDynamicBaseWidget {
   final Map json;
 
-  _Builder(this.json, {Key key}) : super(json, key: key);
+  _Builder(this.json, {Key? key}) : super(json, key: key);
 
   @override
   _BuilderState createState() => _BuilderState();
@@ -34,22 +34,22 @@ class _Builder extends YZDynamicBaseWidget {
 
 class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
   //Deal with props / 处理控件属性
-  YZPositionedConfig props;
+  late YZPositionedConfig props;
 
-  double _left;
-  double _top;
-  double _right;
-  double _bottom;
-  double _width;
-  double _height;
-  Widget _child;
+  double? _left;
+  double? _top;
+  double? _right;
+  double? _bottom;
+  double? _width;
+  double? _height;
+  Widget? _child;
 
   @override
   void initState() {
     super.initState();
 
     //Deal with props / 处理控件属性
-    props = YZPositionedConfig.fromJson(super.config.props) ?? {};
+    props = YZPositionedConfig.fromJson(super.config?.props ?? {});
 
     _left = YZDynamicWidgetUtils.doubleAdapter(props.left);
     _top = YZDynamicWidgetUtils.doubleAdapter(props.top);
@@ -74,11 +74,11 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
       bottom: _bottom,
       width: _width,
       height: _height,
-      child: _child,
+      child: _child!,
     );
 
     //Deal with events / 处理事件
-    _widget = super.buildWithEvents(_subwidget, super.config.xEvents);
+    _widget = super.buildWithEvents(_subwidget, super.config?.xEvents);
 
     return _widget;
   }
@@ -92,13 +92,13 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
 
 /// The props of Positioned config
 class YZPositionedConfig {
-  String left;
-  String top;
-  String right;
-  String bottom;
-  String width;
-  String height;
-  Map child;
+  String? left;
+  String? top;
+  String? right;
+  String? bottom;
+  String? width;
+  String? height;
+  Map? child;
 
   YZPositionedConfig(
       {this.left,
@@ -109,7 +109,7 @@ class YZPositionedConfig {
       this.height,
       this.child});
 
-  YZPositionedConfig.fromJson(Map<dynamic, dynamic> json) {
+  YZPositionedConfig.fromJson(Map<dynamic, dynamic>? json) {
     json ??= {};
     left = json['left'];
     right = json['right'];

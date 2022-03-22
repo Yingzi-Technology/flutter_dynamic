@@ -2,7 +2,7 @@
  * @Author: yz.yujingzhou 
  * @Date: 2020-09-19 11:36:28 
  * @Last Modified by: yz.yujingzhou
- * @Last Modified time: 2020-12-01 14:34:32
+ * @Last Modified time: 2021-08-25 11:01:40
  * @desc 存放系统定义公共的actions，支持外部扩展
  */
 
@@ -34,15 +34,15 @@ const _YZDynamicKeyActionTag = r"num|int|double|String|bool|List|Map|Set|Sys";
 const _YZDynamicUserCodeActionTag = 'userCode:';
 
 typedef YZDynamicActionFunction = Function(
-  BuildContext triggerContext, 
+  BuildContext? triggerContext, 
   {
   // Widget value
   // Widget properties
-  Map params,
-  YZDynamicRequest request,
-  List<YZDynamicActionRule> rules,
-  Map localVariables, // Function scope variable
-  State state,
+  Map? params,
+  YZDynamicRequest? request,
+  List<YZDynamicActionRule>? rules,
+  Map? localVariables, // Function scope variable
+  State? state,
 });
 
 ///
@@ -57,33 +57,33 @@ enum YZDynamicActionHandlerType {
 abstract class YZDynamicActionHandler {
   // The action, The same as YZDynamicActionFunction
   dynamic action(
-    BuildContext triggerContext, {
-    Map params,
-    YZDynamicRequest request,
-    List<YZDynamicActionRule> rules,
-    Map localVariables,
-    State state,
+    BuildContext? triggerContext, {
+    Map? params,
+    YZDynamicRequest? request,
+    List<YZDynamicActionRule>? rules,
+    Map? localVariables,
+    State? state,
   });
 
   // The func. A simple action
-  dynamic func(Map params);
+  dynamic func(Map? params);
 
   // The userCode.
   dynamic userCode(
-    BuildContext triggerContext, {
-    String userCode,
-    Map localVariables,
-    State state,
+    BuildContext? triggerContext, {
+    String? userCode,
+    Map? localVariables,
+    State? state,
   });
 
   dynamic execute(
-    BuildContext context, {
-    Map params,
-    String userCode,
-    YZDynamicRequest request,
-    List<YZDynamicActionRule> rules,
-    Map localVariables,
-    State state,
+    BuildContext? context, {
+    Map? params,
+    String? userCode,
+    YZDynamicRequest? request,
+    List<YZDynamicActionRule>? rules,
+    Map? localVariables,
+    State? state,
   }) {
     if (actionType == YZDynamicActionHandlerType.action) {
       return this.action(
@@ -107,23 +107,23 @@ abstract class YZDynamicActionHandler {
   }
 
   // The handler name
-  YZDynamicActionHandlerType get actionType;
+  YZDynamicActionHandlerType? get actionType;
 
   // The action name
-  String get actionName;
+  String? get actionName;
 }
 
 // Define public action
 abstract class YZDynamicPublicActionHandler extends YZDynamicActionHandler {
   @override
-  dynamic func(Map params) {}
+  dynamic func(Map? params) {}
 
   @override
   dynamic userCode(
-    BuildContext context, {
-    String userCode,
-    Map localVariables,
-    State state,
+    BuildContext? context, {
+    String? userCode,
+    Map? localVariables,
+    State? state,
   }) {}
 
   @override
@@ -134,8 +134,8 @@ abstract class YZDynamicPublicActionHandler extends YZDynamicActionHandler {
 // Define the action passing to page
 class YZDynamicPageActionHandler extends YZDynamicPublicActionHandler {
 
-  final YZDynamicActionFunction entryAction;
-  final String entryActionName;
+  final YZDynamicActionFunction? entryAction;
+  final String? entryActionName;
 
   YZDynamicPageActionHandler({
     this.entryAction,
@@ -143,8 +143,8 @@ class YZDynamicPageActionHandler extends YZDynamicPublicActionHandler {
   });
 
   @override
-  action(BuildContext triggerContext, {Map params, YZDynamicRequest request, List<YZDynamicActionRule> rules, Map localVariables, State<StatefulWidget> state}) {
-    return entryAction(
+  action(BuildContext? triggerContext, {Map? params, YZDynamicRequest? request, List<YZDynamicActionRule>? rules, Map? localVariables, State<StatefulWidget>? state}) {
+    return entryAction!(
       triggerContext, 
       params: params,
       request: request,
@@ -155,7 +155,7 @@ class YZDynamicPageActionHandler extends YZDynamicPublicActionHandler {
   }
 
   @override
-  String get actionName => entryActionName;
+  String? get actionName => entryActionName;
 
 }
 
@@ -163,20 +163,20 @@ class YZDynamicPageActionHandler extends YZDynamicPublicActionHandler {
 abstract class YZDynamicSysActionHandler extends YZDynamicActionHandler {
   @override
   dynamic userCode(
-    BuildContext context, {
-    String userCode,
-    Map localVariables,
-    State state,
+    BuildContext? context, {
+    String? userCode,
+    Map? localVariables,
+    State? state,
   }) {}
 
   @override
   dynamic action(
-    BuildContext context, {
-    Map params,
-    YZDynamicRequest request,
-    List<YZDynamicActionRule> rules,
-    Map localVariables,
-    State state,
+    BuildContext? context, {
+    Map? params,
+    YZDynamicRequest? request,
+    List<YZDynamicActionRule>? rules,
+    Map? localVariables,
+    State? state,
   }) {}
 
   @override
@@ -185,16 +185,16 @@ abstract class YZDynamicSysActionHandler extends YZDynamicActionHandler {
 
 abstract class YZDynamicUserActionHandler extends YZDynamicActionHandler {
   @override
-  dynamic func(Map params) {}
+  dynamic func(Map? params) {}
 
   @override
   dynamic action(
-    BuildContext context, {
-    Map params,
-    YZDynamicRequest request,
-    List<YZDynamicActionRule> rules,
-    Map localVariables,
-    State state,
+    BuildContext? context, {
+    Map? params,
+    YZDynamicRequest? request,
+    List<YZDynamicActionRule>? rules,
+    Map? localVariables,
+    State? state,
   }) {}
 
   @override
@@ -210,13 +210,13 @@ enum YZDynamicWidgetActionType { handler, target }
 class YZDynamicActionTool {
   YZDynamicActionTool._();
 
-  static bool isAction(String action) {
+  static bool isAction(String? action) {
     if (action != null && action.trim().startsWith(_YZDynamicActionTag))
       return true;
     return false;
   }
 
-  static bool isKeyAction(String action) {
+  static bool isKeyAction(String? action) {
     if (action != null &&
         action.trim().startsWith(RegExp(_YZDynamicKeyActionTag))) return true;
     return false;
@@ -226,8 +226,8 @@ class YZDynamicActionTool {
   /// Anylize code action, such as assign value to variable. There are two action formats as json config and handlerVariable({params})->returnVariable
   /// params支持多个actions，用逗号分隔
   /// The params support multi-actions using comma separated.
-  static YZDynamicActionConfig anylizeAction(String actionStr,
-      {State state, Map localVariables}) {
+  static YZDynamicActionConfig? anylizeAction(String? actionStr,
+      {State? state, Map? localVariables}) {
     if (actionStr == null) return null;
 
     actionStr = actionStr.trim();
@@ -256,7 +256,7 @@ class YZDynamicActionTool {
   ///Anylize param's result which support constent/action/code
   ///triggerAction 前的预解释处理
   ///由于参数里有可能存在伪代码，所以不支持convertStringWithVariablePatten预解释文本
-  static void anylizeParams(Map params, {State state, Map localVariables}) {
+  static void anylizeParams(Map? params, {State? state, Map? localVariables}) {
     params?.updateAll((key, value) {
       if (!(value is String)) return value;
 
@@ -273,13 +273,13 @@ class YZDynamicActionTool {
         return result;
       } else if (YZDynamicActionTool.isAction(value) ||
           YZDynamicActionTool.isKeyAction(value)) {
-        YZDynamicActionConfig action = YZDynamicActionTool.anylizeAction(value,
+        YZDynamicActionConfig? action = YZDynamicActionTool.anylizeAction(value,
             state: state, localVariables: localVariables);
 
-        dynamic result = YZDynamicActionTool.triggerActions(state, [action],
+        dynamic? result = YZDynamicActionTool.triggerActions(state!, [action!],
             localVariables: localVariables);
         if (result != null && action.returnVariable != null) {
-          localVariables[action.returnVariable] = result;
+          localVariables![action.returnVariable] = result;
         }
         return result;
       }
@@ -290,29 +290,29 @@ class YZDynamicActionTool {
 
   //获取简单属性actions对应的actions，action有3个来源：控件本身、别的控件、公共区域
   //Get actions corresponding to the actions with simple properties. There are three source: Self DynamicWidget/Other DynamicWidget in page/Public DynamicWidget
-  static List<YZDynamicActionConfig> getActionsOfSimpleActions(
-      List<YZDynamicActionConfig> simpleActions,
-      Map<String, YZDynamicActionConfig> xActions,
-      [BuildContext context]) {
+  static List<YZDynamicActionConfig>? getFullfillActions(
+      List<YZDynamicActionConfig?>? simpleActions,
+      Map<String, YZDynamicActionConfig>? xActions,
+      [BuildContext? context, State? state]) {
     List<YZDynamicActionConfig> actions = [];
 
-    for (var m in simpleActions) {
+    for (var m in simpleActions!) {
       // execute code primarily
-      String code = m.code;
+      String? code = m?.code;
       if (code != null && code.isNotEmpty) {
-        actions.add(m);
+        actions.add(m!);
         continue;
       }
 
       //如果是target action
       //If target action of full config
-      if (m.targetKey != null && m.targetKey.isNotEmpty) {
-        String targetKey = m.targetKey;
-        YZDynamicWidgetBasicState targetState =
+      if (m!.targetKey != null && m.targetKey!.isNotEmpty) {
+        String? targetKey = m.targetKey;
+        YZDynamicWidgetBasicState? targetState =
             YZDynamicBasePage.widgetStateOf(context, targetKey);
         if (targetState == null) return null;
 
-        YZDynamicActionConfig act = targetState.actions[m.name];
+        YZDynamicActionConfig? act = targetState.actions[m.name];
         if (act != null) {
           //如果配置里有参数或请求配置，则重新生成一份action实例
           //Initialize a new instance if config action has params or request
@@ -326,8 +326,8 @@ class YZDynamicActionTool {
 
         //从页面上查找
         //Find action of full config in page
-        YZDynamicActionConfig pageAct =
-            YZDynamicBasePage.pageActionOf(context, m.name, targetKey);
+        YZDynamicActionConfig? pageAct =
+            YZDynamicBasePage.pageActionOf(context!, m.name, xKey: targetKey);
         if (pageAct != null) {
           if (m.params != null || m.request != null) {
             actions.add(m.fillFrom(pageAct));
@@ -343,7 +343,7 @@ class YZDynamicActionTool {
         //从本身查找
         //Find in self
         if (xActions != null) {
-          YZDynamicActionConfig act = xActions[m.name];
+          YZDynamicActionConfig? act = xActions[m.name];
           if (act != null) {
             if (m.params != null || m.request != null) {
               actions.add(m.fillFrom(act));
@@ -356,8 +356,8 @@ class YZDynamicActionTool {
 
         //从页面上查找
         //Find in page
-        YZDynamicActionConfig pageAct =
-            YZDynamicBasePage.pageActionOf(context, m.name);
+        YZDynamicActionConfig? pageAct =
+            YZDynamicBasePage.pageActionOf(context!, m.name, state: state);
         if (pageAct != null) {
           if (m.params != null || m.request != null) {
             actions.add(m.fillFrom(pageAct));
@@ -380,38 +380,60 @@ class YZDynamicActionTool {
 
     return actions;
   }
+  ///获取完整配置的action
+  static YZDynamicActionConfig? getFullfillAction(
+      State? state, YZDynamicActionConfig? action,
+      {BuildContext? context, Map? localVariables}) {
+        //定义了方法名称时认已经是完整的action不再往下处理
+        if (action?.actionName != null) return action;
+
+        Map<String, YZDynamicActionConfig>? xActions;
+        if ( state is YZDynamicWidgetBasicState) {
+          xActions = state.actions;
+        }
+        if (state is YZDynamicBaseState) {
+          xActions = state.actions;
+        }
+        List<YZDynamicActionConfig>? actions = getFullfillActions([action], xActions, state?.context);
+        if (actions != null && actions.isNotEmpty) return actions[0];
+
+        return action;
+    }  
 
   //触发action并执行。返回最后一个action的值
   //Trigger action and run. Return the last action's result
   static dynamic triggerActions<T>(
-      State state, List<YZDynamicActionConfig> actions,
-      {BuildContext context, Map localVariables}) {
-    dynamic retsult;
+      State? state, List<YZDynamicActionConfig>? actions,
+      {BuildContext? context, Map? localVariables}) {
+    dynamic result;
 
     if (actions != null && actions.isNotEmpty) {
       context ??= state?.context;
 
       for (YZDynamicActionConfig act in actions) {
-        YZDynamicActionConfig m = act;
-        anylizeParams(m?.params, state: state, localVariables: localVariables);
+        YZDynamicActionConfig m = getFullfillAction(state, act)!;
+        anylizeParams(m.params, state: state, localVariables: localVariables);
 
         // execute code primarily
-        String code = m.code;
+        String? code = m.code;
         if (code != null && code.isNotEmpty) {
-          retsult = YZDynamicCodeUtil.execute(code, state: state);
+          result = YZDynamicCodeUtil.execute(code, state: state);
+          if (m.returnVariable != null)
+            localVariables![m.returnVariable] = result;          
           continue;
         }
 
         ///Find action private first, if not found, finding public
         ///先在本地查找action，如果没有查找到则到全局的地方查找
-        if (m.targetKey != null && m.targetKey.isNotEmpty) {
-          String targetKey = m.targetKey;
-          YZDynamicWidgetBasicState targetState =
+        if (m.targetKey != null && m.targetKey!.isNotEmpty) {
+          String targetKey = m.targetKey!;
+          YZDynamicWidgetBasicState? targetState =
               YZDynamicBasePage.widgetStateOf(context, targetKey);
-          String actionName = m.actionName;
+          String? actionName = m.actionName!;
+          String? name = m.name;
           if (targetState?.actionFunctions != null &&
               targetState?.actionFunctions[actionName] != null) {
-            retsult = targetState.actionFunctions[actionName](
+            result = targetState!.actionFunctions[actionName]!(
               context,
               params: m.params,
               request: m.request,
@@ -421,7 +443,14 @@ class YZDynamicActionTool {
             );
 
             if (m.returnVariable != null)
-              localVariables[m.returnVariable] = retsult;
+              localVariables![m.returnVariable] = result;
+          } else if (targetState?.actions != null && targetState?.actions[name] != null) { //支持运行跨widget action code
+            String? actionCode = targetState!.actions[name]?.code;
+            if (actionCode != null && actionCode.isNotEmpty) {
+              result = YZDynamicCodeUtil.execute(actionCode, state: state);
+              if (m.returnVariable != null)
+                localVariables![m.returnVariable] = result;              
+            }           
           }
 
           continue;
@@ -429,13 +458,13 @@ class YZDynamicActionTool {
 
         ///Find and run action in widget
         ///在本地查widget查找执行
-        YZDynamicActionFunction actionFunc;
+        YZDynamicActionFunction? actionFunc;
         if (state is YZDynamicWidgetBasicState) {
-          String actionName = m.actionName;
+          String actionName = m.actionName!;
           actionFunc = state.actionFunctions[actionName];
         }
         if (actionFunc != null) {
-          retsult = actionFunc(
+          result = actionFunc(
             context,
             params: m.params,
             request: m.request,
@@ -444,20 +473,35 @@ class YZDynamicActionTool {
             localVariables: localVariables,
           );
           if (m.returnVariable != null)
-            localVariables[m.returnVariable] = retsult;
+            localVariables![m.returnVariable] = result;
           continue;
         }
 
+        ///Find and run action code in widget
+        ///在本地widget查找执行 action code
+        String? actionCode;
+        if (state is YZDynamicWidgetBasicState) {
+          String? name = m.name;
+          actionCode = state.actions[name]?.code;
+        }
+        if (actionCode != null && actionCode.isNotEmpty) {
+          result = YZDynamicCodeUtil.execute(actionCode, state: state);
+          if (m.returnVariable != null)
+            localVariables![m.returnVariable] = result;   
+          continue;           
+        }        
+
         ///Find and run action in page
         ///在页面查找执行
-        YZDynamicBaseState pageState = YZDynamicBasePage.of(context);
-        String actionName = m.actionName;
+        YZDynamicBaseState? pageState = YZDynamicBasePage.of(context!);
+        String? actionName = m.actionName;
+        String? name = m.name;
         if (pageState == null && state is YZDynamicBaseState) {
           pageState = state;
         }
         if (pageState?.actionFunctions != null &&
-            pageState?.actionFunctions[actionName] != null) {
-          retsult = pageState.actionFunctions[actionName](
+            pageState?.actionFunctions![actionName] != null) {
+          result = pageState!.actionFunctions![actionName]!(
             context,
             params: m.params,
             request: m.request,
@@ -466,18 +510,26 @@ class YZDynamicActionTool {
             localVariables: localVariables,
           );
           if (m.returnVariable != null)
-            localVariables[m.returnVariable] = retsult;
+            localVariables![m.returnVariable] = result;
           continue;
-        }
+        } else if (pageState?.actions != null && pageState!.actions![name] != null) { //支持运行页面 action code
+          String? actionCode = pageState.actions![name]?.code;
+          if (actionCode != null && actionCode.isNotEmpty) {
+            result = YZDynamicCodeUtil.execute(actionCode, state: state);
+            if (m.returnVariable != null)
+              localVariables![m.returnVariable] = result;    
+              continue;          
+          }          
+        }       
 
         ///Find and run action in global
         ///在公共区域查找执行
-        YZDynamicActionHandler handler =
-            YZDynamicCommon.publicActionHandler(actionName);
+        YZDynamicActionHandler? handler =
+            YZDynamicCommon.publicActionHandler(actionName!);
         assert(
             handler != null, 'Error: The handler "$actionName" was not found!');
         if (handler != null) {
-          retsult = handler?.execute(
+          result = handler.execute(
             context,
             params: m.params,
             userCode: m.userCode,
@@ -487,12 +539,12 @@ class YZDynamicActionTool {
             localVariables: localVariables,
           );
           if (m.returnVariable != null)
-            localVariables[m.returnVariable] = retsult;
+            localVariables![m.returnVariable] = result;
         }
       }
     }
 
-    return retsult;
+    return result;
   }
 }
 
@@ -502,18 +554,18 @@ class YZDynamicActionTool {
 * @handlerVariable 存放action句柄/The hanlder of action
 */
 class YZDynamicActionConfig {
-  YZDynamicWidgetActionType type; //公共的action还是组件的action，主要为了快速寻址
-  String name; //dsl action name
-  String actionName; //native actionName
-  String targetKey; // action 绑定的对象，通常为组件
-  String isAsync; //  是否异步，主要是为了声明方法调用是否需要回调
-  YZDynamicRequest request; // 数据请求参数
-  List<YZDynamicActionRule> rules; //校验规则参数，通常在方法开始时执行
-  Map params; // 普通参数，支持request和rules
-  String returnVariable; //action对应的funcion返回值存放的变量名
-  String handlerVariable; //action的句柄，用于别的action对本action的调用
-  String code; //code block
-  String userCode; // user code
+  YZDynamicWidgetActionType? type; //公共的action还是组件的action，主要为了快速寻址
+  String? name; //dsl action name
+  String? actionName; //native actionName
+  String? targetKey; // action 绑定的对象，通常为组件
+  String? isAsync; //  是否异步，主要是为了声明方法调用是否需要回调
+  YZDynamicRequest? request; // 数据请求参数
+  List<YZDynamicActionRule>? rules; //校验规则参数，通常在方法开始时执行
+  Map? params; // 普通参数，支持request和rules
+  String? returnVariable; //action对应的funcion返回值存放的变量名
+  String? handlerVariable; //action的句柄，用于别的action对本action的调用
+  String? code; //code block
+  String? userCode; // user code
 
   YZDynamicActionConfig({
     this.type,
@@ -566,12 +618,17 @@ class YZDynamicActionConfig {
         ? new YZDynamicRequest.fromJson(json['request'])
         : null;
     if (json['rules'] != null) {
-      rules = new List<YZDynamicActionRule>();
+      rules = <YZDynamicActionRule>[];
       json['rules'].forEach((v) {
-        rules.add(new YZDynamicActionRule.fromJson(v));
+        rules?.add(new YZDynamicActionRule.fromJson(v));
       });
     }
-    params = json['params'];
+    if (json['params'] is String) {
+      String _params = json['params'];
+      if (_params.isNotEmpty) params = jsonDecode(json['params']);
+    } else {
+      params = json['params'];
+    }    
     returnVariable = json['returnVariable'];
     handlerVariable = json['handlerVariable'];
     code = json['code'];
@@ -601,7 +658,7 @@ class YZDynamicActionConfig {
         List<String> params = paramRaw.split('&');
         params.forEach((kvStr) {
           List kvArr = kvStr.split('=');
-          this.params[kvArr[0]] = kvArr[1];
+          this.params![kvArr[0]] = kvArr[1];
         });
       }
     }
@@ -635,7 +692,7 @@ class YZDynamicActionConfig {
       }
       this.name = _name;
       this.actionName = _name;
-      assert(this.name.isNotEmpty, 'The action fun format is not valided!');
+      assert(this.name!.isNotEmpty, 'The action fun format is not valided!');
 
       String paramJson = bodyStr.substring(firstBracket + 1, lastBracket);
       if (paramJson.trim().isNotEmpty) {
@@ -646,10 +703,10 @@ class YZDynamicActionConfig {
             var param = paramList[i];
             var kv = param.split(RegExp(r"((?<!(var|\<[pwc])):)"));
             if (kv.length < 2) {
-              this.params[i] = kv[0];
+              this.params![i] = kv[0];
               continue;
             }
-            this.params[kv[0].trim()] = kv[1];
+            this.params![kv[0].trim()] = kv[1];
           }
         } else {
           this.params = json.decode(paramJson);

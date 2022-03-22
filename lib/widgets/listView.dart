@@ -19,7 +19,7 @@ class YZListViewHandler extends YZDynamicBasicWidgetHandler {
 
   @override
   Widget build(Map json,
-      {Key key, BuildContext buildContext}) {
+      {Key? key, BuildContext? buildContext}) {
     return _Builder(json, key: key);
   }
 }
@@ -27,7 +27,7 @@ class YZListViewHandler extends YZDynamicBasicWidgetHandler {
 class _Builder extends YZDynamicBaseWidget {
   final Map json;
 
-  _Builder(this.json, {Key key}) : super(json, key: key);
+  _Builder(this.json, {Key? key}) : super(json, key: key);
 
   @override
   _BuilderState createState() => _BuilderState();
@@ -45,28 +45,28 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
 
     //Deal with props / 处理控件属性
     YZListViewConfig props =
-        YZListViewConfig.fromJson(super.config.props) ?? {};
-    Axis _scrollDirection =
+        YZListViewConfig.fromJson(super.config?.props ?? {});
+    Axis? _scrollDirection =
         YZDynamicWidgetUtils.axisAdapter(props.scrollDirection);
-    bool _reverse = YZDynamicWidgetUtils.boolAdapter(props.reverse);
-    EdgeInsets _padding = YZDynamicWidgetUtils.edgeInsetAdapter(props.padding);
-    bool _primary = YZDynamicWidgetUtils.boolAdapter(props.primary);
+    bool? _reverse = YZDynamicWidgetUtils.boolAdapter(props.reverse);
+    EdgeInsets? _padding = YZDynamicWidgetUtils.edgeInsetAdapter(props.padding);
+    bool? _primary = YZDynamicWidgetUtils.boolAdapter(props.primary);
     ScrollController _controller = ScrollController();
-    bool _shrinkWrap = YZDynamicWidgetUtils.boolAdapter(props.shrinkWrap);
-    double _itemExtent = YZDynamicWidgetUtils.doubleAdapter(props.itemExtent);
-    DragStartBehavior _dragStartBehavior =
+    bool? _shrinkWrap = YZDynamicWidgetUtils.boolAdapter(props.shrinkWrap);
+    double? _itemExtent = YZDynamicWidgetUtils.doubleAdapter(props.itemExtent);
+    DragStartBehavior? _dragStartBehavior =
         dragStartBehaviorAdapter(props.dragStartBehavior);
-    Clip _clipBehavior =
+    Clip? _clipBehavior =
         YZDynamicWidgetUtils.clipBehaviorAdapter(props.clipBehavior);
-    String _restorationId = props.restorationId;
-    ScrollViewKeyboardDismissBehavior _keyboardDismissBehavior =
+    String? _restorationId = props.restorationId;
+    ScrollViewKeyboardDismissBehavior? _keyboardDismissBehavior =
         YZDynamicWidgetUtils.scrollViewKeyboardDismissBehaviorAdapter(
             props.keyboardDismissBehavior);
-    List<Widget> _children;
-    if (props?.children != null) {
+    late List<Widget> _children;
+    if (props.children != null) {
       _children = [];
-      props?.children?.forEach((e) {
-        Widget _child = YZDynamicCommon.buildWidget(e, context: context);
+      props.children?.forEach((e) {
+        Widget? _child = YZDynamicCommon.buildWidget(e, context: context);
         if (_child == null) return;
         _children.add(_child);
       });
@@ -95,7 +95,7 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
     );
 
     //Deal with events / 处理事件
-    _widget = super.buildWithEvents(_subwidget, super.config.xEvents);
+    _widget = super.buildWithEvents(_subwidget, super.config?.xEvents);
 
     return _widget;
   }
@@ -106,12 +106,12 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
     actionFunctions['setState'] = stateSetter;
   }
 
-  void stateSetter(BuildContext triggerContext, {
-    Map params,
-    YZDynamicRequest request,
-    List<YZDynamicActionRule> rules,
-    Map localVariables,
-    State state,
+  void stateSetter(BuildContext? triggerContext, {
+    Map? params,
+    YZDynamicRequest? request,
+    List<YZDynamicActionRule>? rules,
+    Map? localVariables,
+    State? state,
   }) {
     print('Execute xAction: ${this.runtimeType} stateSetter');
     if (mounted) {
@@ -120,8 +120,8 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
   }
 
   ///adapt dsl
-  static DragStartBehavior dragStartBehaviorAdapter(String str, {State state}) {
-    DragStartBehavior _ret;
+  static DragStartBehavior? dragStartBehaviorAdapter(String? str) {
+    DragStartBehavior? _ret;
     switch (str) {
       case 'down':
         _ret = DragStartBehavior.down;
@@ -138,19 +138,19 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
 
 /// The props of ListView config
 class YZListViewConfig {
-  String scrollDirection;
-  String reverse;
-  String padding;
-  String primary;
-  String physics;
-  String controller;
-  String shrinkWrap;
-  String itemExtent;
-  String dragStartBehavior;
-  String clipBehavior;
-  String restorationId;
-  String keyboardDismissBehavior;
-  List<Map> children;
+  String? scrollDirection;
+  String? reverse;
+  String? padding;
+  String? primary;
+  String? physics;
+  String? controller;
+  String? shrinkWrap;
+  String? itemExtent;
+  String? dragStartBehavior;
+  String? clipBehavior;
+  String? restorationId;
+  String? keyboardDismissBehavior;
+  List<Map>? children;
 
   YZListViewConfig(
       {this.scrollDirection,
@@ -167,7 +167,7 @@ class YZListViewConfig {
       this.keyboardDismissBehavior,
       this.children});
 
-  YZListViewConfig.fromJson(Map<dynamic, dynamic> json) {
+  YZListViewConfig.fromJson(Map<dynamic, dynamic>? json) {
     json ??= {};
     scrollDirection = json['scrollDirection'];
     reverse = json['reverse'];
@@ -185,7 +185,7 @@ class YZListViewConfig {
     if (json['children'] != null) {
       children = [];
       json['children'].forEach((v) {
-        children.add(v);
+        children!.add(v);
       });
     }
   }

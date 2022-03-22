@@ -19,7 +19,7 @@ class YZStackHandler extends YZDynamicBasicWidgetHandler {
 
   @override
   Widget build(Map json,
-      {Key key, BuildContext buildContext}) {
+      {Key? key, BuildContext? buildContext}) {
     return _Builder(json, key: key);
   }
 }
@@ -27,7 +27,7 @@ class YZStackHandler extends YZDynamicBasicWidgetHandler {
 class _Builder extends YZDynamicBaseWidget {
   final Map json;
 
-  _Builder(this.json, {Key key}) : super(json, key: key);
+  _Builder(this.json, {Key? key}) : super(json, key: key);
 
   @override
   _BuilderState createState() => _BuilderState();
@@ -44,19 +44,18 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
     Widget _widget;
 
     //Deal with props / 处理控件属性
-    YZStackConfig props = YZStackConfig.fromJson(super.config.props) ?? {};
+    YZStackConfig props = YZStackConfig.fromJson(super.config?.props ?? {});
 
-    AlignmentGeometry _alignment =
-        YZDynamicWidgetUtils.alignmentAdapter(props?.alignment);
-    TextDirection _textDirection =
+    AlignmentGeometry? _alignment =
+        YZDynamicWidgetUtils.alignmentAdapter(props.alignment);
+    TextDirection? _textDirection =
         YZDynamicWidgetUtils.textDirectionAdapter(props.textDirection);
-    StackFit _fit = YZDynamicWidgetUtils.stackFitAdapter(props.fit);
-    Overflow _overflow = YZDynamicWidgetUtils.overflowAdapter(props.overflow);
-    List<Widget> _children;
-    if (props?.children != null) {
+    StackFit? _fit = YZDynamicWidgetUtils.stackFitAdapter(props.fit);
+    late List<Widget> _children;
+    if (props.children != null) {
       _children = [];
-      props?.children?.forEach((e) {
-        Widget _child = YZDynamicCommon.buildWidget(e, context: context);
+      props.children?.forEach((e) {
+        Widget? _child = YZDynamicCommon.buildWidget(e, context: context);
         if (_child == null) return;
         _children.add(_child);
       });
@@ -66,13 +65,12 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
       alignment: _alignment ?? AlignmentDirectional.topStart,
       textDirection: _textDirection,
       fit: _fit ?? StackFit.loose,
-      overflow: _overflow ?? Overflow.clip,
       clipBehavior: Clip.hardEdge,
       children: _children,
     );
 
     //Deal with events / 处理事件
-    _widget = super.buildWithEvents(_subwidget, super.config.xEvents);
+    _widget = super.buildWithEvents(_subwidget, super.config?.xEvents);
 
     return _widget;
   }
@@ -86,11 +84,11 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
 
 /// The props of Stack config
 class YZStackConfig {
-  String alignment;
-  String textDirection;
-  String fit;
-  String overflow;
-  List<Map> children;
+  String? alignment;
+  String? textDirection;
+  String? fit;
+  String? overflow;
+  List<Map>? children;
 
   YZStackConfig(
       {this.alignment,
@@ -99,16 +97,16 @@ class YZStackConfig {
       this.overflow,
       this.children});
 
-  YZStackConfig.fromJson(Map<dynamic, dynamic> json) {
+  YZStackConfig.fromJson(Map<dynamic, dynamic>? json) {
     json ??= {};
     alignment = json['alignment'];
     textDirection = json['textDirection'];
     fit = json['fit'];
     overflow = json['overflow'];
     if (json['children'] != null) {
-      children = new List<Map>();
+      children = <Map>[];
       json['children'].forEach((v) {
-        children.add(v);
+        children!.add(v);
       });
     }
   }

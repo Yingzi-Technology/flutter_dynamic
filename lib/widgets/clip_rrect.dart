@@ -19,7 +19,7 @@ class YZClipRRectHandler extends YZDynamicBasicWidgetHandler {
 
   @override
   Widget build(Map json,
-      {Key key, BuildContext buildContext}) {
+      {Key? key, BuildContext? buildContext}) {
     return _Builder(json, key: key);
   }
 }
@@ -27,24 +27,24 @@ class YZClipRRectHandler extends YZDynamicBasicWidgetHandler {
 class _Builder extends YZDynamicBaseWidget {
   final Map json;
 
-  _Builder(this.json, {Key key}) : super(json, key: key);
+  _Builder(this.json, {Key? key}) : super(json, key: key);
 
   @override
   _BuilderState createState() => _BuilderState();
 }
 
 class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
-  YZClipRRectConfig props;
-  BorderRadius _borderRadius;
-  Clip _clipBehavior;
-  Widget _child;
+  late YZClipRRectConfig props;
+  BorderRadius? _borderRadius;
+  Clip? _clipBehavior;
+  Widget? _child;
 
   @override
   void initState() {
     super.initState();
 
     //Deal with props / 处理控件属性
-    props = YZClipRRectConfig.fromJson(super.config.props) ?? {};
+    props = YZClipRRectConfig.fromJson(super.config?.props ?? {});
     _clipBehavior =
         YZDynamicWidgetUtils.clipBehaviorAdapter(props.clipBehavior);
     _borderRadius =
@@ -65,7 +65,7 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
     );
 
     //Deal with events / 处理事件
-    _widget = super.buildWithEvents(_subwidget, super.config.xEvents);
+    _widget = super.buildWithEvents(_subwidget, super.config?.xEvents);
 
     return _widget;
   }
@@ -79,13 +79,13 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
 
 /// The props of Wrap config
 class YZClipRRectConfig {
-  Map borderRadius;
-  String clipBehavior;
-  Map child;
+  Map? borderRadius;
+  String? clipBehavior;
+  Map? child;
 
   YZClipRRectConfig({this.borderRadius, this.clipBehavior, this.child});
 
-  YZClipRRectConfig.fromJson(Map<dynamic, dynamic> json) {
+  YZClipRRectConfig.fromJson(Map<dynamic, dynamic>? json) {
     json ??= {};
     borderRadius = json['borderRadius'];
     clipBehavior = json['clipBehavior'];

@@ -18,7 +18,7 @@ class YZDividerHandler extends YZDynamicBasicWidgetHandler {
 
   @override
   Widget build(Map json,
-      {Key key, BuildContext buildContext}) {
+      {Key? key, BuildContext? buildContext}) {
     return _Builder(json, key: key);
   }
 }
@@ -26,27 +26,27 @@ class YZDividerHandler extends YZDynamicBasicWidgetHandler {
 class _Builder extends YZDynamicBaseWidget {
   final Map json;
 
-  _Builder(this.json, {Key key}) : super(json, key: key);
+  _Builder(this.json, {Key? key}) : super(json, key: key);
 
   @override
   _BuilderState createState() => _BuilderState();
 }
 
 class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
-  YZDividerConfig props;
+  late YZDividerConfig props;
 
-  double _thickness;
-  double _height;
-  double _indent;
-  double _endIndent;
-  Color _color;
+  double? _thickness;
+  double? _height;
+  double? _indent;
+  double? _endIndent;
+  Color? _color;
 
   @override
   void initState() {
     super.initState();
 
     //Deal with props / 处理控件属性
-    props = YZDividerConfig.fromJson(super.config.props) ?? {};
+    props = YZDividerConfig.fromJson(super.config?.props ?? {});
     _color = YZDynamicWidgetUtils.colorAdapter(props.color);
     _height = YZDynamicWidgetUtils.doubleAdapter(props.height);
     _thickness = YZDynamicWidgetUtils.doubleAdapter(props.thickness);
@@ -67,7 +67,7 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
     );
 
     //Deal with events / 处理事件
-    _widget = super.buildWithEvents(_subwidget, super.config.xEvents);
+    _widget = super.buildWithEvents(_subwidget, super.config?.xEvents);
 
     return _widget;
   }
@@ -80,16 +80,16 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
 }
 
 class YZDividerConfig {
-  String color;
-  String height;
-  String thickness;
-  String indent;
-  String endIndent;
+  String? color;
+  String? height;
+  String? thickness;
+  String? indent;
+  String? endIndent;
 
   YZDividerConfig(
       {this.color, this.height, this.thickness, this.endIndent, this.indent});
 
-  YZDividerConfig.fromJson(Map<dynamic, dynamic> json) {
+  YZDividerConfig.fromJson(Map<dynamic, dynamic>? json) {
     json ??= {};
     color = json['color'];
     height = json['height'];

@@ -17,7 +17,7 @@ part of '../action.dart';
 //action:Set(value, value1, value2)->returnValue. PS: trans to action:Set({"0": "value", "1": "value1"})->returnValue
 class YZSetHandler extends YZDynamicSysActionHandler{
   @override
-  Set func(Map params) {
+  Set? func(Map? params) {
     Set result = {};
     params?.forEach((key, value) {
       result.add(value);
@@ -38,12 +38,12 @@ class YZSetContainsHandler extends YZIterableContainsHandler{
 
 class YZSetAddHandler extends YZDynamicSysActionHandler{
   @override
-  dynamic func(Map params) {
+  dynamic? func(Map? params) {
 
     if (params == null || params['target'] == null ) return null;
-    Set target = (params['target'] is Set) ? params['target'] : null;
+    Set? target = (params['target'] is Set) ? params['target'] : null;
 
-    if (params == null || params['value'] == null ) return null;
+    if (params['value'] == null ) return null;
     dynamic value = params['value'];
     
     return target?.add(value);
@@ -57,12 +57,12 @@ class YZSetAddHandler extends YZDynamicSysActionHandler{
 
 class YZSetAddAllHandler extends YZDynamicSysActionHandler{
   @override
-  dynamic func(Map params) {
+  dynamic? func(Map? params) {
 
     if (params == null || params['target'] == null ) return null;
-    Set target = (params['target'] is Set) ? params['target'] : null;
+    Set? target = (params['target'] is Set) ? params['target'] : null;
 
-    if (params == null || params['value'] == null ) return null;
+    if (params['value'] == null ) return null;
     dynamic value = params['value'];
     
     return target?.addAll(value);
@@ -76,12 +76,12 @@ class YZSetAddAllHandler extends YZDynamicSysActionHandler{
 
 class YZSetRemoveHandler extends YZDynamicSysActionHandler{
   @override
-  bool func(Map params) {
+  bool? func(Map? params) {
 
     if (params == null) return null;
     
-    Set target = (params['target'] is Set) ? params['target'] : null;
-    String value = params['value']?.toString();
+    Set? target = (params['target'] is Set) ? params['target'] : null;
+    String? value = params['value']?.toString();
     
     return target?.remove(value);
 
@@ -95,12 +95,12 @@ class YZSetRemoveHandler extends YZDynamicSysActionHandler{
 // 按对象查询，返回查询到的对象
 class YZSetLookupHandler extends YZDynamicSysActionHandler{
   @override
-  dynamic func(Map params) {
+  dynamic? func(Map? params) {
 
     if (params == null) return null;
     
-    Set target = (params['target'] is Set) ? params['target'] : null;
-    String value = params['value']?.toString();
+    Set? target = (params['target'] is Set) ? params['target'] : null;
+    String? value = params['value']?.toString();
     
     return target?.lookup(value);
 
@@ -114,10 +114,10 @@ class YZSetLookupHandler extends YZDynamicSysActionHandler{
 // 从集合中删除 elements 对象里的每一个元素
 class YZSetRemoveALlHandler extends YZDynamicSysActionHandler{
   @override
-  void func(Map params) {
+  void func(Map? params) {
     if (params == null) return null;
-    Set target = (params['target'] is Set) ? params['target'] : null;
-    Iterable value = (params['value'] is Iterable) ? params['value'] : null;
+    Set? target = (params['target'] is Set) ? params['target'] : null;
+    Iterable value = params['value'] as Iterable;
     target?.removeAll(value);
   }
 
@@ -129,10 +129,10 @@ class YZSetRemoveALlHandler extends YZDynamicSysActionHandler{
 // 如果集合中含有 elements 中的元素，则保留，否则删除
 class YZSetRetainALlHandler extends YZDynamicSysActionHandler{
   @override
-  void func(Map params) {
+  void func(Map? params) {
     if (params == null) return null;
-    Set target = (params['target'] is Set) ? params['target'] : null;
-    Iterable value = (params['value'] is Iterable) ? params['value'] : null;
+    Set? target = (params['target'] is Set) ? params['target'] : null;
+    Iterable value = params['value'] as Iterable;
     return target?.retainAll(value);
   }
 
@@ -144,12 +144,12 @@ class YZSetRetainALlHandler extends YZDynamicSysActionHandler{
 // 集合中是否包含 other 中的所有元素，是则返回 true，否则返回 false
 class YZSetContainsAllHandler extends YZDynamicSysActionHandler{
   @override
-  bool func(Map params) {
+  bool? func(Map? params) {
 
     if (params == null) return null;
     
-    Set target = (params['target'] is Set) ? params['target'] : null;
-    Iterable value = (params['value'] is Iterable) ? params['value'] : null;
+    Set? target = (params['target'] is Set) ? params['target'] : null;
+    Iterable value = params['value'] as Iterable;
     
     return target?.containsAll(value);
 
@@ -163,12 +163,12 @@ class YZSetContainsAllHandler extends YZDynamicSysActionHandler{
 // 交集
 class YZSetIntersectionAllHandler extends YZDynamicSysActionHandler{
   @override
-  Set func(Map params) {
+  Set? func(Map? params) {
 
     if (params == null) return null;
     
-    Set target = (params['target'] is Set) ? params['target'] : null;
-    Set value = (params['value'] is Set) ? params['value'] : null;
+    Set? target = (params['target'] is Set) ? params['target'] : null;
+    Set value = params['value'] as Set;
     
     return target?.intersection(value);
 
@@ -182,12 +182,12 @@ class YZSetIntersectionAllHandler extends YZDynamicSysActionHandler{
 // 并集
 class YZSetUnionHandler extends YZDynamicSysActionHandler{
   @override
-  Set func(Map params) {
+  Set? func(Map? params) {
 
     if (params == null) return null;
     
-    Set target = (params['target'] is Set) ? params['target'] : null;
-    Set value = (params['value'] is Set) ? params['value'] : null;
+    Set? target = (params['target'] is Set) ? params['target'] : null;
+    Set value = params['value'] as Set;
     
     return target?.union(value);
 
@@ -201,12 +201,12 @@ class YZSetUnionHandler extends YZDynamicSysActionHandler{
 // 差集
 class YZSetDifferenceHandler extends YZDynamicSysActionHandler{
   @override
-  Set func(Map params) {
+  Set? func(Map? params) {
 
     if (params == null) return null;
     
-    Set target = (params['target'] is Set) ? params['target'] : null;
-    Set value = (params['value'] is Set) ? params['value'] : null;
+    Set? target = (params['target'] is Set) ? params['target'] : null;
+    Set value = params['value'] as Set;
     
     return target?.difference(value);
 
@@ -219,10 +219,10 @@ class YZSetDifferenceHandler extends YZDynamicSysActionHandler{
 
 class YZSetClearHandler extends YZDynamicSysActionHandler{
   @override
-  void func(Map params) {
+  void func(Map? params) {
 
     if (params == null || params['target'] == null ) return null;
-    Set target = (params['target'] is Set) ? params['target'] : null;
+    Set? target = (params['target'] is Set) ? params['target'] : null;
     
     target?.clear();
 
@@ -313,9 +313,9 @@ class YZSetToStringHandler extends YZIterableToStringHandler {
 // checked by yjz
 class YZSetIteratorHandler extends YZDynamicSysActionHandler{
   @override
-  dynamic func(Map params) {
+  dynamic? func(Map? params) {
     if (params == null || params['target'] == null ) return null;
-    Set target = (params['target'] is Set) ? params['target'] : null;
+    Set? target = (params['target'] is Set) ? params['target'] : null;
     return target?.iterator;
   }
 
@@ -329,7 +329,7 @@ class YZSetFromHandler extends YZDynamicSysActionHandler {
   String get actionName => 'Set.from';
 
   @override
-  dynamic func(Map params) {
+  dynamic? func(Map? params) {
     if(params == null || params['elements'] == null) return null; 
     dynamic elements = (params['elements'] is Iterable) ? params['elements'] : null;
     return Set.from(elements);
@@ -342,7 +342,7 @@ class YZSetOfHandler extends YZDynamicSysActionHandler {
   String get actionName => 'Set.of';
 
   @override
-  dynamic func(Map params) {
+  dynamic? func(Map? params) {
     if(params == null || params['elements'] == null) return null; 
     dynamic elements = (params['elements'] is Iterable) ? params['elements'] : null;
     return Set.of(elements);
@@ -355,7 +355,7 @@ class YZSetIdentityHandler extends YZDynamicSysActionHandler {
   String get actionName => 'Set.identity';
 
   @override
-  dynamic func(Map params) {
+  dynamic? func(Map? params) {
     return Set.identity();
   }
 }

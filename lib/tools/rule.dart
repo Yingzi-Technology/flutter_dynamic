@@ -20,21 +20,21 @@ class YZDynamicRuleUtil {
   /// 支持简写格式(code)：rule:targetKey|reg|tip->returnVariable|
   /// Support simple format(code): rule:targetKey|reg|tip->returnVariable|
   static bool validate(        
-    List<YZDynamicActionRule> rules,     
+    List<YZDynamicActionRule?>? rules,     
     {
-      String value, 
-      State state,
-      Function(int, String) callback
+      String? value, 
+      State? state,
+      Function(int?, String?)? callback
     }
   ) {
 
     if (rules != null && (rules is List)) {
       for (var i = 0; i < rules.length; i++) {
         var rule = rules[i];
-        if (rule.reg == null) return true;
+        if (rule?.reg == null) return true;
 
         //临时方案，简写放在reg字段里了
-        if (rule.reg.startsWith(_YZDynamicRuleTag)) {
+        if (rule!.reg!.startsWith(_YZDynamicRuleTag)) {
           rule = anylizeCodeRule(rule.reg);
         } else if (YZDynamicCodeUtil.isCode(rule.reg)) {
           bool ret = YZDynamicCodeUtil.execute(rule.reg, state: state);
@@ -45,14 +45,14 @@ class YZDynamicRuleUtil {
           }
         }        
 
-        if (rule.targetKey != null && rule.targetKey.isNotEmpty) {
+        if (rule!.targetKey != null && rule.targetKey!.isNotEmpty) {
           assert(state != null, "Error: context con't be null");
           if (state != null) {
             value = YZDynamicBasePage.getVariable(state.context, rule.targetKey, type:YZDynamicVariableType.widget);
           }          
         }
 
-        RegExp regExp = RegExp(rule.reg);
+        RegExp regExp = RegExp(rule.reg!);
         bool isMatch = regExp.hasMatch(value??'');
         if (isMatch != true) {
           if (callback != null) {
@@ -66,7 +66,7 @@ class YZDynamicRuleUtil {
     return true;
   }
 
-  static YZDynamicActionRule anylizeCodeRule(String codeRule, {State state, Map localVariables}) {
+  static YZDynamicActionRule? anylizeCodeRule(String? codeRule, {State? state, Map? localVariables}) {
 
     if (codeRule == null) return null;
 
@@ -97,13 +97,13 @@ class YZDynamicRuleUtil {
 }
 
 class  YZDynamicActionRule {
-  String targetKey;
-  String name;
-  String reg;
-  String tip;
-  YZDynamicRequest request;
-  String code;
-  String returnVariable;
+  String? targetKey;
+  String? name;
+  String? reg;
+  String? tip;
+  YZDynamicRequest? request;
+  String? code;
+  String? returnVariable;
 
    YZDynamicActionRule({this.targetKey, this.name, this.reg, this.tip, this.request, this.code, this.returnVariable});
 

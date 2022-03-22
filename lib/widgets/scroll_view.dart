@@ -19,7 +19,7 @@ class YZSingleChildScrollViewHandler extends YZDynamicBasicWidgetHandler {
   String get widgetName => 'SingleChildScrollView';
 
   @override
-  Widget build(Map json, {Key key, BuildContext buildContext}) {
+  Widget build(Map json, {Key? key, BuildContext? buildContext}) {
     return _Builder(json, key:key);
   }
   
@@ -29,7 +29,7 @@ class _Builder extends YZDynamicBaseWidget {
 
   final Map json;
 
-  _Builder(this.json, {Key key}): super(json, key: key);
+  _Builder(this.json, {Key? key}): super(json, key: key);
 
   @override
   _BuilderState createState() => _BuilderState();
@@ -47,16 +47,16 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
     Widget _widget;
 
     //Deal with props / 处理控件属性
-    YZSingleChildScrollViewConfig props = YZSingleChildScrollViewConfig.fromJson(super.config.props) ?? {};
-    Axis _scrollDirection = YZDynamicWidgetUtils.axisAdapter(props.scrollDirection);
-    bool _reverse = YZDynamicWidgetUtils.boolAdapter(props.reverse);
-    bool _primary = YZDynamicWidgetUtils.boolAdapter(props.primary);
+    YZSingleChildScrollViewConfig props = YZSingleChildScrollViewConfig.fromJson(super.config?.props ?? {});
+    Axis? _scrollDirection = YZDynamicWidgetUtils.axisAdapter(props.scrollDirection);
+    bool? _reverse = YZDynamicWidgetUtils.boolAdapter(props.reverse);
+    bool? _primary = YZDynamicWidgetUtils.boolAdapter(props.primary);
     ScrollController _controller = ScrollController();
-    DragStartBehavior _dragStartBehavior = dragStartBehaviorAdapter(props.dragStartBehavior);
-    EdgeInsets _padding = YZDynamicWidgetUtils.edgeInsetAdapter(props.padding);
-    Clip _clipBehavior = YZDynamicWidgetUtils.clipBehaviorAdapter(props.clipBehavior);
-    String _restorationId = props.restorationId;
-    Widget _child = props.child == null ? null : YZDynamicCommon.buildWidget(props.child, context: context);
+    DragStartBehavior? _dragStartBehavior = dragStartBehaviorAdapter(props.dragStartBehavior);
+    EdgeInsets? _padding = YZDynamicWidgetUtils.edgeInsetAdapter(props.padding);
+    Clip? _clipBehavior = YZDynamicWidgetUtils.clipBehaviorAdapter(props.clipBehavior);
+    String? _restorationId = props.restorationId;
+    Widget? _child = props.child == null ? null : YZDynamicCommon.buildWidget(props.child, context: context);
 
     SingleChildScrollView _subwidget = SingleChildScrollView(
       scrollDirection: _scrollDirection ?? Axis.vertical,
@@ -72,7 +72,7 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
     );  
 
     //Deal with events / 处理事件
-    _widget = super.buildWithEvents(_subwidget, super.config.xEvents);
+    _widget = super.buildWithEvents(_subwidget, super.config?.xEvents);
 
     return _widget;
   }
@@ -82,9 +82,9 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
   }
 
   ///adapt dsl
-  static DragStartBehavior dragStartBehaviorAdapter(String str, {State state}){    
+  static DragStartBehavior? dragStartBehaviorAdapter(String? str){    
 
-    DragStartBehavior _ret;
+    DragStartBehavior? _ret;
     switch (str) {
       case 'down':
         _ret = DragStartBehavior.down; 
@@ -103,16 +103,16 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
 
 /// The props of SingleChildScrollView config
 class YZSingleChildScrollViewConfig {
-  String scrollDirection;
-  String reverse;
-  String padding;
-  String primary;
-  String physics;
-  String controller;
-  String dragStartBehavior;
-  String clipBehavior;
-  String restorationId;
-  Map child;
+  String? scrollDirection;
+  String? reverse;
+  String? padding;
+  String? primary;
+  String? physics;
+  String? controller;
+  String? dragStartBehavior;
+  String? clipBehavior;
+  String? restorationId;
+  Map? child;
 
   YZSingleChildScrollViewConfig(
       {this.scrollDirection,
@@ -126,7 +126,7 @@ class YZSingleChildScrollViewConfig {
       this.restorationId,
       this.child});
 
-  YZSingleChildScrollViewConfig.fromJson(Map<dynamic, dynamic> json) {
+  YZSingleChildScrollViewConfig.fromJson(Map<dynamic, dynamic>? json) {
     json ??= {};
     scrollDirection = json['scrollDirection'];
     reverse = json['reverse'];

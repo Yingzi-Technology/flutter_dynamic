@@ -16,9 +16,9 @@ import 'event.dart';
 
 abstract class YZDynamicBaseWidget extends StatefulWidget {
 
-  final Map json;
+  final Map? json;
 
-  YZDynamicBaseWidget(this.json, {Key key}): super(key: key);
+  YZDynamicBaseWidget(this.json, {Key? key}): super(key: key);
 }
 
 abstract class YZDynamicWidgetBasicState<T extends YZDynamicBaseWidget> 
@@ -26,7 +26,7 @@ abstract class YZDynamicWidgetBasicState<T extends YZDynamicBaseWidget>
   with YZDynamicWidgetEventServer, YZDynamicWidgetActionServer, YZDynamicWidgetDataServer
   implements YZDynamicWidgetEvent {
 
-  YZDynamicWidgetConfig config;
+  YZDynamicWidgetConfig? config;
   
   /*
    * Widget private actions
@@ -58,26 +58,26 @@ abstract class YZDynamicWidgetBasicState<T extends YZDynamicBaseWidget>
    * 存储事件对应的code
    * Store actions corresponding to event
    */
-  Map<String, String> codeOfEvent = {};
+  Map<String, String?> codeOfEvent = {};
 
   /*
    * The widget identity，it is equal to formfield name
    * 控件的唯一标识，如果是表单元素想着于fromefield name，即请求参数key的值
    */
-  String xKey;
+  String? xKey;
 
   /*
    * If the widget is formfield. For the page collect the value if true or not
    * 控件是否表单元素，如果true则页面会收集其value，否则不会收集
    */
-  bool isFormField;
+  bool? isFormField;
 
   /*
    * The widget general value, such as [TextField] input value
    * 控件产生的值，如 [TextField] 的输入值 
    * Look [actionFunctions] Function()
    */
-  String value;
+  String? value;
 
   /*
    * The widget general properties info，such as the variable offering for other widget
@@ -93,14 +93,16 @@ abstract class YZDynamicWidgetBasicState<T extends YZDynamicBaseWidget>
     super.initState();
 
     config = YZDynamicWidgetConfig.fromJson(widget.json);    
-    this.xKey = config.xKey;
-    this.isFormField = config.isFormField == "true" ? true : false;
+    this.xKey = config?.xKey;
+    this.isFormField = config?.isFormField == "true" ? true : false;
 
-    Map xVar = config.xVar;
+    Map? xVar = config?.xVar;
     defineVariable(xVar);
 
-    Map<String, YZDynamicActionConfig> _actions = config?.xActions?.map((key, value) {
-      value.targetKey = xKey;
+    Map<String, YZDynamicActionConfig>? _actions = config?.xActions?.map((key, value) {
+      // if (value.targetKey == null || value.targetKey.isEmpty) {
+      //   value.targetKey = xKey;
+      // }      
       return MapEntry(key, value);
     });
     if (_actions != null) {
@@ -114,14 +116,14 @@ abstract class YZDynamicWidgetBasicState<T extends YZDynamicBaseWidget>
 
   @override
   Widget build(BuildContext context) {     
-    dealLifecycleInitState(this, config?.state?.build, context); 
-    return null;
+    dealLifecycle(this, config?.state?.build, context); 
+    return SizedBox();
   }  
 
   @override
   void didChangeDependencies() {
     if (!_isStateMouned) {
-      dealLifecycleInitState(this, config?.state?.initState, context);
+      dealLifecycle(this, config?.state?.initState, context);
     }
 
     _isStateMouned = true;
@@ -131,28 +133,29 @@ abstract class YZDynamicWidgetBasicState<T extends YZDynamicBaseWidget>
 
   @override
   void dispose() {
-    dealLifecycleInitState(this, config?.state?.dispose, context);
+    dealLifecycle(this, config?.state?.dispose, context);
 
     super.dispose();    
   }
 
   ///处理页面生命周期 initState
   ///Deal page state initState
-  void dealLifecycleInitState(YZDynamicWidgetBasicState state, List<YZDynamicActionConfig> acts, [BuildContext context]) {
-    if (acts != null && acts.isNotEmpty) {    
-      YZDynamicActionTool.triggerActions(this, acts);
+  void dealLifecycle(YZDynamicWidgetBasicState? state, List<YZDynamicActionConfig>? acts, [BuildContext? context]) {
+    if (acts != null && acts.isNotEmpty) {   
+      List<YZDynamicActionConfig>? _actions = YZDynamicActionTool.getFullfillActions(acts, this.actions, context);
+      YZDynamicActionTool.triggerActions(this, _actions);
     }
 
   }  
 
   void _dealEvent() {
 
-    List<dynamic> _xEvents = config.xEvents;
+    List<dynamic>? _xEvents = config?.xEvents;
 
     _xEvents?.forEach((ejson) {
       if (ejson is Map) {
         YZDynamicWidgetEventConfig e = YZDynamicWidgetEventConfig.fromJson(ejson);
-        String name = e.name;
+        String? name = e.name;
 
         _dealActionsOfEvent(e.eventType, name);
         _dealCodeOfEvent(e.eventType, name);   
@@ -162,9 +165,9 @@ abstract class YZDynamicWidgetBasicState<T extends YZDynamicBaseWidget>
 
   //处理事件对应actions
   //Deal with actions corresponding to event
-  void _dealActionsOfEvent(YZDynamicWidgetEventType eventType, [String name]) {
+  void _dealActionsOfEvent(YZDynamicWidgetEventType? eventType, [String? name]) {
 
-    List<YZDynamicActionConfig> clickActions = super.getActionsOfEvent(context, eventType, name, config.xEvents, this.actions);
+    List<YZDynamicActionConfig>? clickActions = super.getActionsOfEvent(context, eventType, name, config?.xEvents, this.actions);
     if (clickActions == null || clickActions.isEmpty) {
       return;
     }
@@ -175,16 +178,16 @@ abstract class YZDynamicWidgetBasicState<T extends YZDynamicBaseWidget>
 
   //处理事件对应code
   //Deal with code corresponding to event
-  void _dealCodeOfEvent(YZDynamicWidgetEventType eventType, [String name]) {
+  void _dealCodeOfEvent(YZDynamicWidgetEventType? eventType, [String? name]) {
 
-    List<dynamic> _xEvents = config.xEvents;
+    List<dynamic>? _xEvents = config?.xEvents;
 
     _xEvents?.forEach((ejson) {
       if (ejson is Map) {
         YZDynamicWidgetEventConfig e = YZDynamicWidgetEventConfig.fromJson(ejson);
-        String _name = e.name;
-        YZDynamicWidgetEventType _eventType = e.eventType;        
-        if (_eventType == eventType && _name == name && e?.code!= null) {   
+        String? _name = e.name;
+        YZDynamicWidgetEventType? _eventType = e.eventType;        
+        if (_eventType == eventType && _name == name && e.code!= null) {   
           String _key = getEventKey(eventType, name);    
           codeOfEvent[_key] = e.code;
         }
@@ -195,7 +198,7 @@ abstract class YZDynamicWidgetBasicState<T extends YZDynamicBaseWidget>
 
   ///处理DSL变量xVar
   ///Deal the DSL variables xVar
-  void defineVariable(Map json) {
+  void defineVariable(Map? json) {
     if (json == null) return;
     json.forEach((key, value) {
       if (properties[key] != null) return;
@@ -208,30 +211,30 @@ abstract class YZDynamicWidgetBasicState<T extends YZDynamicBaseWidget>
    * 点击事件入口
    */
   @override
-  void triggerEvent([YZDynamicWidgetEventType eventType, String name]) {   
+  void triggerEvent([YZDynamicWidgetEventType? eventType, String? name]) {   
 
     eventType ??= YZDynamicWidgetEventType.onClick;
 
     String _key = getEventKey(eventType, name);
     // execute code primarily
-    String code = codeOfEvent[_key];
+    String? code = codeOfEvent[_key];
     if (code != null && code.isNotEmpty){
       YZDynamicCodeUtil.execute(code, state:this);
       return;
     }    
 
-    List<YZDynamicActionConfig> actions = actionsOfEvent[_key];
+    List<YZDynamicActionConfig>? actions = actionsOfEvent[_key];
     List<YZDynamicActionConfig> _actions = [];
     actions?.forEach((element) {
       YZDynamicActionConfig m = YZDynamicActionConfig();
       _actions.add(m.fillFrom(element));
     });    
-    Map localVariables;
+    Map? localVariables;
     super.triggerActions(this, _actions, localVariables: localVariables);
 
   }  
 
-  String getEventKey([YZDynamicWidgetEventType eventType, String name]){
+  String getEventKey([YZDynamicWidgetEventType? eventType, String? name]){
     return eventType.toString() + (name ?? '');
   }
 

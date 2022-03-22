@@ -17,16 +17,16 @@ import '../variable.dart';
 /// {"ifs" : [{"if":"", "block":""}], "else" : ""}
 class YZIfElseHandler extends YZDynamicPublicActionHandler{
   @override
-  dynamic action(BuildContext context, {
-      Map params, 
-      YZDynamicRequest request,
-      List<YZDynamicActionRule> rules,
-      Map localVariables,
-      State state,
+  dynamic action(BuildContext? context, {
+      Map? params, 
+      YZDynamicRequest? request,
+      List<YZDynamicActionRule>? rules,
+      Map? localVariables,
+      State? state,
     }) {
       if (params == null) return;
       
-      String codeBlock;    
+      String? codeBlock;    
 
       dynamic cases = params['ifs'];  
       bool isCase = false;
@@ -62,17 +62,17 @@ class YZIfElseHandler extends YZDynamicPublicActionHandler{
 /// {"switch" : "Condition", "cases" : [{"case":"", "block":""}], "default" : ""}
 class YZSwitchCaseHandler extends YZDynamicPublicActionHandler{
   @override
-  dynamic action(BuildContext context, {
-      Map params, 
-      YZDynamicRequest request,
-      List<YZDynamicActionRule> rules,
-      Map localVariables,
-      State state,
+  dynamic action(BuildContext? context, {
+      Map? params, 
+      YZDynamicRequest? request,
+      List<YZDynamicActionRule>? rules,
+      Map? localVariables,
+      State? state,
     }) {
       if (params == null) return;
       dynamic condition = params['switch'];
 
-      String codeBlock;    
+      String? codeBlock;    
 
       dynamic cases = params['cases'];  
       bool isCase = false;
@@ -108,12 +108,12 @@ class YZSwitchCaseHandler extends YZDynamicPublicActionHandler{
 /// {"i" : "", "length" : "", "step" : ""}
 class YZForLoopHandler extends YZDynamicPublicActionHandler{
   @override
-  dynamic action(BuildContext context, {
-      Map params, 
-      YZDynamicRequest request,
-      List<YZDynamicActionRule> rules,
-      Map localVariables,
-      State state,
+  dynamic action(BuildContext? context, {
+      Map? params, 
+      YZDynamicRequest? request,
+      List<YZDynamicActionRule>? rules,
+      Map? localVariables,
+      State? state,
     }) {
       if (params == null) return;
 
@@ -125,7 +125,7 @@ class YZForLoopHandler extends YZDynamicPublicActionHandler{
 
       int step = (params['step'] is int)? params['step'] : (int.tryParse(params['step'] ?? '') ?? 1);
 
-      String codeBlock = params['block'];
+      String? codeBlock = params['block'];
 
       dynamic result;
       if (codeBlock != null && YZDynamicCodeUtil.isCodeAction(codeBlock)) {
@@ -144,17 +144,17 @@ class YZForLoopHandler extends YZDynamicPublicActionHandler{
 
 class YZWhileHandler extends YZDynamicPublicActionHandler{
   @override
-  dynamic action(BuildContext context, {
-      Map params, 
-      YZDynamicRequest request,
-      List<YZDynamicActionRule> rules,
-      Map localVariables,
-      State state,
+  dynamic action(BuildContext? context, {
+      Map? params, 
+      YZDynamicRequest? request,
+      List<YZDynamicActionRule>? rules,
+      Map? localVariables,
+      State? state,
     }) {
       if (params == null) return;
 
-      String condition = params['condition'];
-      String codeBlock = params['block'];
+      String? condition = params['condition'];
+      String? codeBlock = params['block'];
 
       dynamic result;
       if (codeBlock != null && YZDynamicCodeUtil.isCodeAction(codeBlock)) {

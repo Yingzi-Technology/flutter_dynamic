@@ -31,7 +31,7 @@ class YZDynamic {
 
   // deprecated public
   static Widget buildPage(BuildContext context, Map config,
-      {YZDynamicPagePreConfig preConfig}) {
+      {YZDynamicPagePreConfig? preConfig}) {
     Widget widget;
 
     //You shoud register widgets first or it wouldn't create widget
@@ -47,16 +47,14 @@ class YZDynamic {
 
   // public
   static Widget buildWidget(BuildContext context, Map config,
-      {YZDynamicPagePreConfig preConfig}) {
+      {YZDynamicPagePreConfig? preConfig}) {
     Widget widget;
 
     Map json;
-    if (config['page'] == null) {
+    if (config['page'] == null || config['isOldVersion'] != null) {
       json = {
         "type": "custompage",
-        "page": {
-          "rootWidget": config.cast<String, dynamic>()
-        }
+        "page": {"rootWidget": config.cast<String, dynamic>()}
       };
     } else {
       json = config;
@@ -70,9 +68,9 @@ class YZDynamic {
   // public
   // 相比buildPage, handle还支持处理页面的呈现方式
   // Compared to buildPage, The method of handle also supports processing the presentation of page.
-  static handle(BuildContext context, Map dsl,
-      {YZDynamicPagePreConfig preConfig,
-      Function(dynamic returnResult) routerPopCallBack}) {
+  static handle(BuildContext context, Map? dsl,
+      {YZDynamicPagePreConfig? preConfig,
+      Function(dynamic returnResult)? routerPopCallBack}) {
     assert(dsl != null, 'Error: Dsl can not be null!');
     if (dsl == null || dsl.isEmpty) {
       return null;
@@ -83,7 +81,7 @@ class YZDynamic {
     Map _pageConfig = config['page'];
     YZDynamicPageTemplateConfig _pageConfigObj =
         YZDynamicPageTemplateConfig.fromJson(_pageConfig);
-    String _presentMode = _pageConfigObj.presentMode;
+    String? _presentMode = _pageConfigObj.presentMode;
 
     YZDinamicPageMode _mode = YZDinamicPageUtils.pageMode(_presentMode);
     switch (_mode) {
@@ -105,7 +103,7 @@ class YZDynamic {
             return YZDynamic.buildPage(context, config, preConfig: preConfig);
           }));
           if (null != routerPopCallBack) {
-            futureResultCallBack?.then(routerPopCallBack);
+            futureResultCallBack.then(routerPopCallBack);
           }
         }
     }

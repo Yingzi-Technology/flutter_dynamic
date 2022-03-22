@@ -19,7 +19,7 @@ class YZOffstageHandler extends YZDynamicBasicWidgetHandler {
 
   @override
   Widget build(Map json,
-      {Key key, BuildContext buildContext}) {
+      {Key? key, BuildContext? buildContext}) {
     return _Builder(json, key: key);
   }
 }
@@ -27,7 +27,7 @@ class YZOffstageHandler extends YZDynamicBasicWidgetHandler {
 class _Builder extends YZDynamicBaseWidget {
   final Map json;
 
-  _Builder(this.json, {Key key}) : super(json, key: key);
+  _Builder(this.json, {Key? key}) : super(json, key: key);
 
   @override
   _BuilderState createState() => _BuilderState();
@@ -45,16 +45,16 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
 
     //Deal with props / 处理控件属性
     YZOffstageConfig props =
-        YZOffstageConfig.fromJson(super.config.props) ?? {};
-    bool _offstage = YZDynamicWidgetUtils.boolAdapter(props.offstage);
-    Widget _child = props.child == null
+        YZOffstageConfig.fromJson(super.config?.props ?? {});
+    bool? _offstage = YZDynamicWidgetUtils.boolAdapter(props.offstage, state: this);
+    Widget? _child = props.child == null
         ? null
         : YZDynamicCommon.buildWidget(props.child, context: context);
 
     Offstage _subwidget = Offstage(offstage: _offstage ?? true, child: _child);
 
     //Deal with events / 处理事件
-    _widget = super.buildWithEvents(_subwidget, super.config.xEvents);
+    _widget = super.buildWithEvents(_subwidget, super.config?.xEvents);
 
     return _widget;
   }
@@ -65,12 +65,12 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
     actionFunctions['setState'] = stateSetter;
   }
 
-  void stateSetter(BuildContext triggerContext, {
-    Map params,
-    YZDynamicRequest request,
-    List<YZDynamicActionRule> rules,
-    Map localVariables,
-    State state,
+  void stateSetter(BuildContext? triggerContext, {
+    Map? params,
+    YZDynamicRequest? request,
+    List<YZDynamicActionRule>? rules,
+    Map? localVariables,
+    State? state,
   }) {
     print('Execute xAction: ${this.runtimeType} setState');
     if (mounted) {
@@ -81,12 +81,12 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
 
 /// The props of Offstage config
 class YZOffstageConfig {
-  String offstage;
-  Map child;
+  String? offstage;
+  Map? child;
 
   YZOffstageConfig({this.offstage, this.child});
 
-  YZOffstageConfig.fromJson(Map<dynamic, dynamic> json) {
+  YZOffstageConfig.fromJson(Map<dynamic, dynamic>? json) {
     json ??= {};
     offstage = json['offstage'];
     child = json['child'];

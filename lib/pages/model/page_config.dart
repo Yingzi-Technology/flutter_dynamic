@@ -11,16 +11,16 @@ import '../../tools/action.dart';
 export '../../tools/action.dart';
 
 class YZDynamicPageTemplateConfig {
-  String key;
-  String type;
-  String name;
-  String presentMode;
-  String routeTag;
-  YZDynamicPageProps props;
-  YZDynamicPageLifecycle state;
-  Map<String, YZDynamicActionConfig> xActions;
-  Map rootWidget;
-  Map xVar;
+  String? key;
+  String? type;
+  String? name;
+  String? presentMode;
+  String? routeTag;
+  YZDynamicPageProps? props;
+  YZDynamicPageLifecycle? state;
+  Map<String, YZDynamicActionConfig>? xActions;
+  Map? rootWidget;
+  Map? xVar;
 
   YZDynamicPageTemplateConfig(
       {this.key,
@@ -56,24 +56,24 @@ class YZDynamicPageTemplateConfig {
 }
 
 class YZDynamicPageProps {
-  List padding;
-  String backgraoundColor;
+  List? padding;
+  String? backgroundColor;
 
-  YZDynamicPageProps({this.padding, this.backgraoundColor});
+  YZDynamicPageProps({this.padding, this.backgroundColor});
 
   YZDynamicPageProps.fromJson(Map<dynamic, dynamic> json) {
     padding = json['padding'] == null ? null : jsonDecode(json['padding']);
-    backgraoundColor = json['backgraoundColor'];
+    backgroundColor = json['backgroundColor'];
   }
   
 }
 
 class YZDynamicPageLifecycle {
-  List<YZDynamicActionConfig> beforeEntrance;
-  List<YZDynamicActionConfig> initState;
-  List<YZDynamicActionConfig> build;
-  List<YZDynamicActionConfig> dispose;
-  List<YZDynamicActionConfig> afterLeave;
+  List<YZDynamicActionConfig>? beforeEntrance;
+  List<YZDynamicActionConfig>? initState;
+  List<YZDynamicActionConfig>? build;
+  List<YZDynamicActionConfig>? dispose;
+  List<YZDynamicActionConfig>? afterLeave;
 
   YZDynamicPageLifecycle(
       {this.beforeEntrance,
@@ -84,33 +84,33 @@ class YZDynamicPageLifecycle {
 
   YZDynamicPageLifecycle.fromJson(Map<dynamic, dynamic> json) {
     if (json['beforeEntrance'] != null) {
-      beforeEntrance = new List<YZDynamicActionConfig>();
+      beforeEntrance = <YZDynamicActionConfig>[];
       json['beforeEntrance'].forEach((v) {
-        beforeEntrance.add(new YZDynamicActionConfig.fromJson(v));
+        beforeEntrance!.add(new YZDynamicActionConfig.fromJson(v));
       });
     }
     if (json['initState'] != null) {
-      initState = new List<YZDynamicActionConfig>();
+      initState = <YZDynamicActionConfig>[];
       json['initState'].forEach((v) {
-        initState.add(new YZDynamicActionConfig.fromJson(v));
+        initState!.add(new YZDynamicActionConfig.fromJson(v));
       });
     }
     if (json['build'] != null) {
-      build = new List<YZDynamicActionConfig>();
+      build = <YZDynamicActionConfig>[];
       json['build'].forEach((v) {
-        build.add(new YZDynamicActionConfig.fromJson(v));
+        build!.add(new YZDynamicActionConfig.fromJson(v));
       });
     }
     if (json['dispose'] != null) {
-      dispose = new List<YZDynamicActionConfig>();
+      dispose = <YZDynamicActionConfig>[];
       json['dispose'].forEach((v) {
-        dispose.add(new YZDynamicActionConfig.fromJson(v));
+        dispose!.add(new YZDynamicActionConfig.fromJson(v));
       });
     }
     if (json['afterLeave'] != null) {
-      afterLeave = new List<YZDynamicActionConfig>();
+      afterLeave = <YZDynamicActionConfig>[];
       json['afterLeave'].forEach((v) {
-        afterLeave.add(new YZDynamicActionConfig.fromJson(v));
+        afterLeave!.add(new YZDynamicActionConfig.fromJson(v));
       });
     }
   }

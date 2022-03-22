@@ -12,7 +12,7 @@ part of '../action.dart';
 ///Map action's params is Map itself
 class YZMapHandler extends YZDynamicSysActionHandler{
   @override
-  Map func(Map params) {
+  Map? func(Map? params) {
     return params;
   }
 
@@ -22,7 +22,7 @@ class YZMapHandler extends YZDynamicSysActionHandler{
 
 class YZMapEntryHandler extends YZDynamicSysActionHandler{
   @override
-  dynamic func(Map params) {
+  dynamic func(Map? params) {
     if(params == null) return null;
     dynamic key = params['key'] ?? params['key'];
     dynamic value = params['value'] ?? params['value'];
@@ -35,13 +35,13 @@ class YZMapEntryHandler extends YZDynamicSysActionHandler{
 
 class YZMapValueOfKeyHandler extends YZDynamicSysActionHandler{
   @override
-  dynamic func(Map params) {
+  dynamic func(Map? params) {
 
     if (params == null) return null;
     
-    Map map = (params['map'] is Map) ? params['map'] : null;
+    Map? map = (params['map'] is Map) ? params['map'] : null;
     if (map == null) return null; 
-    String key = params['key']?.toString();
+    String? key = params['key']?.toString();
     if (key == null) return null; 
     
     return map[key];
@@ -55,7 +55,7 @@ class YZMapValueOfKeyHandler extends YZDynamicSysActionHandler{
 
 class YZMapIsEmptyHandler extends YZDynamicSysActionHandler{
   @override
-  bool func(Map params) {
+  bool func(Map? params) {
     if (params == null || params['map'] == null || !(params['map'] is Map)) return true;
     return (params['map'] as Map).isEmpty;
   }
@@ -67,7 +67,7 @@ class YZMapIsEmptyHandler extends YZDynamicSysActionHandler{
 
 class YZMapIsNotEmptyHandler extends YZDynamicSysActionHandler{
   @override
-  bool func(Map params) {
+  bool func(Map? params) {
     if (params == null || params['map'] == null || !(params['map'] is Map)) return false;
     return (params['map'] as Map).isNotEmpty;
   }
@@ -79,12 +79,12 @@ class YZMapIsNotEmptyHandler extends YZDynamicSysActionHandler{
 
 class YZMapLengthHandler extends YZDynamicSysActionHandler{
   @override
-  int func(Map params) {
+  int? func(Map? params) {
     
     if (params == null || params['map'] == null || !(params['map'] is Map)) return null;
     Map map = params['map'] as Map;
     
-    return map?.length;
+    return map.length;
   }
 
   @override
@@ -94,14 +94,14 @@ class YZMapLengthHandler extends YZDynamicSysActionHandler{
 
 class YZMapContainsValueHandler extends YZDynamicSysActionHandler{
   @override
-  bool func(Map params) {
+  bool? func(Map? params) {
 
     if (params == null) return null;
     
     Map map = (params['map'] is Map) ? params['map'] : null;
-    String value = params['value']?.toString();
+    String? value = params['value']?.toString();
     
-    return map?.containsValue(value);
+    return map.containsValue(value);
 
   }
 
@@ -112,12 +112,12 @@ class YZMapContainsValueHandler extends YZDynamicSysActionHandler{
 
 class YZMapContainsKeyHandler extends YZDynamicSysActionHandler{
   @override
-  bool func(Map params) {
+  bool? func(Map? params) {
 
     if (params == null) return null;
     
-    Map map = (params['map'] is Map) ? params['map'] : null;
-    String key = params['key']?.toString();
+    Map? map = (params['map'] is Map) ? params['map'] : null;
+    String? key = params['key']?.toString();
     
     return map?.containsKey(key);
 
@@ -130,12 +130,12 @@ class YZMapContainsKeyHandler extends YZDynamicSysActionHandler{
 
 class YZMapRemoveKeyHandler extends YZDynamicSysActionHandler{
   @override
-  dynamic func(Map params) {
+  dynamic func(Map? params) {
 
     if (params == null) return null;
     
-    Map map = (params['map'] is Map) ? params['map'] : null;
-    String key = params['key']?.toString();
+    Map? map = (params['map'] is Map) ? params['map'] : null;
+    String? key = params['key']?.toString();
     
     return map?.remove(key);
 
@@ -148,9 +148,9 @@ class YZMapRemoveKeyHandler extends YZDynamicSysActionHandler{
 
 class YZMapClearHandler extends YZDynamicSysActionHandler{
   @override
-  dynamic func(Map params) {
+  dynamic func(Map? params) {
     if (params == null) return null;
-    Map map = (params['map'] is Map) ? params['map'] : null;
+    Map? map = (params['map'] is Map) ? params['map'] : null;
     return map?.clear();
   }
 
@@ -160,7 +160,7 @@ class YZMapClearHandler extends YZDynamicSysActionHandler{
 
 class YZMapKeysHandler extends YZDynamicSysActionHandler{
   @override
-  dynamic func(Map params) {
+  dynamic func(Map? params) {
     if (params == null) return null;
     Map map = (params['map'] is Map) ? params['map'] : null;
     return map.keys;
@@ -172,7 +172,7 @@ class YZMapKeysHandler extends YZDynamicSysActionHandler{
 
 class YZMapValuesHandler extends YZDynamicSysActionHandler{
   @override
-  dynamic func(Map params) {
+  dynamic func(Map? params) {
     if (params == null) return null;
     Map map = (params['map'] is Map) ? params['map'] : null;
     return map.values;
@@ -184,7 +184,7 @@ class YZMapValuesHandler extends YZDynamicSysActionHandler{
 
 class YZMapEntriesHandler extends YZDynamicSysActionHandler{
   @override
-  dynamic func(Map params) {
+  dynamic func(Map? params) {
     if (params == null) return null;
     Map map = (params['map'] is Map) ? params['map'] : null;
     return map.entries;
@@ -196,10 +196,10 @@ class YZMapEntriesHandler extends YZDynamicSysActionHandler{
 
 class YZMapAddAllHandler extends YZDynamicSysActionHandler{
   @override
-  dynamic func(Map params) {
+  dynamic func(Map? params) {
 
     if (params == null || params['map'] == null ) return null;
-    Map map = (params['map'] is Map) ? params['map'] : null;
+    Map? map = (params['map'] is Map) ? params['map'] : null;
     Map other = (params['other'] is Map) ? params['other'] : null;
     map?.addAll(other);
   }
@@ -212,14 +212,13 @@ class YZMapAddAllHandler extends YZDynamicSysActionHandler{
 // FIXME: 不传入泛型如何解决这个问题
 class YZMapAddEntriesHandler extends YZDynamicSysActionHandler{
   @override
-  dynamic func(Map params) {
+  dynamic? func(Map? params) {
 
-    if (params == null || params['map'] == null ) return;
-    Map map = (params['map'] is Map) ? params['map'] : null;
+    if (params == null || params['map'] == null ) return null;
+    Map? map = (params['map'] is Map) ? params['map'] : null;
     Iterable newIterable = (params['newEntries'] is Iterable) ? params['newEntries'] : null;
-    Iterable<MapEntry<dynamic,dynamic>> newEntries;
+    Iterable<MapEntry<dynamic,dynamic>>? newEntries;
     newEntries = newIterable.whereType<MapEntry<dynamic,dynamic>>();
-    if(newEntries == null) return null;
     map?.addEntries(newEntries);
   }
 
@@ -229,9 +228,9 @@ class YZMapAddEntriesHandler extends YZDynamicSysActionHandler{
 
 class YZMapToStringHandler extends YZDynamicSysActionHandler{
   @override
-  dynamic func(Map params) {
+  dynamic func(Map? params) {
     if (params == null || params['map'] == null ) return null;
-    Map map = (params['map'] is Map) ? params['map'] : null;
+    Map? map = (params['map'] is Map) ? params['map'] : null;
     
     return map?.toString();
   }
@@ -242,7 +241,7 @@ class YZMapToStringHandler extends YZDynamicSysActionHandler{
 
 class YZMapFromHandler extends YZDynamicSysActionHandler{
   @override
-  dynamic func(Map params) {
+  dynamic func(Map? params) {
     if (params == null || params['other'] == null ) return null;
     Map other = (params['other'] is Map) ? params['other'] : null;
     return Map.from(other);
@@ -254,7 +253,7 @@ class YZMapFromHandler extends YZDynamicSysActionHandler{
 
 class YZMapOfHandler extends YZDynamicSysActionHandler{
   @override
-  dynamic func(Map params) {
+  dynamic func(Map? params) {
     if (params == null || params['other'] == null ) return null;
     Map other = (params['other'] is Map) ? params['other'] : null;
     return Map.of(other);
@@ -267,7 +266,7 @@ class YZMapOfHandler extends YZDynamicSysActionHandler{
 // checked by yjz
 class YZMapIdentityHandler extends YZDynamicSysActionHandler{
   @override
-  dynamic func(Map params) {
+  dynamic func(Map? params) {
     return Map.identity();
   }
 
@@ -278,14 +277,14 @@ class YZMapIdentityHandler extends YZDynamicSysActionHandler{
 // checked by yjz
 class YZMapFromEntriesHandler extends YZDynamicSysActionHandler{
   @override
-  dynamic func(Map params) {
+  dynamic func(Map? params) {
     if (params == null) return null;
-    Iterable entries = (params['entries'] is Iterable) ? params['entries'] : null;
+    Iterable? entries = (params['entries'] is Iterable) ? params['entries'] : null;
     if(entries == null) return null;
     entries.forEach((element) {
       if(!(element is MapEntry)) return null;
     });
-    return Map.fromEntries(entries);
+    return Map.fromEntries(entries as Iterable<MapEntry>);
   }
 
   @override
@@ -296,9 +295,9 @@ class YZMapFromEntriesHandler extends YZDynamicSysActionHandler{
 // todo: 还可以传入 key 和 value，但它们是两个 function
 class YZMapFromIterableHandler extends YZDynamicSysActionHandler{
   @override
-  dynamic func(Map params) {
+  dynamic func(Map? params) {
     if (params == null) return null;
-    Iterable entries = (params['entries'] is Iterable) ? params['entries'] : null;
+    Iterable? entries = (params['entries'] is Iterable) ? params['entries'] : null;
     if(entries == null) return null;
     return Map.fromIterable(entries);
   }
@@ -310,10 +309,10 @@ class YZMapFromIterableHandler extends YZDynamicSysActionHandler{
 // checked by yjz
 class YZMapFromIterablesHandler extends YZDynamicSysActionHandler{
   @override
-  dynamic func(Map params) {
+  dynamic func(Map? params) {
     if (params == null) return null;
-    Iterable keys = (params['keys'] is Iterable) ? params['keys'] : null;
-    Iterable values = (params['values'] is Iterable) ? params['values'] : null;
+    Iterable? keys = (params['keys'] is Iterable) ? params['keys'] : null;
+    Iterable? values = (params['values'] is Iterable) ? params['values'] : null;
     // keys 和 values 的长度要求一致
     if(keys == null || values == null) return null;
     return Map.fromIterables(keys, values);
@@ -326,7 +325,7 @@ class YZMapFromIterablesHandler extends YZDynamicSysActionHandler{
 // checked by yjz
 class YZMapUnmodifiablesHandler extends YZDynamicSysActionHandler{
   @override
-  dynamic func(Map params) {
+  dynamic func(Map? params) {
     if (params == null) return null;
     Map other = (params['other'] is Map) ? params['other'] : null;
     return Map.unmodifiable(other);

@@ -16,7 +16,7 @@ part of '../action.dart';
 ///Defined variable or init value
 class YZSysReturnHandler extends YZDynamicSysActionHandler{
   @override
-  dynamic func(Map params) {
+  dynamic func(Map? params) {
     if (params == null) return null;
 
     dynamic value = params['value'];
@@ -37,7 +37,7 @@ class YZSysReturnHandler extends YZDynamicSysActionHandler{
 
 class YZSysBoolHandler extends YZDynamicSysActionHandler{
   @override
-  dynamic func(Map params) {
+  dynamic func(Map? params) {
     if (params == null) return false;
 
     dynamic value = params['value'];
@@ -60,7 +60,7 @@ class YZSysBoolHandler extends YZDynamicSysActionHandler{
 
 class YZSysBoolToStringHandler extends YZDynamicSysActionHandler{
   @override
-  dynamic func(Map params) {
+  dynamic func(Map? params) {
     if(params == null) return null;
     dynamic value = params['value'];
     if (value == null) { //或取第一个值
@@ -89,7 +89,7 @@ class YZBoolHandler extends YZSysBoolHandler{
 
 class YZSysEqHandler extends YZDynamicSysActionHandler{
   @override
-  dynamic func(Map params) {
+  dynamic func(Map? params) {
     
     if (params == null) return null;
     dynamic opt1 = params['value'];
@@ -120,7 +120,7 @@ class YZSysEqHandler extends YZDynamicSysActionHandler{
 
 class YZSysNeqHandler extends YZDynamicSysActionHandler{
   @override
-  dynamic func(Map params) {
+  dynamic func(Map? params) {
   
     if (params == null) return null;
     dynamic opt1 = params['value'];
@@ -150,7 +150,7 @@ class YZSysNeqHandler extends YZDynamicSysActionHandler{
 
 class YZSysGtHandler extends YZDynamicSysActionHandler{
   @override
-  dynamic func(Map params) {
+  dynamic func(Map? params) {
   
     if (params == null) return null;
     dynamic opt1 = (params['value'] != null ? num.tryParse(params['value']) : null);
@@ -158,6 +158,7 @@ class YZSysGtHandler extends YZDynamicSysActionHandler{
 
     if (opt1 == null || opt2 == null) {
       for (var v in params.values) {
+        if (v is! num && v is! String) continue; 
         if (opt1 == null) {
           opt1 = ((v is num) ?v : num.tryParse(v));
           continue;
@@ -168,6 +169,8 @@ class YZSysGtHandler extends YZDynamicSysActionHandler{
         }  
       } 
     } 
+
+    if (opt1 == null || opt2 == null) return false;
 
     if (!(opt1 is num)) throw 'Error opt1 type must be num';
     if (!(opt2 is num)) throw 'Error opt2 type must be num';    
@@ -183,7 +186,7 @@ class YZSysGtHandler extends YZDynamicSysActionHandler{
 
 class YZSysEgtHandler extends YZDynamicSysActionHandler{
   @override
-  dynamic func(Map params) {
+  dynamic func(Map? params) {
   
     if (params == null) return null;
     dynamic opt1 = (params['value'] != null ? num.tryParse(params['value']) : null);
@@ -191,6 +194,7 @@ class YZSysEgtHandler extends YZDynamicSysActionHandler{
 
     if (opt1 == null || opt2 == null) {
       for (var v in params.values) {
+        if (v is! num && v is! String) continue; 
         if (opt1 == null) {
           opt1 = ((v is num) ?v : num.tryParse(v));
           continue;
@@ -201,6 +205,8 @@ class YZSysEgtHandler extends YZDynamicSysActionHandler{
         }  
       } 
     } 
+
+    if (opt1 == null || opt2 == null) return false;
 
     if (!(opt1 is num)) throw 'Error opt1 type must be num';
     if (!(opt2 is num)) throw 'Error opt2 type must be num';  
@@ -216,14 +222,15 @@ class YZSysEgtHandler extends YZDynamicSysActionHandler{
 
 class YZSysLtHandler extends YZDynamicSysActionHandler{
   @override
-  dynamic func(Map params) {
+  dynamic func(Map? params) {
 
     if (params == null) return null;
     dynamic opt1 = (params['value'] != null ? num.tryParse(params['value']) : null);
     dynamic opt2 = (params['value1'] != null ? num.tryParse(params['value1']) : null);
 
-    if (opt1 == null || opt2 == null) {
+    if (opt1 == null || opt2 == null) {      
       for (var v in params.values) {
+        if (v is! num && v is! String) continue; 
         if (opt1 == null) {
           opt1 = ((v is num) ?v : num.tryParse(v));
           continue;
@@ -234,6 +241,8 @@ class YZSysLtHandler extends YZDynamicSysActionHandler{
         }  
       } 
     } 
+
+    if (opt1 == null || opt2 == null) return false;
 
     if (!(opt1 is num)) throw 'Error opt1 type must be num';
     if (!(opt2 is num)) throw 'Error opt2 type must be num';  
@@ -249,7 +258,7 @@ class YZSysLtHandler extends YZDynamicSysActionHandler{
 
 class YZSysEltHandler extends YZDynamicSysActionHandler{
   @override
-  dynamic func(Map params) {
+  dynamic func(Map? params) {
   
     if (params == null) return null;
     dynamic opt1 = (params['value'] != null ? num.tryParse(params['value']) : null);
@@ -257,6 +266,7 @@ class YZSysEltHandler extends YZDynamicSysActionHandler{
 
     if (opt1 == null || opt2 == null) {
       for (var v in params.values) {
+        if (v is! num && v is! String) continue;  
         if (opt1 == null) {
           opt1 = ((v is num) ?v : num.tryParse(v));
           continue;
@@ -267,6 +277,8 @@ class YZSysEltHandler extends YZDynamicSysActionHandler{
         }  
       } 
     } 
+
+    if (opt1 == null || opt2 == null) return false;
 
     if (!(opt1 is num)) throw 'Error opt1 type must be num';
     if (!(opt2 is num)) throw 'Error opt2 type must be num';  
@@ -282,7 +294,7 @@ class YZSysEltHandler extends YZDynamicSysActionHandler{
 
 class YZSysIsNullHandler extends YZDynamicSysActionHandler{
   @override
-  dynamic func(Map params) {
+  dynamic func(Map? params) {
 
     if (params == null) return null;
     dynamic value = params['value'];
@@ -304,7 +316,7 @@ class YZSysIsNullHandler extends YZDynamicSysActionHandler{
 
 class YZSysPrintHandler extends YZDynamicSysActionHandler{
   @override
-  dynamic func(Map params) {
+  dynamic func(Map? params) {
 
     if (params == null) return null;
     dynamic value = params['value'];
@@ -324,7 +336,7 @@ class YZSysPrintHandler extends YZDynamicSysActionHandler{
 
 class YZSysInverterHandler extends YZDynamicSysActionHandler{
   @override
-  bool func(Map params) {
+  bool? func(Map? params) {
   
     if (params == null) return null;
 
@@ -349,14 +361,13 @@ class YZSysInverterHandler extends YZDynamicSysActionHandler{
 
 class YZSysAndHandler extends YZDynamicSysActionHandler{
   @override
-  bool func(Map params) {
+  bool? func(Map? params) {
   
     if (params == null) return null;
 
     bool ret = true;
     params.forEach((key, value) {
-      bool opt = ((value is bool) ? value : false);
-      if (opt == null) return false;
+      bool? opt = ((value is bool) ? value : false);
       ret = ret && opt;
     });
     
@@ -371,14 +382,13 @@ class YZSysAndHandler extends YZDynamicSysActionHandler{
 
 class YZSysOrHandler extends YZDynamicSysActionHandler{
   @override
-  bool func(Map params) {
+  bool? func(Map? params) {
   
     if (params == null) return null;
 
     bool ret = false;
     params.forEach((key, value) {
-      bool opt = ((value is bool) ? value : false);
-      if (opt == null) return false;
+      bool? opt = ((value is bool) ? value : false);
       ret = ret || opt;
     });
     

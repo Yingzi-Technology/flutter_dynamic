@@ -9,21 +9,20 @@ import 'dart:ui';
 
 class YZDinamicPageUtils {
 
-  static pageMode(String pagetMode) {
+  static pageMode(String? pagetMode) {
     switch (pagetMode) {
       case 'dialog':
         return YZDinamicPageMode.dialog;
-        break;
       default:
         return YZDinamicPageMode.navpage;
     }
   }
 
   ///adapt dsl color to the flutter color 0xff123456
-  static Color colorAdapter(String colorString){
-    Color color;
+  static Color? colorAdapter(String? colorString){
+    Color? color;
     if (colorString != null) {
-      int v = int.tryParse(colorString);
+      int? v = int.tryParse(colorString);
       color = v != null ? Color(v) : null;
     }
 

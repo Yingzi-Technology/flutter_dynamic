@@ -16,7 +16,7 @@ import 'basic/widget.dart';
 class YZRadioHandler extends YZDynamicBasicWidgetHandler {
   @override
   Widget build(Map json,
-      {Key key, BuildContext buildContext}) {
+      {Key? key, BuildContext? buildContext}) {
     return _Builder(json, key: key);
   }
 
@@ -27,7 +27,7 @@ class YZRadioHandler extends YZDynamicBasicWidgetHandler {
 class _Builder extends YZDynamicBaseWidget {
   final Map json;
 
-  _Builder(this.json, {Key key}) : super(json, key: key);
+  _Builder(this.json, {Key? key}) : super(json, key: key);
 
   @override
   _BuilderState createState() => _BuilderState();
@@ -35,22 +35,22 @@ class _Builder extends YZDynamicBaseWidget {
 
 class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
   //Deal with props / 处理控件属性
-  YZRadioConfig props;
+  late YZRadioConfig props;
 
-  String _value;
-  String _groupValue;
-  bool _toggleable;
-  Color _activeColor;
-  Color _focusColor;
-  Color _hoverColor;
-  MaterialTapTargetSize _materialTapTargetSize;
+  String? _value;
+  String? _groupValue;
+  bool? _toggleable;
+  Color? _activeColor;
+  Color? _focusColor;
+  Color? _hoverColor;
+  MaterialTapTargetSize? _materialTapTargetSize;
 
   @override
   void initState() {
     super.initState();
 
     //Deal with props / 处理控件属性
-    props = YZRadioConfig.fromJson(super.config.props) ?? {};
+    props = YZRadioConfig.fromJson(super.config?.props ?? {});
     _value = props.value;
     _groupValue = props.groupValue;
     _toggleable = YZDynamicWidgetUtils.boolAdapter(props.toggleable);
@@ -92,12 +92,12 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
     actionFunctions['setState'] = stateSetter;
   }
 
-  void stateSetter(BuildContext triggerContext, {
-    Map params,
-    YZDynamicRequest request,
-    List<YZDynamicActionRule> rules,
-    Map localVariables,
-    State state,
+  void stateSetter(BuildContext? triggerContext, {
+    Map? params,
+    YZDynamicRequest? request,
+    List<YZDynamicActionRule>? rules,
+    Map? localVariables,
+    State? state,
   }) {
     print('Execute xAction: ${this.runtimeType} setState');
     if (mounted) {
@@ -108,13 +108,13 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
 
 /// The props of Radio config
 class YZRadioConfig {
-  String value;
-  String groupValue;
-  String toggleable;
-  String activeColor;
-  String focusColor;
-  String hoverColor;
-  String materialTapTargetSize;
+  String? value;
+  String? groupValue;
+  String? toggleable;
+  String? activeColor;
+  String? focusColor;
+  String? hoverColor;
+  String? materialTapTargetSize;
 
   YZRadioConfig(
       {this.value,
@@ -125,7 +125,7 @@ class YZRadioConfig {
       this.hoverColor,
       this.materialTapTargetSize});
 
-  YZRadioConfig.fromJson(Map<dynamic, dynamic> json) {
+  YZRadioConfig.fromJson(Map<dynamic, dynamic>? json) {
     json ??= {};
     value = json['value'];
     groupValue = json['groupValue'];

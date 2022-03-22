@@ -18,7 +18,7 @@ class YZScaffoldHandler extends YZDynamicBasicWidgetHandler {
   String get widgetName => 'Scaffold';
 
   @override
-  Widget build(Map json, {Key key, BuildContext buildContext}) {
+  Widget build(Map json, {Key? key, BuildContext? buildContext}) {
     return _Builder(json, key:key);
   }
   
@@ -28,7 +28,7 @@ class _Builder extends YZDynamicBaseWidget {
 
   final Map json;
 
-  _Builder(this.json, {Key key}): super(json, key: key);
+  _Builder(this.json, {Key? key}): super(json, key: key);
 
   @override
   _BuilderState createState() => _BuilderState();
@@ -37,17 +37,17 @@ class _Builder extends YZDynamicBaseWidget {
 class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
 
   //Deal with props / 处理控件属性
-  YZScaffoldConfig props;
+  late YZScaffoldConfig props;
 
-  PreferredSizeWidget _appBar;
-  Widget _body;
+  PreferredSizeWidget? _appBar;
+  Widget? _body;
 
   @override
   void initState() {
     super.initState();
 
-    props = YZScaffoldConfig.fromJson(super.config.props) ?? {};
-    _appBar = YZDynamicCommon.buildWidget(props.appBar, context: context);
+    props = YZScaffoldConfig.fromJson(super.config?.props ?? {});
+    _appBar = YZDynamicCommon.buildWidget(props.appBar, context: context) as PreferredSizeWidget;
     _body = YZDynamicCommon.buildWidget(props.body, context: context);
 
   }
@@ -90,15 +90,15 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
 
 /// The props of Scaffold config
 class YZScaffoldConfig {
-  Map appBar;
-  Map body;
+  Map? appBar;
+  Map? body;
 
   YZScaffoldConfig({
     this.appBar,
     this.body,
   });
 
-  YZScaffoldConfig.fromJson(Map<dynamic, dynamic> json) {
+  YZScaffoldConfig.fromJson(Map<dynamic, dynamic>? json) {
     json ??= {};
     appBar = json['appBar'];
     body = json['body'];

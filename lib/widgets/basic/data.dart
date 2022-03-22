@@ -11,7 +11,7 @@ mixin YZDynamicWidgetDataServer {
 
   ///获取控件显示的数据
   ///Get widget display data
-  List<YZDynamicWidgetDataConfig> getXData(List xdata){
+  List<YZDynamicWidgetDataConfig> getXData(List? xdata){
 
     List<YZDynamicWidgetDataConfig> _data = [];
 
@@ -28,8 +28,8 @@ mixin YZDynamicWidgetDataServer {
   ///获取控件显示request
   ///Get widget display request
   ///Default get first one
-  YZDynamicRequest getRequest(List xdata, [String name]) {
-    YZDynamicRequest request;
+  YZDynamicRequest? getRequest(List? xdata, [String? name]) {
+    YZDynamicRequest? request;
 
     if (xdata != null && xdata.isNotEmpty) {
       if (name == null || name.isEmpty) {
@@ -50,7 +50,7 @@ mixin YZDynamicWidgetDataServer {
   ///获取控件显示定义数据，支持透传
   ///Get widget display defined showdata supporting unvarnished transmission 
   ///Default get first one
-  dynamic getShowData(List xdata, [String name]) {
+  dynamic getShowData(List? xdata, [String? name]) {
     dynamic showdata;
 
     if (xdata != null && xdata.isNotEmpty) {
@@ -72,8 +72,8 @@ mixin YZDynamicWidgetDataServer {
 }
 
 class YZDynamicWidgetDataConfig {
-  String name;
-  YZDynamicRequest request;
+  String? name;
+  YZDynamicRequest? request;
   dynamic showdata;
 
   YZDynamicWidgetDataConfig({this.name, this.request, this.showdata});

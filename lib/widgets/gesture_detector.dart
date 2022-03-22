@@ -21,7 +21,7 @@ class YZGestureDetectorHandler extends YZDynamicBasicWidgetHandler {
 
   @override
   Widget build(Map json,
-      {Key key, BuildContext buildContext}) {
+      {Key? key, BuildContext? buildContext}) {
     return _Builder(json, key: key);
   }
 }
@@ -29,7 +29,7 @@ class YZGestureDetectorHandler extends YZDynamicBasicWidgetHandler {
 class _Builder extends YZDynamicBaseWidget {
   final Map json;
 
-  _Builder(this.json, {Key key}) : super(json, key: key);
+  _Builder(this.json, {Key? key}) : super(json, key: key);
 
   @override
   _BuilderState createState() => _BuilderState();
@@ -47,10 +47,10 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
 
     //Deal with props / 处理控件属性
     YZGestureDetectorConfig props =
-        YZGestureDetectorConfig.fromJson(super.config.props) ?? {};
-    HitTestBehavior _behavior =
-        YZDynamicWidgetUtils.hitTestBehaviorSizeAdapter(props?.behavior);
-    Widget _child = props.child == null
+        YZGestureDetectorConfig.fromJson(super.config?.props ?? {});
+    HitTestBehavior? _behavior =
+        YZDynamicWidgetUtils.hitTestBehaviorSizeAdapter(props.behavior);
+    Widget? _child = props.child == null
         ? null
         : YZDynamicCommon.buildWidget(props.child, context: context);
 
@@ -112,7 +112,7 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
     );
 
     //Deal with events / 处理事件
-    _widget = super.buildWithEvents(_subwidget, super.config.xEvents);
+    _widget = super.buildWithEvents(_subwidget, super.config?.xEvents);
 
     return _widget;
   }
@@ -123,12 +123,12 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
 
 /// The props of GestureDetector config
 class YZGestureDetectorConfig {
-  Map child;
-  String behavior;
+  Map? child;
+  String? behavior;
 
   YZGestureDetectorConfig({this.child, this.behavior});
 
-  YZGestureDetectorConfig.fromJson(Map<dynamic, dynamic> json) {
+  YZGestureDetectorConfig.fromJson(Map<dynamic, dynamic>? json) {
     json ??= {};
     child = json['child'];
     behavior = json['behavior'];

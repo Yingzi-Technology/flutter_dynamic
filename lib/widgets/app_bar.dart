@@ -18,7 +18,7 @@ class YZAppBarHandler extends YZDynamicBasicWidgetHandler {
   String get widgetName => 'AppBar';
 
   @override
-  Widget build(Map json, {Key key, BuildContext buildContext}) {
+  Widget build(Map json, {Key? key, BuildContext? buildContext}) {
     return _Builder(json, key:key);
   }
   
@@ -28,7 +28,7 @@ class _Builder extends YZDynamicBaseWidget implements PreferredSizeWidget {
 
   final Map json;
 
-  _Builder(this.json, {Key key}): super(json, key: key);
+  _Builder(this.json, {Key? key}): super(json, key: key);
 
   @override
   _BuilderState createState() => _BuilderState();
@@ -40,42 +40,42 @@ class _Builder extends YZDynamicBaseWidget implements PreferredSizeWidget {
 class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
 
   //Deal with props / 处理控件属性
-  YZAppBarConfig props;
+  late YZAppBarConfig props;
 
-  Widget _leading;
-  List<Widget> _actions;
-  Widget _title;
-  Widget _flexibleSpace;
-  PreferredSizeWidget _bottom;
-  double _elevation;
-  Color _shadowColor;
-  Color _backgroundColor;
-  Brightness _brightness;
-  bool _primary;
-  bool _centerTitle;
-  bool _excludeHeaderSemantics;
-  double _titleSpacing;
-  double _toolbarOpacity;
-  double _bottomOpacity;
-  double _toolbarHeight;
-  double _leadingWidth;
+  Widget? _leading;
+  List<Widget>? _actions;
+  Widget? _title;
+  Widget? _flexibleSpace;
+  PreferredSizeWidget? _bottom;
+  double? _elevation;
+  Color? _shadowColor;
+  Color? _backgroundColor;
+  Brightness? _brightness;
+  bool? _primary;
+  bool? _centerTitle;
+  bool? _excludeHeaderSemantics;
+  double? _titleSpacing;
+  double? _toolbarOpacity;
+  double? _bottomOpacity;
+  double? _toolbarHeight;
+  double? _leadingWidth;
 
   @override
   void initState() {
     super.initState();
 
-    props = YZAppBarConfig.fromJson(super.config.props) ?? {};
+    props = YZAppBarConfig.fromJson(super.config?.props ?? {});
 
     _leading = YZDynamicCommon.buildWidget(props.leading, context: context);
     if (props.leading != null) {
       _actions = [];
-      props.leading.forEach((key, value) {
-        _actions.add(YZDynamicCommon.buildWidget(value, context: context));
+      props.leading?.forEach((key, value) {
+        _actions?.add(YZDynamicCommon.buildWidget(value, context: context)!);
       });
     }
     _title = YZDynamicCommon.buildWidget(props.title, context: context);
     _flexibleSpace = YZDynamicCommon.buildWidget(props.flexibleSpace, context: context);
-    _bottom = YZDynamicCommon.buildWidget(props.bottom, context: context);
+    _bottom = YZDynamicCommon.buildWidget(props.bottom, context: context) as PreferredSizeWidget;
     _elevation = YZDynamicWidgetUtils.doubleAdapter(props.elevation);
     _shadowColor = YZDynamicWidgetUtils.colorAdapter(props.shadowColor);
     _backgroundColor = YZDynamicWidgetUtils.colorAdapter(props.backgroundColor);
@@ -128,9 +128,9 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
 
 }
 
-Brightness _brightnessAdapter(String str) {
+Brightness? _brightnessAdapter(String? str) {
 
-  Brightness _ret;
+  Brightness? _ret;
   switch (str) {
     case 'dark':
       _ret = Brightness.dark; 
@@ -147,23 +147,23 @@ Brightness _brightnessAdapter(String str) {
 
 /// The props of AppBar config
 class YZAppBarConfig {
-  Map leading;
-  List<Map> actions;
-  Map title;
-  Map flexibleSpace;
-  Map bottom;
-  String elevation;
-  String shadowColor;
-  String backgroundColor;
-  String brightness;
-  String primary;
-  String centerTitle;
-  String excludeHeaderSemantics;
-  String titleSpacing;
-  String toolbarOpacity;
-  String bottomOpacity;
-  String toolbarHeight;
-  String leadingWidth;
+  Map? leading;
+  List<Map>? actions;
+  Map? title;
+  Map? flexibleSpace;
+  Map? bottom;
+  String? elevation;
+  String? shadowColor;
+  String? backgroundColor;
+  String? brightness;
+  String? primary;
+  String? centerTitle;
+  String? excludeHeaderSemantics;
+  String? titleSpacing;
+  String? toolbarOpacity;
+  String? bottomOpacity;
+  String? toolbarHeight;
+  String? leadingWidth;
 
   YZAppBarConfig({
     this.leading,
@@ -185,7 +185,7 @@ class YZAppBarConfig {
     this.leadingWidth
   });
 
-  YZAppBarConfig.fromJson(Map<dynamic, dynamic> json) {
+  YZAppBarConfig.fromJson(Map<dynamic, dynamic>? json) {
     json ??= {};
     leading = json['leading'];
     actions = json['actions'];

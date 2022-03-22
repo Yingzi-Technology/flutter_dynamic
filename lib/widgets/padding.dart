@@ -20,7 +20,7 @@ class YZPaddingHandler extends YZDynamicBasicWidgetHandler {
   String get widgetName => 'Padding';
 
   @override
-  Widget build(Map json, {Key key, BuildContext buildContext}) {
+  Widget build(Map json, {Key? key, BuildContext? buildContext}) {
     return _Builder(json, key:key);
   }
   
@@ -30,7 +30,7 @@ class _Builder extends YZDynamicBaseWidget {
 
   final Map json;
 
-  _Builder(this.json, {Key key}): super(json, key: key);
+  _Builder(this.json, {Key? key}): super(json, key: key);
 
   @override
   _BuilderState createState() => _BuilderState();
@@ -48,17 +48,17 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
     Widget _widget;
 
     //Deal with props / 处理控件属性
-    YZPaddingConfig props = YZPaddingConfig.fromJson(super.config.props) ?? {};
-    EdgeInsets _padding = YZDynamicWidgetUtils.edgeInsetAdapter(props.padding);
-    Widget _child = props.child == null ? null : YZDynamicCommon.buildWidget(props.child, context: context);
+    YZPaddingConfig props = YZPaddingConfig.fromJson(super.config?.props ?? {});
+    EdgeInsets? _padding = YZDynamicWidgetUtils.edgeInsetAdapter(props.padding);
+    Widget? _child = props.child == null ? null : YZDynamicCommon.buildWidget(props.child, context: context);
 
     Padding _subwidget = Padding(
-      padding: _padding,
+      padding: _padding!,
       child: _child,
     );  
 
     //Deal with events / 处理事件
-    _widget = super.buildWithEvents(_subwidget, super.config.xEvents);
+    _widget = super.buildWithEvents(_subwidget, super.config?.xEvents);
 
     return _widget;
   }
@@ -72,14 +72,14 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
 
 /// The props of Padding config
 class YZPaddingConfig {
-  List padding;
-  Map child;
+  List? padding;
+  Map? child;
 
   YZPaddingConfig(
       {this.padding,
       this.child});
 
-  YZPaddingConfig.fromJson(Map<dynamic, dynamic> json) {
+  YZPaddingConfig.fromJson(Map<dynamic, dynamic>? json) {
     json ??= {};
     padding = json['padding'] == null ? null : jsonDecode(json['padding']);
     child = json['child'];

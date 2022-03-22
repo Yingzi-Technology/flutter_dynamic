@@ -10,10 +10,10 @@ part of '../action.dart';
 
 class YZStringHandler extends YZDynamicSysActionHandler{
   @override
-  String func(Map params) {
+  String? func(Map? params) {
     if (params == null) return null;
 
-    String ret = params['value']?.toString();
+    String? ret = params['value']?.toString();
     if (ret == null) {
       for (var value in params.values) {
         ret = value.toString();
@@ -30,10 +30,10 @@ class YZStringHandler extends YZDynamicSysActionHandler{
 
 class YZStringIsEmptyHandler extends YZDynamicSysActionHandler{
   @override
-  bool func(Map params) {
+  bool? func(Map? params) {
     if (params == null) return null;
 
-    String ret = params['value']?.toString();
+    String? ret = params['value']?.toString();
     if (ret == null) {
       for (var value in params.values) {
         ret = value?.toString();
@@ -54,10 +54,10 @@ class YZStringIsEmptyHandler extends YZDynamicSysActionHandler{
 
 class YZStringIsNotEmptyHandler extends YZDynamicSysActionHandler{
   @override
-  bool func(Map params) {
+  bool? func(Map? params) {
     if (params == null) return null;
 
-    String ret = params['value']?.toString();
+    String? ret = params['value']?.toString();
     if (ret == null) {
       for (var value in params.values) {
         ret = value.toString();
@@ -65,7 +65,7 @@ class YZStringIsNotEmptyHandler extends YZDynamicSysActionHandler{
       }      
     }
 
-    return ret.isNotEmpty;
+    return ret?.isNotEmpty;
   }
 
   @override
@@ -75,9 +75,9 @@ class YZStringIsNotEmptyHandler extends YZDynamicSysActionHandler{
 
 class YZStringPlusHandler extends YZDynamicSysActionHandler{
   @override
-  String func(Map params) {
+  String? func(Map? params) {
     if (params == null) return null;
-    String ret;
+    String? ret;
     params.forEach((key, value) {
       dynamic addend = value.toString();
       if (addend == null) return;
@@ -94,10 +94,10 @@ class YZStringPlusHandler extends YZDynamicSysActionHandler{
 
 class YZStringLengthHandler extends YZDynamicSysActionHandler{
   @override
-  int func(Map params) {
+  int? func(Map? params) {
     if (params == null) return null;
 
-    String ret = params['value']?.toString();
+    String? ret = params['value']?.toString();
     if (ret == null) {
       for (var value in params.values) {
         ret = value.toString();
@@ -115,11 +115,11 @@ class YZStringLengthHandler extends YZDynamicSysActionHandler{
 
 class YZStringCompareToHandler extends YZDynamicSysActionHandler{
   @override
-  int func(Map params) {
+  int? func(Map? params) {
     if (params == null) return null;
     
-    String value = params['value']?.toString();
-    String other = params['other']?.toString();
+    String? value = params['value']?.toString();
+    String? other = params['other']?.toString();
 
     if (value == null || other == null) {
       for (var v in params.values) {
@@ -133,7 +133,7 @@ class YZStringCompareToHandler extends YZDynamicSysActionHandler{
         }  
       } 
     }   
-    
+    if (other == null) return null;
     return value?.compareTo(other);
   }
 
@@ -144,13 +144,13 @@ class YZStringCompareToHandler extends YZDynamicSysActionHandler{
 
 class YZStringIndexOfHandler extends YZDynamicSysActionHandler{
   @override
-  int func(Map params) {
+  int? func(Map? params) {
     if (params == null) return null;
     
-    String value = params['value']?.toString();
+    String? value = params['value']?.toString();
     String patternStr = params['pattern']?.toString() ?? '';
     Pattern pattern = patternStr.startsWith('r') ? RegExp(patternStr) : patternStr;
-    int start;
+    int? start;
     if (params['start'] != null )
     start = ((params['start'] is int) ? params['start'] : int.tryParse(params['start']));
     
@@ -164,13 +164,13 @@ class YZStringIndexOfHandler extends YZDynamicSysActionHandler{
 
 class YZStringLastIndexOfHandler extends YZDynamicSysActionHandler{
   @override
-  int func(Map params) {
+  int? func(Map? params) {
     if (params == null) return null;
     
-    String value = params['value']?.toString();
+    String? value = params['value']?.toString();
     String patternStr = params['pattern']?.toString() ?? '';
     Pattern pattern = patternStr.startsWith('r') ? RegExp(patternStr) : patternStr;
-    int start;
+    int? start;
     if (params['start'] != null )
     start = ((params['start'] is int) ? params['start'] : int.tryParse(params['start']));
     
@@ -184,13 +184,13 @@ class YZStringLastIndexOfHandler extends YZDynamicSysActionHandler{
 
 class YZStringContainsHandler extends YZDynamicSysActionHandler{
   @override
-  bool func(Map params) {
+  bool? func(Map? params) {
     if (params == null) return null;
     
-    String value = params['value']?.toString();
+    String? value = params['value']?.toString();
     String otherStr = params['other']?.toString() ?? '';
     Pattern other = otherStr.startsWith('r') ? RegExp(otherStr) : otherStr;
-    int start;
+    int? start;
     if (params['start'] != null )
     start = ((params['start'] is int) ? params['start'] : int.tryParse(params['start']));
     
@@ -205,12 +205,13 @@ class YZStringContainsHandler extends YZDynamicSysActionHandler{
 
 class YZStringEndsWithHandler extends YZDynamicSysActionHandler{
   @override
-  bool func(Map params) {
+  bool? func(Map? params) {
     if (params == null) return null;
     
-    String value = params['value']?.toString();
-    String other = params['other']?.toString();
+    String? value = params['value']?.toString();
+    String? other = params['other']?.toString();
     
+    if (other == null)return null;
     return value?.endsWith(other);
   }
 
@@ -221,15 +222,16 @@ class YZStringEndsWithHandler extends YZDynamicSysActionHandler{
 
 class YZStringStartsWithHandler extends YZDynamicSysActionHandler{
   @override
-  bool func(Map params) {
+  bool? func(Map? params) {
     if (params == null) return null;
     
-    String value = params['value']?.toString();
-    String other = params['other']?.toString();
-    int start;
+    String? value = params['value']?.toString();
+    String? other = params['other']?.toString();
+    int? start;
     if (params['start'] != null )
     start = ((params['start'] is int) ? params['start'] : int.tryParse(params['start']));
     
+    if (other == null) return null;
     return value?.startsWith(other, start ?? 0);
   }
 
@@ -240,11 +242,11 @@ class YZStringStartsWithHandler extends YZDynamicSysActionHandler{
 
 class YZStringPadLeftHandler extends YZDynamicSysActionHandler{
   @override
-  String func(Map params) {
+  String? func(Map? params) {
     if (params == null) return null;
     
-    String value = params['value']?.toString();
-    String padding = params['padding']?.toString();
+    String? value = params['value']?.toString();
+    String? padding = params['padding']?.toString();
     int width = ((params['width'] is int) ? params['width'] : int.tryParse(params['width']));
     
     return value?.padLeft(width, padding ?? ' ');
@@ -257,11 +259,11 @@ class YZStringPadLeftHandler extends YZDynamicSysActionHandler{
 
 class YZStringPadRightHandler extends YZDynamicSysActionHandler{
   @override
-  String func(Map params) {
+  String? func(Map? params) {
     if (params == null) return null;
     
-    String value = params['value']?.toString();
-    String padding = params['padding']?.toString();
+    String? value = params['value']?.toString();
+    String? padding = params['padding']?.toString();
     int width = ((params['width'] is int) ? params['width'] : int.tryParse(params['width']));
     
     return value?.padRight(width, padding ?? ' ');
@@ -274,14 +276,15 @@ class YZStringPadRightHandler extends YZDynamicSysActionHandler{
 
 class YZStringReplaceAllHandler extends YZDynamicSysActionHandler{
   @override
-  String func(Map params) {
+  String? func(Map? params) {
     if (params == null) return null;
     
-    String value = params['value']?.toString();
-    String replace = params['replace']?.toString();
+    String? value = params['value']?.toString();
+    String? replace = params['replace']?.toString();
     String fromStr = params['from']?.toString() ?? '';
     Pattern from = fromStr.startsWith('r') ? RegExp(fromStr) : fromStr;
     
+    if (replace == null) return null;
     return value?.replaceAll(from, replace);
   }
 
@@ -292,17 +295,18 @@ class YZStringReplaceAllHandler extends YZDynamicSysActionHandler{
 
 class YZStringReplaceFirstHandler extends YZDynamicSysActionHandler{
   @override
-  String func(Map params) {
+  String? func(Map? params) {
     if (params == null) return null;
     
-    String value = params['value']?.toString();
-    String to = params['replace']?.toString();
+    String? value = params['value']?.toString();
+    String? to = params['replace']?.toString();
     String fromStr = params['from']?.toString() ?? '';
     Pattern from = fromStr.startsWith('r') ? RegExp(fromStr) : fromStr;
-    int startIndex;
+    int? startIndex;
     if (params['startIndex'] != null )
     startIndex = ((params['startIndex'] is int) ? params['startIndex'] : int.tryParse(params['startIndex']));
     
+    if (to == null)return null;
     return value?.replaceFirst(from, to, startIndex ?? 0);
   }
 
@@ -313,14 +317,15 @@ class YZStringReplaceFirstHandler extends YZDynamicSysActionHandler{
 
 class YZStringReplaceRangeHandler extends YZDynamicSysActionHandler{
   @override
-  String func(Map params) {
+  String? func(Map? params) {
     if (params == null) return null;
     
-    String value = params['value']?.toString();
-    String replacement = params['replace']?.toString();
+    String? value = params['value']?.toString();
+    String? replacement = params['replace']?.toString();
     int start = ((params['start'] is int) ? params['start'] : int.tryParse(params['start']));
     int end = ((params['end'] is int) ? params['end'] : int.tryParse(params['end']));
     
+    if (replacement == null) return null;
     return value?.replaceRange(start, end, replacement);
   }
 
@@ -331,13 +336,13 @@ class YZStringReplaceRangeHandler extends YZDynamicSysActionHandler{
 
 class YZStringSubstringHandler extends YZDynamicSysActionHandler{
   @override
-  String func(Map params) {
+  String? func(Map? params) {
     if (params == null) return null;
     
-    String value = params['value']?.toString();
+    String? value = params['value']?.toString();
     int startIndex = ((params['startIndex'] is int) ? params['startIndex'] : int.tryParse(params['startIndex']));
 
-    int endIndex;
+    int? endIndex;
     if (params['endIndex'] != null )
     endIndex = ((params['endIndex'] is int) ? params['endIndex'] : int.tryParse(params['endIndex'])); 
     
@@ -351,10 +356,10 @@ class YZStringSubstringHandler extends YZDynamicSysActionHandler{
 
 class YZStringToLowerCaseHandler extends YZDynamicSysActionHandler{
   @override
-  String func(Map params) {
+  String? func(Map? params) {
     if (params == null) return null;
     
-    String value = params['value']?.toString();
+    String? value = params['value']?.toString();
 
     return value?.toLowerCase();
   }
@@ -366,10 +371,10 @@ class YZStringToLowerCaseHandler extends YZDynamicSysActionHandler{
 
 class YZStringToUpperCaseHandler extends YZDynamicSysActionHandler{
   @override
-  String func(Map params) {
+  String? func(Map? params) {
     if (params == null) return null;
     
-    String ret = params['value']?.toString();
+    String? ret = params['value']?.toString();
     if (ret == null) {
       for (var value in params.values) {
         ret = value.toString();
@@ -387,10 +392,10 @@ class YZStringToUpperCaseHandler extends YZDynamicSysActionHandler{
 
 class YZStringTrimHandler extends YZDynamicSysActionHandler{
   @override
-  String func(Map params) {
+  String? func(Map? params) {
     if (params == null) return null;
     
-    String ret = params['value']?.toString();
+    String? ret = params['value']?.toString();
     if (ret == null) {
       for (var value in params.values) {
         ret = value.toString();
@@ -408,10 +413,10 @@ class YZStringTrimHandler extends YZDynamicSysActionHandler{
 
 class YZStringTrimLeftHandler extends YZDynamicSysActionHandler{
   @override
-  String func(Map params) {
+  String? func(Map? params) {
     if (params == null) return null;
     
-    String ret = params['value']?.toString();
+    String? ret = params['value']?.toString();
     if (ret == null) {
       for (var value in params.values) {
         ret = value.toString();
@@ -429,10 +434,10 @@ class YZStringTrimLeftHandler extends YZDynamicSysActionHandler{
 
 class YZStringTrimRightHandler extends YZDynamicSysActionHandler{
   @override
-  String func(Map params) {
+  String? func(Map? params) {
     if (params == null) return null;
     
-    String ret = params['value']?.toString();
+    String? ret = params['value']?.toString();
     if (ret == null) {
       for (var value in params.values) {
         ret = value.toString();
@@ -450,10 +455,10 @@ class YZStringTrimRightHandler extends YZDynamicSysActionHandler{
 
 class YZStringSplitHandler extends YZDynamicSysActionHandler{
   @override
-  List<String> func(Map params) {
+  List<String>? func(Map? params) {
     if (params == null) return null;
     
-    String value = params['value']?.toString();
+    String? value = params['value']?.toString();
     String patternStr = params['pattern']?.toString() ?? '';
     Pattern pattern = patternStr.startsWith('r') ? RegExp(patternStr) : patternStr;
 
@@ -471,15 +476,17 @@ class YZStringAllMatchesHandler extends YZDynamicSysActionHandler {
   String get actionName => 'String.allMatches';
 
   @override
-  dynamic func(Map params) {
+  dynamic? func(Map? params) {
     if(params == null) return null;
-    String value = params['value']?.toString();
-    String string = params['string']?.toString();
-    int start;
+    String? value = params['value']?.toString();
+    String? string = params['string']?.toString();
+    int? start;
     if(params['start'] != null) {
-      start = int.tryParse(params['start']?.toString());
-      return value?.allMatches(string, start);
+      start = int.tryParse(params['start'].toString());
+      if (string == null) return null;
+      return value?.allMatches(string, start ?? 0);
     }
+    if (string == null) return null;
     return value?.allMatches(string);
   }
 }
@@ -490,15 +497,17 @@ class YZStringMatchAsPrefix extends YZDynamicSysActionHandler {
   String get actionName => 'String.matchAsPrefix';
 
   @override
-  dynamic func(Map params) {
+  dynamic? func(Map? params) {
     if(params == null) return null;
-    String value = params['value']?.toString();
-    String string = params['string']?.toString();
-    int start;
+    String? value = params['value']?.toString();
+    String? string = params['string']?.toString();
+    int? start;
     if(params['start'] != null) {
-      start = int.tryParse(params['start']?.toString());
-      return value?.matchAsPrefix(string, start);
+      start = int.tryParse(params['start'].toString());
+      if (string == null) return null;
+      return value?.matchAsPrefix(string, start ?? 0);
     }
+    if (string == null) return null;
     return value?.matchAsPrefix(string);
   }
   

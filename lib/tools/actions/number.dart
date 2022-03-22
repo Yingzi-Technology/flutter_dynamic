@@ -9,10 +9,10 @@ part of '../action.dart';
 
 class YZIntHandler extends YZDynamicSysActionHandler{
   @override
-  int func(Map params) {
+  int? func(Map? params) {
 
     if (params == null) return null;
-    int ret;
+    int? ret;
     for (var value in params.values) {
       ret = ((value is int) ? value : int.tryParse(value));
       break;
@@ -28,10 +28,10 @@ class YZIntHandler extends YZDynamicSysActionHandler{
 
 class YZDoubleHandler extends YZDynamicSysActionHandler{
   @override
-  double func(Map params) {
+  double? func(Map? params) {
 
     if (params == null) return null;
-    double ret;
+    double? ret;
     for (var value in params.values) {
       ret = ((value is double) ? value : double.tryParse(value));
       break;
@@ -47,10 +47,10 @@ class YZDoubleHandler extends YZDynamicSysActionHandler{
 
 class YZNumHandler extends YZDynamicSysActionHandler{
   @override
-  num func(Map params) {
+  num? func(Map? params) {
 
     if (params == null) return null;
-    num ret;
+    num? ret;
     for (var value in params.values) {
       ret = ((value is num) ? value : num.tryParse(value));
       break;
@@ -66,11 +66,11 @@ class YZNumHandler extends YZDynamicSysActionHandler{
 
 class YZPlusHandler extends YZDynamicSysActionHandler{
   @override
-  num func(Map params) {
+  num? func(Map? params) {
     if (params == null) return null;
-    num ret;
+    num? ret;
     params.forEach((key, value) {
-      num opt = ((value is num) ? value : num.tryParse(value));
+      num? opt = ((value is num) ? value : num.tryParse(value));
       if (opt == null) return;
       ret = (ret ?? 0) + opt;
     });
@@ -84,18 +84,18 @@ class YZPlusHandler extends YZDynamicSysActionHandler{
 
 class YZSubHandler extends YZDynamicSysActionHandler{
   @override
-  num func(Map params) {
+  num? func(Map? params) {
     if (params == null) return null;
 
-    num ret;
+    num? ret;
     params.forEach((key, value) {
-      num opt = ((value is num) ? value : num.tryParse(value));
+      num? opt = ((value is num) ? value : num.tryParse(value));
       if (opt == null) return;
       if (ret == null) {
         ret = opt;
         return;
       } 
-      ret = ret - opt;
+      ret = ret! - opt;
     });
     
     return ret;
@@ -108,11 +108,11 @@ class YZSubHandler extends YZDynamicSysActionHandler{
 
 class YZMultiHandler extends YZDynamicSysActionHandler{
   @override
-  num func(Map params) {
+  num? func(Map? params) {
     if (params == null) return null;
-    num ret;
+    num? ret;
     params.forEach((key, value) {
-      num addend = ((value is num) ? value : num.tryParse(value));
+      num? addend = ((value is num) ? value : num.tryParse(value));
       if (addend == null) return;
       ret = (ret ?? 1) * addend;
     });
@@ -127,18 +127,18 @@ class YZMultiHandler extends YZDynamicSysActionHandler{
 
 class YZDivHandler extends YZDynamicSysActionHandler{
   @override
-  num func(Map params) {
+  num? func(Map? params) {
     if (params == null) return null;
 
-    num ret;
+    num? ret;
     params.forEach((key, value) {
-      num opt = ((value is num) ? value : num.tryParse(value));
+      num? opt = ((value is num) ? value : num.tryParse(value));
       if (opt == null) return;
       if (ret == null) {
         ret = opt;
         return;
       } 
-      ret = ret / opt;
+      ret = ret! / opt;
     });
     
     return ret;
@@ -155,18 +155,18 @@ class YZRemainderHandler extends YZDynamicSysActionHandler {
   String get actionName => 'num.%';
 
   @override
-  num func(Map params) {
+  num? func(Map? params) {
     if (params == null) return null;
 
-    num ret;
+    num? ret;
     params.forEach((key, value) {
-      num opt = ((value is num) ? value : num.tryParse(value));
+      num? opt = ((value is num) ? value : num.tryParse(value));
       if (opt == null) return;
       if (ret == null) {
         ret = opt;
         return;
       } 
-      ret = ret % opt;
+      ret = ret! % opt;
     });
     
     return ret;
@@ -176,7 +176,7 @@ class YZRemainderHandler extends YZDynamicSysActionHandler {
 // uncheck: +=
 class YZPlusEqualHandler extends YZDynamicSysActionHandler{
   @override
-  num func(Map params) {
+  num? func(Map? params) {
     if (params == null) return null;
 
     num ret = (params['ret'] is num) ? params['ret'] : num.tryParse(params['ret']);
@@ -194,7 +194,7 @@ class YZPlusEqualHandler extends YZDynamicSysActionHandler{
 // uncheck: -=
 class YZSubEqualHandler extends YZDynamicSysActionHandler{
   @override
-  num func(Map params) {
+  num? func(Map? params) {
     if (params == null) return null;
 
     num ret = (params['ret'] is num) ? params['ret'] : num.tryParse(params['ret']);
@@ -212,7 +212,7 @@ class YZSubEqualHandler extends YZDynamicSysActionHandler{
 // uncheck: *=
 class YZMultiEqualHandler extends YZDynamicSysActionHandler{
   @override
-  num func(Map params) {
+  num? func(Map? params) {
     if (params == null) return null;
 
     num ret = (params['ret'] is num) ? params['ret'] : num.tryParse(params['ret']);
@@ -230,7 +230,7 @@ class YZMultiEqualHandler extends YZDynamicSysActionHandler{
 // uncheck: /=
 class YZDivEqualHandler extends YZDynamicSysActionHandler{
   @override
-  num func(Map params) {
+  num? func(Map? params) {
     if (params == null) return null;
 
     num ret = (params['ret'] is num) ? params['ret'] : num.tryParse(params['ret']);
@@ -247,16 +247,16 @@ class YZDivEqualHandler extends YZDynamicSysActionHandler{
 
 class YZParseHandler extends YZDynamicSysActionHandler{
   @override
-  num func(Map params) {
+  num? func(Map? params) {
     if (params == null) return null;
 
-    String ret;
+    String? ret;
     for (var value in params.values) {
       ret = value;
       break;
     }    
     
-    return num.parse(ret);
+    return num.parse(ret!);
   }
 
   @override
@@ -266,16 +266,16 @@ class YZParseHandler extends YZDynamicSysActionHandler{
 
 class YZTryParseHandler extends YZDynamicSysActionHandler{
   @override
-  num func(Map params) {
+  num? func(Map? params) {
     if (params == null) return null;
 
-    String ret;
+    String? ret;
     for (var value in params.values) {
       ret = value;
       break;
     }    
     
-    return num.tryParse(ret);
+    return ret == null ? null: num.tryParse(ret);
   }
 
   @override
@@ -285,10 +285,10 @@ class YZTryParseHandler extends YZDynamicSysActionHandler{
 
 class YZIsNaNHandler extends YZDynamicSysActionHandler{
   @override
-  bool func(Map params) {
+  bool? func(Map? params) {
     if (params == null) return null;
 
-    num ret;
+    num? ret;
     for (var value in params.values) {
       ret = ((value is num) ?value : num.tryParse(value));
       break;
@@ -304,10 +304,10 @@ class YZIsNaNHandler extends YZDynamicSysActionHandler{
 
 class YZIsInfiniteHandler extends YZDynamicSysActionHandler{
   @override
-  bool func(Map params) {
+  bool? func(Map? params) {
     if (params == null) return null;
 
-    num ret;
+    num? ret;
     for (var value in params.values) {
       ret = ((value is num) ?value : num.tryParse(value));
       break;
@@ -323,10 +323,10 @@ class YZIsInfiniteHandler extends YZDynamicSysActionHandler{
 
 class YZIsFiniteHandler extends YZDynamicSysActionHandler{
   @override
-  bool func(Map params) {
+  bool? func(Map? params) {
     if (params == null) return null;
 
-    num ret;
+    num? ret;
     for (var value in params.values) {
       ret = ((value is num) ?value : num.tryParse(value));
       break;
@@ -342,10 +342,10 @@ class YZIsFiniteHandler extends YZDynamicSysActionHandler{
 
 class YZIsNegativeHandler extends YZDynamicSysActionHandler{
   @override
-  bool func(Map params) {
+  bool? func(Map? params) {
     if (params == null) return null;
 
-    num ret;
+    num? ret;
     for (var value in params.values) {
       ret = ((value is num) ?value : num.tryParse(value));
       break;
@@ -361,10 +361,10 @@ class YZIsNegativeHandler extends YZDynamicSysActionHandler{
 
 class YZAbsHandler extends YZDynamicSysActionHandler{
   @override
-  num func(Map params) {
+  num? func(Map? params) {
     if (params == null) return null;
 
-    num ret;
+    num? ret;
     for (var value in params.values) {
       ret = ((value is num) ?value : num.tryParse(value));
       break;
@@ -380,10 +380,10 @@ class YZAbsHandler extends YZDynamicSysActionHandler{
 
 class YZClampHandler extends YZDynamicSysActionHandler{
   @override
-  num func(Map params) {
+  num? func(Map? params) {
     if (params == null) return null;
 
-    num ret;
+    num? ret;
     for (var value in params.values) {
       ret = ((value is num) ?value : num.tryParse(value));
       break;
@@ -401,10 +401,10 @@ class YZClampHandler extends YZDynamicSysActionHandler{
 
 class YZCeilHandler extends YZDynamicSysActionHandler{
   @override
-  num func(Map params) {
+  num? func(Map? params) {
     if (params == null) return null;
 
-    num ret;
+    num? ret;
     for (var value in params.values) {
       ret = ((value is num) ?value : num.tryParse(value));
       break;
@@ -420,10 +420,10 @@ class YZCeilHandler extends YZDynamicSysActionHandler{
 
 class YZCeilToDoubleHandler extends YZDynamicSysActionHandler{
   @override
-  num func(Map params) {
+  num? func(Map? params) {
     if (params == null) return null;
 
-    num ret;
+    num? ret;
     for (var value in params.values) {
       ret = ((value is num) ?value : num.tryParse(value));
       break;
@@ -439,10 +439,10 @@ class YZCeilToDoubleHandler extends YZDynamicSysActionHandler{
 
 class YZCompareToHandler extends YZDynamicSysActionHandler{
   @override
-  num func(Map params) {
+  num? func(Map? params) {
     if (params == null) return null;
 
-    num value, other;
+    num? value, other;
     for (var v in params.values) {
       if (value == null) {
         value = ((v is num) ?v : num.tryParse(v));
@@ -454,7 +454,7 @@ class YZCompareToHandler extends YZDynamicSysActionHandler{
       }     
     }
     
-    return value?.compareTo(other);
+    return other == null ? null: value?.compareTo(other);
   }
 
   @override
@@ -464,10 +464,10 @@ class YZCompareToHandler extends YZDynamicSysActionHandler{
 
 class YZFloorHandler extends YZDynamicSysActionHandler{
   @override
-  num func(Map params) {
+  num? func(Map? params) {
     if (params == null) return null;
 
-    num ret;
+    num? ret;
     for (var value in params.values) {
       ret = ((value is num) ?value : num.tryParse(value));
       break;
@@ -483,10 +483,10 @@ class YZFloorHandler extends YZDynamicSysActionHandler{
 
 class YZFloorToDoubleHandler extends YZDynamicSysActionHandler{
   @override
-  num func(Map params) {
+  num? func(Map? params) {
     if (params == null) return null;
 
-    num ret;
+    num? ret;
     for (var value in params.values) {
       ret = ((value is num) ?value : num.tryParse(value));
       break;
@@ -502,10 +502,10 @@ class YZFloorToDoubleHandler extends YZDynamicSysActionHandler{
 
 class YZRoundHandler extends YZDynamicSysActionHandler{
   @override
-  num func(Map params) {
+  num? func(Map? params) {
     if (params == null) return null;
 
-    num ret;
+    num? ret;
     for (var value in params.values) {
       ret = ((value is num) ?value : num.tryParse(value));
       break;
@@ -521,10 +521,10 @@ class YZRoundHandler extends YZDynamicSysActionHandler{
 
 class YZRoundToDoubleHandler extends YZDynamicSysActionHandler{
   @override
-  num func(Map params) {
+  num? func(Map? params) {
     if (params == null) return null;
 
-    num ret;
+    num? ret;
     for (var value in params.values) {
       ret = ((value is num) ?value : num.tryParse(value));
       break;
@@ -540,10 +540,10 @@ class YZRoundToDoubleHandler extends YZDynamicSysActionHandler{
 
 class YZToDoubleHandler extends YZDynamicSysActionHandler{
   @override
-  num func(Map params) {
+  num? func(Map? params) {
     if (params == null) return null;
 
-    num ret;
+    num? ret;
     for (var value in params.values) {
       ret = ((value is num) ?value : num.tryParse(value));
       break;
@@ -559,10 +559,10 @@ class YZToDoubleHandler extends YZDynamicSysActionHandler{
 
 class YZToIntHandler extends YZDynamicSysActionHandler{
   @override
-  num func(Map params) {
+  num? func(Map? params) {
     if (params == null) return null;
 
-    num ret;
+    num? ret;
     for (var value in params.values) {
       ret = ((value is num) ?value : num.tryParse(value));
       break;
@@ -578,10 +578,10 @@ class YZToIntHandler extends YZDynamicSysActionHandler{
 
 class YZTruncateHandler extends YZDynamicSysActionHandler{
   @override
-  num func(Map params) {
+  num? func(Map? params) {
     if (params == null) return null;
 
-    num ret;
+    num? ret;
     for (var value in params.values) {
       ret = ((value is num) ?value : num.tryParse(value));
       break;
@@ -597,10 +597,10 @@ class YZTruncateHandler extends YZDynamicSysActionHandler{
 
 class YZTruncateToDoubleHandler extends YZDynamicSysActionHandler{
   @override
-  num func(Map params) {
+  num? func(Map? params) {
     if (params == null) return null;
 
-    num ret;
+    num? ret;
     for (var value in params.values) {
       ret = ((value is num) ?value : num.tryParse(value));
       break;
@@ -616,10 +616,10 @@ class YZTruncateToDoubleHandler extends YZDynamicSysActionHandler{
 
 class YZToStringHandler extends YZDynamicSysActionHandler{
   @override
-  String func(Map params) {
+  String? func(Map? params) {
     if (params == null) return null;
 
-    num ret;
+    num? ret;
     for (var value in params.values) {
       ret = ((value is num) ?value : num.tryParse(value));
       break;
@@ -635,10 +635,10 @@ class YZToStringHandler extends YZDynamicSysActionHandler{
 
 class YZToStringAsExponentialHandler extends YZDynamicSysActionHandler{
   @override
-  String func(Map params) {
+  String? func(Map? params) {
     if (params == null) return null;
 
-    num ret;
+    num? ret;
     for (var value in params.values) {
       ret = ((value is num) ?value : num.tryParse(value));
       break;
@@ -654,10 +654,10 @@ class YZToStringAsExponentialHandler extends YZDynamicSysActionHandler{
 
 class YZToStringAsFixedHandler extends YZDynamicSysActionHandler{
   @override
-  String func(Map params) {
+  String? func(Map? params) {
     if (params == null) return null;
 
-    num value; int fractionDigits;
+    num? value; int? fractionDigits;
     for (var v in params.values) {
       if (value == null) {
         value = ((v is num) ?v : num.tryParse(v));
@@ -669,7 +669,7 @@ class YZToStringAsFixedHandler extends YZDynamicSysActionHandler{
       }  
     }
     
-    return value?.toStringAsFixed(fractionDigits);
+    return fractionDigits == null? null: value?.toStringAsFixed(fractionDigits);
   }
 
   @override
@@ -679,10 +679,10 @@ class YZToStringAsFixedHandler extends YZDynamicSysActionHandler{
 
 class YZToStringAsPrecisionHandler extends YZDynamicSysActionHandler{
   @override
-  String func(Map params) {
+  String? func(Map? params) {
     if (params == null) return null;
 
-    num value; int fractionDigits;
+    num? value; int? fractionDigits;
     for (var v in params.values) {
       if (value == null) {
         value = ((v is num) ?v : num.tryParse(v));
@@ -694,7 +694,7 @@ class YZToStringAsPrecisionHandler extends YZDynamicSysActionHandler{
       }  
     }
     
-    return value?.toStringAsPrecision(fractionDigits);
+    return fractionDigits == null? null : value?.toStringAsPrecision(fractionDigits);
   }
 
   @override

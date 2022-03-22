@@ -18,7 +18,7 @@ class YZAlignHandler extends YZDynamicBasicWidgetHandler {
 
   @override
   Widget build(Map json,
-      {Key key, BuildContext buildContext}) {
+      {Key? key, BuildContext? buildContext}) {
     return _Builder(json, key: key);
   }
 }
@@ -26,7 +26,7 @@ class YZAlignHandler extends YZDynamicBasicWidgetHandler {
 class _Builder extends YZDynamicBaseWidget {
   final Map json;
 
-  _Builder(this.json, {Key key}) : super(json, key: key);
+  _Builder(this.json, {Key? key}) : super(json, key: key);
 
   @override
   _BuilderState createState() => _BuilderState();
@@ -34,18 +34,18 @@ class _Builder extends YZDynamicBaseWidget {
 
 class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
   //Deal with props / 处理控件属性
-  YZAlignConfig props;
-  AlignmentGeometry _alignment;
-  double _widthFactor;
-  double _heightFactor;
-  Widget _child;
+  late YZAlignConfig props;
+  AlignmentGeometry? _alignment;
+  double? _widthFactor;
+  double? _heightFactor;
+  Widget? _child;
 
   @override
   void initState() {
     super.initState();
 
     //Deal with props / 处理控件属性
-    props = YZAlignConfig.fromJson(super.config.props) ?? {};
+    props = YZAlignConfig.fromJson(super.config?.props ?? {});
     _alignment = YZDynamicWidgetUtils.alignmentAdapter(props.alignment);
     _widthFactor = YZDynamicWidgetUtils.doubleAdapter(props.widthFactor);
     _heightFactor = YZDynamicWidgetUtils.doubleAdapter(props.heightFactor);
@@ -66,7 +66,7 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
     );
 
     //Deal with events / 处理事件
-    _widget = super.buildWithEvents(_subwidget, super.config.xEvents);
+    _widget = super.buildWithEvents(_subwidget, super.config?.xEvents);
 
     return _widget;
   }
@@ -80,15 +80,15 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
 
 /// The props of Align config
 class YZAlignConfig {
-  String alignment;
-  String widthFactor;
-  String heightFactor;
-  Map child;
+  String? alignment;
+  String? widthFactor;
+  String? heightFactor;
+  Map? child;
 
   YZAlignConfig(
       {this.alignment, this.heightFactor, this.widthFactor, this.child});
 
-  YZAlignConfig.fromJson(Map<dynamic, dynamic> json) {
+  YZAlignConfig.fromJson(Map<dynamic, dynamic>? json) {
     json ??= {};
     alignment = json['alignment'];
     widthFactor = json['widthFactor'];

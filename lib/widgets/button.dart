@@ -19,7 +19,7 @@ class YZRawMaterialButtonHandler extends YZDynamicBasicWidgetHandler {
   String get widgetName => 'RawMaterialButton';
 
   @override
-  Widget build(Map json, {Key key, BuildContext buildContext}) {
+  Widget build(Map json, {Key? key, BuildContext? buildContext}) {
     return _Builder(json, key:key);
   }
   
@@ -29,7 +29,7 @@ class _Builder extends YZDynamicBaseWidget {
 
   final Map json;
 
-  _Builder(this.json, {Key key}): super(json, key: key);
+  _Builder(this.json, {Key? key}): super(json, key: key);
 
   @override
   _BuilderState createState() => _BuilderState();
@@ -38,28 +38,28 @@ class _Builder extends YZDynamicBaseWidget {
 class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
 
   //Deal with props / 处理控件属性
-  YZRawMaterialButtonConfig props;
-  EdgeInsets _padding;
-  Clip _clipBehavior;
-  Widget _child;
-  TextStyle _textStyle;
-  Color _fillColor;
-  Color _focusColor;
-  Color _hoverColor;
-  Color _highlightColor;
-  Color _splashColor;
-  double _elevation;
-  double _focusElevation;
-  double _hoverElevation;
-  double _highlightElevation;
-  double _disabledElevation;    
+  late YZRawMaterialButtonConfig props;
+  EdgeInsets? _padding;
+  Clip? _clipBehavior;
+  Widget? _child;
+  TextStyle? _textStyle;
+  Color? _fillColor;
+  Color? _focusColor;
+  Color? _hoverColor;
+  Color? _highlightColor;
+  Color? _splashColor;
+  double? _elevation;
+  double? _focusElevation;
+  double? _hoverElevation;
+  double? _highlightElevation;
+  double? _disabledElevation;    
 
   @override
   void initState() {
     super.initState();
 
     //Deal with props / 处理控件属性
-    props = YZRawMaterialButtonConfig.fromJson(super.config.props) ?? {};
+    props = YZRawMaterialButtonConfig.fromJson(super.config?.props ?? {});
     _textStyle = YZDynamicWidgetUtils.textStyleAdapter(props.textStyle);
     _fillColor = YZDynamicWidgetUtils.colorAdapter(props.fillColor);
     _focusColor = YZDynamicWidgetUtils.colorAdapter(props.focusColor);
@@ -122,12 +122,12 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
     actionFunctions['setState'] = stateSetter; 
   }
 
-  void stateSetter(BuildContext triggerContext, {
-      Map params, 
-      YZDynamicRequest request,
-      List<YZDynamicActionRule> rules,
-      Map localVariables,
-      State state,
+  void stateSetter(BuildContext? triggerContext, {
+      Map? params, 
+      YZDynamicRequest? request,
+      List<YZDynamicActionRule>? rules,
+      Map? localVariables,
+      State? state,
     }) {
     print('Execute xAction: ${this.runtimeType} setState');
     if (mounted) {
@@ -139,20 +139,20 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
 
 /// The props of RawMaterialButton config
 class YZRawMaterialButtonConfig {
-  Map textStyle;
-  String fillColor;
-  String focusColor;
-  String hoverColor;
-  String highlightColor;
-  String splashColor;  
-  String elevation;
-  String focusElevation;
-  String hoverElevation;
-  String highlightElevation;
-  String disabledElevation;
-  List padding;
-  String clipBehavior;
-  Map child;
+  Map? textStyle;
+  String? fillColor;
+  String? focusColor;
+  String? hoverColor;
+  String? highlightColor;
+  String? splashColor;  
+  String? elevation;
+  String? focusElevation;
+  String? hoverElevation;
+  String? highlightElevation;
+  String? disabledElevation;
+  List? padding;
+  String? clipBehavior;
+  Map? child;
 
   YZRawMaterialButtonConfig(
       {this.textStyle,
@@ -170,7 +170,7 @@ class YZRawMaterialButtonConfig {
       this.clipBehavior,
       this.child});
 
-  YZRawMaterialButtonConfig.fromJson(Map<dynamic, dynamic> json) {
+  YZRawMaterialButtonConfig.fromJson(Map<dynamic, dynamic>? json) {
     json ??= {};
     textStyle = json['textStyle'];
     fillColor = json['fillColor'];

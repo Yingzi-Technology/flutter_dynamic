@@ -15,7 +15,7 @@ import 'basic/widget.dart';
 class YZCheckboxHandler extends YZDynamicBasicWidgetHandler {
   @override
   Widget build(Map json,
-      {Key key, BuildContext buildContext}) {
+      {Key? key, BuildContext? buildContext}) {
     return _Builder(json, key: key);
   }
 
@@ -26,7 +26,7 @@ class YZCheckboxHandler extends YZDynamicBasicWidgetHandler {
 class _Builder extends YZDynamicBaseWidget {
   final Map json;
 
-  _Builder(this.json, {Key key}) : super(json, key: key);
+  _Builder(this.json, {Key? key}) : super(json, key: key);
 
   @override
   _BuilderState createState() => _BuilderState();
@@ -34,21 +34,21 @@ class _Builder extends YZDynamicBaseWidget {
 
 class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
   //Deal with props / 处理控件属性
-  YZCheckboxConfig props;
-  Color _activeColor;
-  bool _value;
-  Color _checkColor;
-  bool _tristate;
-  Color _focusColor;
-  Color _hoverColor;
-  MaterialTapTargetSize _materialTapTargetSize;
+  late YZCheckboxConfig props;
+  Color? _activeColor;
+  bool? _value;
+  Color? _checkColor;
+  bool? _tristate;
+  Color? _focusColor;
+  Color? _hoverColor;
+  MaterialTapTargetSize? _materialTapTargetSize;
 
   @override
   void initState() {
     super.initState();
 
     //Deal with props / 处理控件属性
-    props = YZCheckboxConfig.fromJson(super.config.props) ?? {};
+    props = YZCheckboxConfig.fromJson(super.config?.props ?? {});
     _value = YZDynamicWidgetUtils.boolAdapter(props.value);
     _activeColor = YZDynamicWidgetUtils.colorAdapter(props.activeColor);
     _checkColor = YZDynamicWidgetUtils.colorAdapter(props.checkColor);
@@ -77,7 +77,7 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
       materialTapTargetSize: _materialTapTargetSize,
       onChanged: (value) {
         this.value = value.toString();
-        _value = !_value;
+        _value = !(_value!);
         setState(() {});
         super.triggerEvent(YZDynamicWidgetEventType.onValueChanged);
       },
@@ -92,12 +92,12 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
     actionFunctions['setState'] = stateSetter;
   }
 
-  void stateSetter(BuildContext triggerContext, {
-    Map params,
-    YZDynamicRequest request,
-    List<YZDynamicActionRule> rules,
-    Map localVariables,
-    State state,
+  void stateSetter(BuildContext? triggerContext, {
+    Map? params,
+    YZDynamicRequest? request,
+    List<YZDynamicActionRule>? rules,
+    Map? localVariables,
+    State? state,
   }) {
     print('Execute xAction: ${this.runtimeType} setState');
     if (mounted) {
@@ -108,18 +108,18 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
 
 /// The props of Checkbox config
 class YZCheckboxConfig {
-  String activeColor;
-  String value;
-  String checkColor;
-  String tristate;
-  String focusColor;
-  String hoverColor;
-  String materialTapTargetSize;
+  String? activeColor;
+  String? value;
+  String? checkColor;
+  String? tristate;
+  String? focusColor;
+  String? hoverColor;
+  String? materialTapTargetSize;
 
   YZCheckboxConfig(
       {this.activeColor, this.checkColor, this.value, this.tristate});
 
-  YZCheckboxConfig.fromJson(Map<dynamic, dynamic> json) {
+  YZCheckboxConfig.fromJson(Map<dynamic, dynamic>? json) {
     json ??= {};
     activeColor = json['activeColor'];
     value = json['value'];

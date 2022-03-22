@@ -11,7 +11,7 @@ part of '../action.dart';
 
 class YZListHandler extends YZDynamicSysActionHandler{
   @override
-  List func(Map params) {
+  List func(Map? params) {
     List result = [];
     params?.forEach((key, value) {
       result.add(value);
@@ -34,13 +34,13 @@ class YZListGenerateHandler extends YZListHandler{
 // 获取对应下标的值
 class YZListValueOfIndexHandler extends YZDynamicSysActionHandler{
   @override
-  dynamic func(Map params) {
+  dynamic func(Map? params) {
 
     if (params == null) return null;
     
-    List list = (params['list'] is List) ? params['list'] : null;
+    List? list = (params['list'] is List) ? params['list'] : null;
     if (list == null) return null; 
-    int key = (params['index'] is int) ? params['index'] : int.tryParse(params['index']);
+    int? key = (params['index'] is int) ? params['index'] : int.tryParse(params['index']);
     if (key == null) return null; 
     
     return list[key];
@@ -69,10 +69,10 @@ class YZListLengthHandler extends YZIterableLengthHandler{
 
 class YZListClearHandler extends YZDynamicSysActionHandler{
   @override
-  dynamic func(Map params) {
+  dynamic func(Map? params) {
 
     if (params == null || params['list'] == null ) return null;
-    List list = (params['list'] is List) ? params['list'] : null;
+    List? list = (params['list'] is List) ? params['list'] : null;
     
     return list?.clear();
 
@@ -95,12 +95,12 @@ class YZListLastHandler extends YZIterableLastHandler{
 
 class YZListAddHandler extends YZDynamicSysActionHandler{
   @override
-  dynamic func(Map params) {
+  dynamic func(Map? params) {
 
     if (params == null || params['list'] == null ) return null;
-    List list = (params['list'] is List) ? params['list'] : null;
+    List? list = (params['list'] is List) ? params['list'] : null;
 
-    if (params == null || params['value'] == null ) return null;
+    if (params['value'] == null ) return null;
     dynamic value = params['value'];
     
     list?.add(value);
@@ -113,12 +113,12 @@ class YZListAddHandler extends YZDynamicSysActionHandler{
 
 class YZListAddAllHandler extends YZDynamicSysActionHandler{
   @override
-  dynamic func(Map params) {
+  dynamic func(Map? params) {
 
     if (params == null || params['list'] == null ) return null;
-    List list = (params['list'] is List) ? params['list'] : null;
+    List? list = (params['list'] is List) ? params['list'] : null;
 
-    if (params == null || params['value'] == null ) return null;
+    if (params['value'] == null ) return null;
     dynamic value = params['value'];
     
     return list?.addAll(value);
@@ -132,15 +132,15 @@ class YZListAddAllHandler extends YZDynamicSysActionHandler{
 
 class YZListIndexOfHandler extends YZDynamicSysActionHandler{
   @override
-  int func(Map params) {
+  int? func(Map? params) {
 
     if (params == null || params['list'] == null ) return null;
-    List list = (params['list'] is List) ? params['list'] : null;
+    List? list = (params['list'] is List) ? params['list'] : null;
 
     if (params['value'] == null ) return null;
     dynamic value = params['value'];
 
-    int start;
+    int? start;
     if (params['start'] != null )
     start = ((params['start'] is int) ? params['start'] : int.tryParse(params['start']));   
     
@@ -155,15 +155,15 @@ class YZListIndexOfHandler extends YZDynamicSysActionHandler{
 
 class YZListLastIndexOfHandler extends YZDynamicSysActionHandler{
   @override
-  int func(Map params) {
+  int? func(Map? params) {
 
     if (params == null || params['list'] == null ) return null;
-    List list = (params['list'] is List) ? params['list'] : null;
+    List? list = (params['list'] is List) ? params['list'] : null;
 
     if (params['value'] == null ) return null;
     dynamic value = params['value'];
 
-    int start;
+    int? start;
     if (params['start'] != null )
     start = ((params['start'] is int) ? params['start'] : int.tryParse(params['start']));   
     
@@ -178,15 +178,15 @@ class YZListLastIndexOfHandler extends YZDynamicSysActionHandler{
 
 class YZListInsertHandler extends YZDynamicSysActionHandler{
   @override
-  void func(Map params) {
+  void func(Map? params) {
 
     if (params == null || params['list'] == null ) return null;
-    List list = (params['list'] is List) ? params['list'] : null;
+    List? list = (params['list'] is List) ? params['list'] : null;
 
     if (params['value'] == null ) return null;
     dynamic value = params['value'];
 
-    int index;
+    int index = 0;
     if (params['index'] != null )
     index = ((params['index'] is int) ? params['index'] : int.tryParse(params['index']));   
     
@@ -201,15 +201,15 @@ class YZListInsertHandler extends YZDynamicSysActionHandler{
 
 class YZListInsertAllHandler extends YZDynamicSysActionHandler{
   @override
-  void func(Map params) {
+  void func(Map? params) {
 
     if (params == null || params['list'] == null ) return null;
-    List list = (params['list'] is List) ? params['list'] : null;
+    List? list = (params['list'] is List) ? params['list'] : null;
 
     if (params['value'] == null ) return null;
     dynamic value = params['value'];
 
-    int index;
+    int index = 0;
     if (params['index'] != null )
     index = ((params['index'] is int) ? params['index'] : int.tryParse(params['index']));   
     
@@ -224,15 +224,15 @@ class YZListInsertAllHandler extends YZDynamicSysActionHandler{
 
 class YZListSetAllHandler extends YZDynamicSysActionHandler{
   @override
-  void func(Map params) {
+  void func(Map? params) {
 
     if (params == null || params['list'] == null ) return null;
-    List list = (params['list'] is List) ? params['list'] : null;
+    List? list = (params['list'] is List) ? params['list'] : null;
 
     if (params['value'] == null ) return null;
     dynamic value = params['value'];
 
-    int index;
+    int index = 0;
     if (params['index'] != null )
     index = ((params['index'] is int) ? params['index'] : int.tryParse(params['index']));   
     
@@ -247,12 +247,12 @@ class YZListSetAllHandler extends YZDynamicSysActionHandler{
 
 class YZListRemoveHandler extends YZDynamicSysActionHandler{
   @override
-  bool func(Map params) {
+  bool? func(Map? params) {
 
     if (params == null) return null;
     
-    List list = (params['list'] is List) ? params['list'] : null;
-    String value = params['value']?.toString();
+    List? list = (params['list'] is List) ? params['list'] : null;
+    String? value = params['value']?.toString();
     
     return list?.remove(value);
 
@@ -265,12 +265,12 @@ class YZListRemoveHandler extends YZDynamicSysActionHandler{
 
 class YZListRemoveAtHandler extends YZDynamicSysActionHandler{
   @override
-  dynamic func(Map params) {
+  dynamic func(Map? params) {
 
     if (params == null) return null;
     
-    List list = (params['list'] is List) ? params['list'] : null;
-    int index;
+    List? list = (params['list'] is List) ? params['list'] : null;
+    int index = 0;
     if (params['index'] != null )
     index = ((params['index'] is int) ? params['index'] : int.tryParse(params['index']));  
     
@@ -285,11 +285,11 @@ class YZListRemoveAtHandler extends YZDynamicSysActionHandler{
 
 class YZListRemoveLastHandler extends YZDynamicSysActionHandler{
   @override
-  dynamic func(Map params) {
+  dynamic func(Map? params) {
 
     if (params == null) return null;
     
-    List list = (params['list'] is List) ? params['list'] : null;
+    List? list = (params['list'] is List) ? params['list'] : null;
     
     return list?.removeLast();
 
@@ -302,17 +302,17 @@ class YZListRemoveLastHandler extends YZDynamicSysActionHandler{
 
 class YZListSublistHandler extends YZDynamicSysActionHandler{
   @override
-  dynamic func(Map params) {
+  dynamic func(Map? params) {
 
     if (params == null) return null;
     
-    List list = (params['list'] is List) ? params['list'] : null;
+    List? list = (params['list'] is List) ? params['list'] : null;
 
-    int start;
+    int start = 0;
     if (params['start'] != null )
     start = ((params['start'] is int) ? params['start'] : int.tryParse(params['start'])); 
 
-    int end;
+    int? end;
     if (params['end'] != null )
     end = ((params['end'] is int) ? params['end'] : int.tryParse(params['end']));       
     
@@ -327,11 +327,11 @@ class YZListSublistHandler extends YZDynamicSysActionHandler{
 
 class YZListAsMapHandler extends YZDynamicSysActionHandler{
   @override
-  dynamic func(Map params) {
+  dynamic func(Map? params) {
 
     if (params == null) return null;
     
-    List list = (params['list'] is List) ? params['list'] : null;
+    List? list = (params['list'] is List) ? params['list'] : null;
 
     return list?.asMap();
 
@@ -348,15 +348,15 @@ class YZListReplaceRangeHandler extends YZDynamicSysActionHandler {
   String get actionName => 'List.replaceRange';
 
   @override
-  dynamic func(Map params) {
+  dynamic func(Map? params) {
     if(params == null || params['list'] == null) return;
-    List list = (params['list'] is List) ? params['list'] : null;
-    int start;
+    List? list = (params['list'] is List) ? params['list'] : null;
+    int start = 0;
     if (params['start'] != null) {
       start = ((params['start'] is int) ? params['start'] : int.tryParse(params['start']));
     }
     
-    int end;
+    int end = 0;
     if (params['end'] != null) {
       end = ((params['end'] is int) ? params['end'] : int.tryParse(params['end'])); 
     }
@@ -376,15 +376,15 @@ class YZListFillRangeHandler extends YZDynamicSysActionHandler {
   String get actionName => 'List.fillRange';
 
   @override
-  dynamic func(Map params) {
+  dynamic func(Map? params) {
     if(params == null || params['list'] == null) return;
-    List list = (params['list'] is List) ? params['list'] : null;
-    int start;
+    List? list = (params['list'] is List) ? params['list'] : null;
+    int start = 0;
     if (params['start'] != null) {
       start = ((params['start'] is int) ? params['start'] : int.tryParse(params['start']));
     }
     
-    int end;
+    int end = 0;
     if (params['end'] != null) {
       end = ((params['end'] is int) ? params['end'] : int.tryParse(params['end'])); 
     }
@@ -405,15 +405,15 @@ class YZListRemoveRangeHandler extends YZDynamicSysActionHandler {
   String get actionName => 'List.removeRange';
 
   @override
-  dynamic func(Map params) {
+  dynamic func(Map? params) {
     if(params == null || params['list'] == null) return;
-    List list = (params['list'] is List) ? params['list'] : null;
-    int start;
+    List? list = (params['list'] is List) ? params['list'] : null;
+    int start = 0;
     if (params['start'] != null) {
       start = ((params['start'] is int) ? params['start'] : int.tryParse(params['start']));
     }
     
-    int end;
+    int end = 0;
     if (params['end'] != null) {
       end = ((params['end'] is int) ? params['end'] : int.tryParse(params['end'])); 
     }
@@ -427,15 +427,15 @@ class YZListSetRangeHandler extends YZDynamicSysActionHandler {
   String get actionName => 'List.setRange';
 
   @override
-  dynamic func(Map params) {
+  dynamic func(Map? params) {
     if(params == null || params['list'] == null) return;
-    List list = (params['list'] is List) ? params['list'] : null;
-    int start;
+    List? list = (params['list'] is List) ? params['list'] : null;
+    int start = 0;
     if (params['start'] != null) {
       start = ((params['start'] is int) ? params['start'] : int.tryParse(params['start']));
     }
     
-    int end;
+    int end = 0;
     if (params['end'] != null) {
       end = ((params['end'] is int) ? params['end'] : int.tryParse(params['end'])); 
     }
@@ -457,15 +457,15 @@ class YZListGetRangeHandler extends YZDynamicSysActionHandler {
   String get actionName => 'List.getRange';
 
   @override
-  dynamic func(Map params) {
+  dynamic func(Map? params) {
     if(params == null || params['list'] == null) return null;
-    List list = (params['list'] is List) ? params['list'] : null;
-    int start;
+    List? list = (params['list'] is List) ? params['list'] : null;
+    int start = 0;
     if (params['start'] != null) {
       start = ((params['start'] is int) ? params['start'] : int.tryParse(params['start']));
     }
     
-    int end;
+    int end = 0;
     if (params['end'] != null) {
       end = ((params['end'] is int) ? params['end'] : int.tryParse(params['end'])); 
     }
@@ -480,7 +480,7 @@ class YZListShuffleHandler extends YZDynamicSysActionHandler {
   String get actionName => 'List.shuffle';
 
   @override
-  dynamic func(Map params) {
+  dynamic func(Map? params) {
     if(params == null || params['list'] == null) return; 
     List list = (params['list'] is List) ? params['list'] : null;
     if(params['random'] == null) {
@@ -498,22 +498,22 @@ class YZListCopyRangeHandler extends YZDynamicSysActionHandler {
   String get actionName => 'List.copyRange';
 
   @override
-  dynamic func(Map params) {
+  dynamic func(Map? params) {
     if(params == null || params['target'] == null 
     || params['at'] == null || params['source'] == null) return null;
 
     List target = (params['target'] is List) ? params['target'] : null;
-    List source = (params['source'] is List) ? params['source'] : null;
-    int at = int.tryParse(params['at']);
-    int start = 0;
-    int end = source?.length;
+    List? source = (params['source'] is List) ? params['source'] : null;
+    int? at = int.tryParse(params['at']);
+    int? start = 0;
+    int? end = source?.length;
     if(params['start'] != null) {
       start = int.tryParse(params['start']);
     }
     if(params['end'] != null) {
       end = int.tryParse(params['end']);
     }
-    List.copyRange(target, at, source, start, end);
+    List.copyRange(target, at!, source!, start, end);
   }
 }
 
@@ -523,7 +523,7 @@ class YZListUnmodifiableHandler extends YZDynamicSysActionHandler {
   String get actionName => 'List.unmodifiable';
 
   @override
-  dynamic func(Map params) {
+  dynamic func(Map? params) {
     if(params == null || params['elements'] == null) return null; 
     dynamic elements = (params['elements'] is Iterable) ? params['elements'] : null;
     return List.unmodifiable(elements);
@@ -536,7 +536,7 @@ class YZListFromHandler extends YZDynamicSysActionHandler {
   String get actionName => 'List.from';
 
   @override
-  dynamic func(Map params) {
+  dynamic func(Map? params) {
     if(params == null || params['elements'] == null) return null; 
     dynamic elements = (params['elements'] is Iterable) ? params['elements'] : null;
     bool growable = true;
@@ -553,7 +553,7 @@ class YZListOfHandler extends YZDynamicSysActionHandler {
   String get actionName => 'List.of';
 
   @override
-  dynamic func(Map params) {
+  dynamic func(Map? params) {
     if(params == null || params['elements'] == null) return null; 
     dynamic elements = (params['elements'] is Iterable) ? params['elements'] : null;
     bool growable = true;

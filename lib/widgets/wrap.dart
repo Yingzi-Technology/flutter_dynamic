@@ -18,7 +18,7 @@ class YZWrapHandler extends YZDynamicBasicWidgetHandler {
 
   @override
   Widget build(Map json,
-      {Key key, BuildContext buildContext}) {
+      {Key? key, BuildContext? buildContext}) {
     return _Builder(json, key: key);
   }
 }
@@ -26,7 +26,7 @@ class YZWrapHandler extends YZDynamicBasicWidgetHandler {
 class _Builder extends YZDynamicBaseWidget {
   final Map json;
 
-  _Builder(this.json, {Key key}) : super(json, key: key);
+  _Builder(this.json, {Key? key}) : super(json, key: key);
 
   @override
   _BuilderState createState() => _BuilderState();
@@ -43,27 +43,27 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
     Widget _widget;
 
     //Deal with props / 处理控件属性
-    YZWrapConfig props = YZWrapConfig.fromJson(super.config.props) ?? {};
-    Axis _direction = YZDynamicWidgetUtils.axisAdapter(props.direction);
-    WrapAlignment _alignment =
+    YZWrapConfig props = YZWrapConfig.fromJson(super.config?.props ?? {});
+    Axis? _direction = YZDynamicWidgetUtils.axisAdapter(props.direction);
+    WrapAlignment? _alignment =
         YZDynamicWidgetUtils.wrapAlignmentAdapter(props.alignment);
-    double _spacing = YZDynamicWidgetUtils.doubleAdapter(props?.spacing);
-    WrapAlignment _runAlignment =
+    double? _spacing = YZDynamicWidgetUtils.doubleAdapter(props.spacing);
+    WrapAlignment? _runAlignment =
         YZDynamicWidgetUtils.wrapAlignmentAdapter(props.runAlignment);
-    double _runSpacing =
-        YZDynamicWidgetUtils.doubleAdapter(props?.runAlignment);
-    WrapCrossAlignment _crossAxisAlignment =
+    double? _runSpacing =
+        YZDynamicWidgetUtils.doubleAdapter(props.runAlignment);
+    WrapCrossAlignment? _crossAxisAlignment =
         YZDynamicWidgetUtils.wrapCrossAlignmentAdapter(
             props.crossAxisAlignment);
-    TextDirection _textDirection =
+    TextDirection? _textDirection =
         YZDynamicWidgetUtils.textDirectionAdapter(props.textDirection);
-    VerticalDirection _verticalDirection =
+    VerticalDirection? _verticalDirection =
         YZDynamicWidgetUtils.verticalDirectionAdapter(props.verticalDirection);
-    List<Widget> _children;
-    if (props?.children != null) {
+    late List<Widget> _children;
+    if (props.children != null) {
       _children = [];
-      props?.children?.forEach((e) {
-        Widget _child = YZDynamicCommon.buildWidget(e, context: context);
+      props.children?.forEach((e) {
+        Widget? _child = YZDynamicCommon.buildWidget(e, context: context);
         if (_child == null) return;
         _children.add(_child);
       });
@@ -83,7 +83,7 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
     );
 
     //Deal with events / 处理事件
-    _widget = super.buildWithEvents(_subwidget, super.config.xEvents);
+    _widget = super.buildWithEvents(_subwidget, super.config?.xEvents);
 
     return _widget;
   }
@@ -97,15 +97,15 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
 
 /// The props of Wrap config
 class YZWrapConfig {
-  String direction;
-  String alignment;
-  String spacing;
-  String runAlignment;
-  String runSpacing;
-  String crossAxisAlignment;
-  String textDirection;
-  String verticalDirection;
-  List<Map> children;
+  String? direction;
+  String? alignment;
+  String? spacing;
+  String? runAlignment;
+  String? runSpacing;
+  String? crossAxisAlignment;
+  String? textDirection;
+  String? verticalDirection;
+  List<Map>? children;
 
   YZWrapConfig(
       {this.direction,
@@ -118,7 +118,7 @@ class YZWrapConfig {
       this.verticalDirection,
       this.children});
 
-  YZWrapConfig.fromJson(Map<dynamic, dynamic> json) {
+  YZWrapConfig.fromJson(Map<dynamic, dynamic>? json) {
     json ??= {};
     alignment = json['alignment'];
     spacing = json['spacing'];
@@ -128,9 +128,9 @@ class YZWrapConfig {
     textDirection = json['textDirection'];
     verticalDirection = json['verticalDirection'];
     if (json['children'] != null) {
-      children = new List<Map>();
+      children = <Map>[];
       json['children'].forEach((v) {
-        children.add(v);
+        children!.add(v);
       });
     }
   }

@@ -13,7 +13,7 @@ import 'package:yz_flutter_dynamic/tools/common.dart';
 // uncheck
 class YZIterableHandler extends YZDynamicSysActionHandler{
   @override
-  Map func(Map params) {
+  Map? func(Map? params) {
     return params;
   }
 
@@ -25,9 +25,9 @@ class YZIterableHandler extends YZDynamicSysActionHandler{
 // uncheck
 class YZIterableLengthHandler extends YZDynamicSysActionHandler {
   @override
-  int func(Map params) {
+  int? func(Map? params) {
     if (params == null || params['iterable'] == null) return null;
-    Iterable iterable = (params['iterable'] is Iterable) ? params['iterable'] : null;
+    Iterable? iterable = (params['iterable'] is Iterable) ? params['iterable'] : null;
     return iterable?.length;
   }
 
@@ -38,10 +38,10 @@ class YZIterableLengthHandler extends YZDynamicSysActionHandler {
 // uncheck
 class YZIterableIsEmptyHandler extends YZDynamicSysActionHandler{
   @override
-  bool func(Map params) {
+  bool? func(Map? params) {
 
     if (params == null || params['iterable'] == null) return null;
-    Iterable iterable = (params['iterable'] is Iterable) ? params['iterable'] : null;
+    Iterable? iterable = (params['iterable'] is Iterable) ? params['iterable'] : null;
 
     return iterable?.isEmpty;
   }
@@ -53,10 +53,10 @@ class YZIterableIsEmptyHandler extends YZDynamicSysActionHandler{
 // uncheck
 class YZIterableIsNotEmptyHandler extends YZDynamicSysActionHandler{
   @override
-  bool func(Map params) {
+  bool? func(Map? params) {
 
     if (params == null || params['iterable'] == null) return null;
-    Iterable iterable = (params['iterable'] is Iterable) ? params['iterable'] : null;
+    Iterable? iterable = (params['iterable'] is Iterable) ? params['iterable'] : null;
 
     return iterable?.isNotEmpty;
   }
@@ -68,10 +68,10 @@ class YZIterableIsNotEmptyHandler extends YZDynamicSysActionHandler{
 // uncheck
 class YZIterableFirstHandler extends YZDynamicSysActionHandler{
   @override
-  dynamic func(Map params) {
+  dynamic func(Map? params) {
 
     if (params == null || params['iterable'] == null ) return null;
-    Iterable iterable = (params['iterable'] is Iterable) ? params['iterable'] : null;
+    Iterable? iterable = (params['iterable'] is Iterable) ? params['iterable'] : null;
     
     return iterable?.first;
 
@@ -84,9 +84,9 @@ class YZIterableFirstHandler extends YZDynamicSysActionHandler{
 // uncheck
 class YZIterableLastHandler extends YZDynamicSysActionHandler{
   @override
-  dynamic func(Map params) {
+  dynamic func(Map? params) {
     if (params == null || params['iterable'] == null ) return null;
-    Iterable iterable = (params['iterable'] is Iterable) ? params['iterable'] : null;
+    Iterable? iterable = (params['iterable'] is Iterable) ? params['iterable'] : null;
     
     return iterable?.last;
   }
@@ -99,12 +99,12 @@ class YZIterableLastHandler extends YZDynamicSysActionHandler{
 // A.followedBy(B):按顺序将B的元素放在A元素之后，返回一个Iterable
 class YZIterableFollowedByHandler extends YZDynamicSysActionHandler {
   @override
-  dynamic func(Map params) {
+  dynamic func(Map? params) {
     if (params == null || params['iterable'] == null ) return null;
-    Iterable iterable = (params['iterable'] is Iterable) ? params['iterable'] : null;
-    Iterable other = (params['other'] is Iterable) ? params['other'] : null;
+    Iterable? iterable = (params['iterable'] is Iterable) ? params['iterable'] : null;
+    Iterable? other = (params['other'] is Iterable) ? params['other'] : null;
     if(iterable != null && other !=null) {
-      return iterable?.followedBy(other);
+      return iterable.followedBy(other);
     }
     return null;
   }
@@ -116,12 +116,12 @@ class YZIterableFollowedByHandler extends YZDynamicSysActionHandler {
 // uncheck
 class YZIterableContainsHandler extends YZDynamicSysActionHandler {
   @override
-  dynamic func(Map params) {
+  dynamic func(Map? params) {
     if (params == null || params['iterable'] == null ) return null;
-    Iterable iterable = (params['iterable'] is Iterable) ? params['iterable'] : null;
+    Iterable? iterable = (params['iterable'] is Iterable) ? params['iterable'] : null;
     dynamic element = params['element'] ?? params['element'];
     if(iterable != null) {
-      return iterable?.contains(element);
+      return iterable.contains(element);
     }
     return null;
   }
@@ -134,12 +134,12 @@ class YZIterableContainsHandler extends YZDynamicSysActionHandler {
 // 将集合中的元素用 separator 分割开，并返回一个字符串
 class YZIterableJoinHandler extends YZDynamicSysActionHandler {
   @override
-  dynamic func(Map params) {
+  dynamic func(Map? params) {
     if (params == null || params['iterable'] == null ) return null;
-    Iterable iterable = (params['iterable'] is Iterable) ? params['iterable'] : null;
-    String separator = (params['separator'] is String) ? params['separator'].toString() : '';
+    Iterable? iterable = (params['iterable'] is Iterable) ? params['iterable'] : null;
+    String? separator = (params['separator'] is String) ? params['separator'].toString() : '';
     if(iterable != null) {
-      return iterable?.join(separator);
+      return iterable.join(separator);
     }
     return null;
   }
@@ -151,12 +151,12 @@ class YZIterableJoinHandler extends YZDynamicSysActionHandler {
 // uncheck
 class YZIterableToListHandler extends YZDynamicSysActionHandler {
   @override
-  dynamic func(Map params) {
+  dynamic func(Map? params) {
     if (params == null || params['iterable'] == null ) return null;
-    Iterable iterable = (params['iterable'] is Iterable) ? params['iterable'] : null;
+    Iterable? iterable = (params['iterable'] is Iterable) ? params['iterable'] : null;
     bool growable = (params['growable'] is bool) ? params['growable'] : true;
     if(iterable != null) {
-      return iterable?.toList(growable: growable);
+      return iterable.toList(growable: growable);
     }
     return null;
   }
@@ -168,11 +168,11 @@ class YZIterableToListHandler extends YZDynamicSysActionHandler {
 // uncheck
 class YZIterableToSetHandler extends YZDynamicSysActionHandler {
   @override
-  dynamic func(Map params) {
+  dynamic func(Map? params) {
     if (params == null || params['iterable'] == null ) return null;
-    Iterable iterable = (params['iterable'] is Iterable) ? params['iterable'] : null;
+    Iterable? iterable = (params['iterable'] is Iterable) ? params['iterable'] : null;
     if(iterable != null) {
-      return iterable?.toSet();
+      return iterable.toSet();
     }
     return null;
   }
@@ -185,12 +185,12 @@ class YZIterableToSetHandler extends YZDynamicSysActionHandler {
 // 返回集合中的前 count 个元素
 class YZIterableTakeHandler extends YZDynamicSysActionHandler {
   @override
-  dynamic func(Map params) {
+  dynamic func(Map? params) {
     if (params == null || params['iterable'] == null ) return null;
-    Iterable iterable = (params['iterable'] is Iterable) ? params['iterable'] : null;
-    int count = (params['count'] is int) ? params['count'] : int.tryParse(params['count']) ;
+    Iterable? iterable = (params['iterable'] is Iterable) ? params['iterable'] : null;
+    int? count = (params['count'] is int) ? params['count'] : int.tryParse(params['count']) ;
     if(iterable != null && count != null) {
-      return iterable?.take(count);
+      return iterable.take(count);
     }
     return null;
   }
@@ -203,12 +203,12 @@ class YZIterableTakeHandler extends YZDynamicSysActionHandler {
 // 跳过集合中的前 count 个元素然后返回
 class YZIterableSkipHandler extends YZDynamicSysActionHandler {
   @override
-  dynamic func(Map params) {
+  dynamic func(Map? params) {
     if (params == null || params['iterable'] == null ) return null;
-    Iterable iterable = (params['iterable'] is Iterable) ? params['iterable'] : null;
-    int count = (params['count'] is int) ? params['count'] : int.tryParse(params['count']) ;
+    Iterable? iterable = (params['iterable'] is Iterable) ? params['iterable'] : null;
+    int? count = (params['count'] is int) ? params['count'] : int.tryParse(params['count']) ;
     if(iterable != null && count != null) {
-      return iterable?.skip(count);
+      return iterable.skip(count);
     }
     return null;
   }
@@ -219,12 +219,12 @@ class YZIterableSkipHandler extends YZDynamicSysActionHandler {
 
 // uncheck
 class YZIterableElementAtHandler extends YZDynamicSysActionHandler {
-  dynamic func(Map params) {
+  dynamic func(Map? params) {
     if (params == null || params['iterable'] == null ) return null;
-    Iterable iterable = (params['iterable'] is Iterable) ? params['iterable'] : null;
-    int index = (params['index'] is int) ? params['index'] : int.tryParse(params['index']) ;
+    Iterable? iterable = (params['iterable'] is Iterable) ? params['iterable'] : null;
+    int? index = (params['index'] is int) ? params['index'] : int.tryParse(params['index']) ;
     if(iterable != null && index != null) {
-      return iterable?.elementAt(index);
+      return iterable.elementAt(index);
     }
     return null;
   }
@@ -235,11 +235,11 @@ class YZIterableElementAtHandler extends YZDynamicSysActionHandler {
 
 // uncheck
 class YZIterableToStringHandler extends YZDynamicSysActionHandler {
-  dynamic func(Map params) {
+  dynamic func(Map? params) {
     if (params == null || params['iterable'] == null ) return null;
-    Iterable iterable = (params['iterable'] is Iterable) ? params['iterable'] : null;
+    Iterable? iterable = (params['iterable'] is Iterable) ? params['iterable'] : null;
     if(iterable != null) {
-      return iterable?.toString();
+      return iterable.toString();
     }
     return null;
   }

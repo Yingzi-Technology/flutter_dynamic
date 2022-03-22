@@ -9,23 +9,27 @@
 import '../../tools/action.dart';
 
 class YZDynamicWidgetConfig {
-	String type;
-	String widget;
-	Map props;
-	Map<String, YZDynamicActionConfig> xActions;
-	String xKey;
-	List<dynamic> xEvents;
-	List<dynamic> xData;
-	Map xCode;
-	List<dynamic> xRules;
-	Map xRef;
-  String isFormField;
-  Map xVar;
-  YZDynamicWidgetLifecycle state;
+	String? type;
+	String? widget;
+	Map? props;
+	Map<String, YZDynamicActionConfig>? xActions;
+	String? xKey;
+	List<dynamic>? xEvents;
+	List<dynamic>? xData;
+	Map? xCode;
+	List<dynamic>? xRules;
+	Map? xRef;
+  String? isFormField;
+  Map? xVar;
+  YZXCondition? xCondition;
+  YZDynamicWidgetLifecycle? state;
+  List? children; //兼容web数据模型
 
-	YZDynamicWidgetConfig({this.type, this.widget, this.props, this.xActions, this.xKey, this.xEvents, this.xData, this.xCode, this.xRules, this.xRef, this.isFormField, this.xVar, this.state});
+	YZDynamicWidgetConfig({this.type, this.widget, this.props, this.xActions, this.xKey, this.xEvents, this.xData, this.xCode, this.xRules, this.xRef, this.isFormField, this.xVar, this.state, this.xCondition});
 
-	YZDynamicWidgetConfig.fromJson(Map<dynamic, dynamic> json) {
+	YZDynamicWidgetConfig.fromJson(Map<dynamic, dynamic>? json) {
+    json ??= {};
+
 		type = json['type'];
 		widget = json['widget'];
 		props = json['props'];
@@ -45,16 +49,43 @@ class YZDynamicWidgetConfig {
     state = json['state'] != null
         ? new YZDynamicWidgetLifecycle.fromJson(json['state'])
         : null;
+    xCondition = json['xCondition'] != null
+        ? new YZXCondition.fromJson(json['xCondition'])
+        : null;
 	}
 
 }
 
+class YZXCondition {
+  YZRepeatChild? repeatChild;
+
+  YZXCondition({this.repeatChild});
+
+  YZXCondition.fromJson(Map<String, dynamic> json) {
+    repeatChild = json['repeatChild'] != null
+        ? new YZRepeatChild.fromJson(json['repeatChild'])
+        : null;
+  }
+}
+
+class YZRepeatChild {
+  String? data;
+  String? item;
+
+  YZRepeatChild({this.data, this.item});
+
+  YZRepeatChild.fromJson(Map<String, dynamic> json) {
+    data = json['data'];
+    item = json['item'];
+  }
+}
+
 class YZDynamicWidgetLifecycle {
-  List<YZDynamicActionConfig> beforeEntrance;
-  List<YZDynamicActionConfig> initState;
-  List<YZDynamicActionConfig> build;
-  List<YZDynamicActionConfig> dispose;
-  List<YZDynamicActionConfig> afterLeave;
+  List<YZDynamicActionConfig>? beforeEntrance;
+  List<YZDynamicActionConfig>? initState;
+  List<YZDynamicActionConfig>? build;
+  List<YZDynamicActionConfig>? dispose;
+  List<YZDynamicActionConfig>? afterLeave;
 
   YZDynamicWidgetLifecycle(
       {this.beforeEntrance,
@@ -65,33 +96,33 @@ class YZDynamicWidgetLifecycle {
 
   YZDynamicWidgetLifecycle.fromJson(Map<dynamic, dynamic> json) {
     if (json['beforeEntrance'] != null) {
-      beforeEntrance = new List<YZDynamicActionConfig>();
+      beforeEntrance = <YZDynamicActionConfig>[];
       json['beforeEntrance'].forEach((v) {
-        beforeEntrance.add(new YZDynamicActionConfig.fromJson(v));
+        beforeEntrance!.add(new YZDynamicActionConfig.fromJson(v));
       });
     }
     if (json['initState'] != null) {
-      initState = new List<YZDynamicActionConfig>();
+      initState = <YZDynamicActionConfig>[];
       json['initState'].forEach((v) {
-        initState.add(new YZDynamicActionConfig.fromJson(v));
+        initState!.add(new YZDynamicActionConfig.fromJson(v));
       });
     }
     if (json['build'] != null) {
-      build = new List<YZDynamicActionConfig>();
+      build = <YZDynamicActionConfig>[];
       json['build'].forEach((v) {
-        build.add(new YZDynamicActionConfig.fromJson(v));
+        build!.add(new YZDynamicActionConfig.fromJson(v));
       });
     }
     if (json['dispose'] != null) {
-      dispose = new List<YZDynamicActionConfig>();
+      dispose = <YZDynamicActionConfig>[];
       json['dispose'].forEach((v) {
-        dispose.add(new YZDynamicActionConfig.fromJson(v));
+        dispose!.add(new YZDynamicActionConfig.fromJson(v));
       });
     }
     if (json['afterLeave'] != null) {
-      afterLeave = new List<YZDynamicActionConfig>();
+      afterLeave = <YZDynamicActionConfig>[];
       json['afterLeave'].forEach((v) {
-        afterLeave.add(new YZDynamicActionConfig.fromJson(v));
+        afterLeave!.add(new YZDynamicActionConfig.fromJson(v));
       });
     }
   }

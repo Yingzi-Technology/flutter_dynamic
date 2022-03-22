@@ -9,18 +9,18 @@ import 'action.dart';
 import 'common.dart';
 
 class YZDynamicRequest {
-  String url;
-  String method;
-  Map<String, dynamic> params;
-  Map<String, dynamic> header;
-  YZDynamicRequestResult succeed;
-  YZDynamicRequestResult failed;
-  String responseDataVar; //返回数据的存放变量，The storage variable of response data
+  String? url;
+  String? method;
+  Map<dynamic, dynamic>? params;
+  Map<dynamic, dynamic>? header;
+  YZDynamicRequestResult? succeed;
+  YZDynamicRequestResult? failed;
+  String? responseDataVar; //返回数据的存放变量，The storage variable of response data
 
   YZDynamicRequest(
       {this.url, this.method, this.params, this.responseDataVar, this.header});
 
-  YZDynamicRequest.fromJson(Map<dynamic, dynamic> json) {
+  YZDynamicRequest.fromJson(Map<dynamic, dynamic>? json) {
     if (json == null) return;
     url = json['url'];
     method = json['method'];
@@ -37,9 +37,9 @@ class YZDynamicRequest {
 }
 
 class YZDynamicRequestResult {
-  List<YZDynamicActionConfig> actions;
-  String tip;
-  Map params;
+  List<YZDynamicActionConfig>? actions;
+  String? tip;
+  Map? params;
 
   YZDynamicRequestResult({this.actions, this.tip, this.params});
 
@@ -47,7 +47,7 @@ class YZDynamicRequestResult {
     if (json['actions'] != null) {
       actions = (json['actions'] as List)
           .map((e) => YZDynamicActionConfig.fromJson(e))
-          ?.toList();
+          .toList();
     }
     tip = json['tip'];
     params = json['params'];

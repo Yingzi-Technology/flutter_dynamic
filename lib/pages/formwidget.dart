@@ -13,9 +13,9 @@ import 'model/page_config.dart';
 
 /// 应用了表单 (formpage )数据模型的Widget，不包含nav和submit
 class YZDynamicFormWidget extends YZDynamicBasePage {
-  final YZDynamicPageTemplateConfig pageConfig;
-  final List<Map> childrenJson;
-  final YZDynamicPagePreConfig preConfig;
+  final YZDynamicPageTemplateConfig? pageConfig;
+  final List<Map>? childrenJson;
+  final YZDynamicPagePreConfig? preConfig;
 
   YZDynamicFormWidget(this.childrenJson,
       {this.pageConfig, this.preConfig})
@@ -46,29 +46,29 @@ class _YZDynamicFormWidgetState extends YZDynamicBaseState<YZDynamicFormWidget> 
   Widget build(BuildContext context) {
     super.build(context);
     if (widget.childrenJson?.length == 1) {
-      return YZDynamicCommon.buildWidget(widget.childrenJson[0], context: context);
+      return YZDynamicCommon.buildWidget(widget.childrenJson![0], context: context)!;
     } else {
       List<Widget> children = [];
-      for (Map json in widget.childrenJson) {
+      for (Map json in widget.childrenJson!) {
         String xKey = json['xKey'];
-        Widget widget = YZDynamicCommon.buildWidget(json, context: context);
+        Widget? widget = YZDynamicCommon.buildWidget(json, context: context);
         if ((widget is Column) || (widget is PreferredSizeWidget)) {
           print('Error: Form widget can not be Column or PreferredSizeWidget');
           continue;
         }
         if (widget == null) {
-          children.add(Text('Not found widget for xKey "$xKey"'));
+          String widgetName = json['widgetName'];
+          children.add(Text('Not found widget of "$widgetName" for xKey "$xKey"'));
         } else {
           children.add(widget);
         }
       }
 
-      if (children == null || children.isEmpty) {
-        assert(children != null, 'Error: Children can not be null or empty!');
+      if (children.isEmpty) {
         children = [Text('No widgets')];
       }
 
-      return Column(children: children ?? Text('Error: Children can not be null!'));
+      return Column(children: children);
     }
   }
 }

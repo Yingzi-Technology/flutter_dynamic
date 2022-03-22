@@ -10,16 +10,16 @@ import 'package:flutter/material.dart';
 /// encapsulation of Form
 class YZForm extends Form {
 
-  const YZForm({
-    Key key,
-    Widget child,
-    AutovalidateMode autovalidateMode,
-    WillPopCallback onWillPop,
-    VoidCallback onChanged,
+  YZForm({
+    Key? key,
+    Widget? child,
+    AutovalidateMode? autovalidateMode,
+    WillPopCallback? onWillPop,
+    VoidCallback? onChanged,
   }) : assert(child != null),
        super(
           key: key,
-          child: child,
+          child: child!,
           autovalidateMode: autovalidateMode,
           onWillPop: onWillPop,
           onChanged: onChanged

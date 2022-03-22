@@ -15,11 +15,11 @@ import 'model/page_config.dart';
 
 ///One-Dimension Column Form Layout (单列表单布局)
 class YZDynamicFormPage extends YZDynamicBasePage {
-  final YZDynamicPageTemplateConfig pageConfig;
-  final Map navbarJson;
-  final Map submitJson;
-  final List<Map> childrenJson;
-  final YZDynamicPagePreConfig preConfig;
+  final YZDynamicPageTemplateConfig? pageConfig;
+  final Map? navbarJson;
+  final Map? submitJson;
+  final List<Map>? childrenJson;
+  final YZDynamicPagePreConfig? preConfig;
 
   YZDynamicFormPage(this.childrenJson,
       {this.pageConfig, this.navbarJson, this.submitJson, this.preConfig})
@@ -36,7 +36,7 @@ class _YZDynamicFormPageState extends YZDynamicBaseState<YZDynamicFormPage> {
 
     assert(widget.childrenJson != null,
         'The children should not be null for formpage type.');
-    for (Map json in widget.childrenJson) {
+    for (Map json in widget.childrenJson!) {
       dealWidgetKey(json);
     }
     dealWidgetKey(widget.navbarJson);
@@ -51,46 +51,46 @@ class _YZDynamicFormPageState extends YZDynamicBaseState<YZDynamicFormPage> {
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    List<Widget> children = [];
-    for (Map json in widget.childrenJson) {
+    List<Widget>? children = [];
+    for (Map json in widget.childrenJson!) {
       String xKey = json['xKey'];
-      Widget widget = YZDynamicCommon.buildWidget(json, context: context);
+      Widget? widget = YZDynamicCommon.buildWidget(json, context: context);
       if ((widget is Column) || (widget is PreferredSizeWidget)) {
         print('Error: Form widget can not be Column or PreferredSizeWidget');
         continue;
       }
       if (widget == null) {
-        children.add(Text('Not found widget for xKey "$xKey"'));
+        String widgetName = json['widgetName'];
+        children.add(Text('Not found widget of "$widgetName" for xKey "$xKey"'));
       } else {
         children.add(widget);
       }
     }
 
-    if (children == null || children.isEmpty) {
-      assert(children != null, 'Error: Children can not be null or empty!');
+    if (children.isEmpty) {
       children = [Text('No widgets')];
     }
 
-    Widget navbar =
+    Widget? navbar =
         YZDynamicCommon.buildWidget(widget.navbarJson, context: context);
-    if (navbar == null) {
+    if (navbar == null || navbar is! AppBar) {
       navbar = AppBar(title: Text('Dynamic form page'));
     }
 
-    Widget submit =
+    Widget? submit =
         YZDynamicCommon.buildWidget(widget.submitJson, context: context);
     if (submit == null) {
       submit = Container();
     }
 
-    EdgeInsets _padding =
+    EdgeInsets? _padding =
         YZDynamicCommon.edgeInsetAdapter(super.pageConfig?.props?.padding) ??
             EdgeInsets.zero;
-    Color _backgraoundColor = YZDinamicPageUtils.colorAdapter(
-            super.pageConfig?.props?.backgraoundColor) ??
+    Color? _backgroundColor = YZDinamicPageUtils.colorAdapter(
+            super.pageConfig?.props?.backgroundColor) ??
         Color(0xFFFFFFFF);
     return Scaffold(
-      backgroundColor: _backgraoundColor,
+      backgroundColor: _backgroundColor,
       appBar: navbar,
       body: SafeArea(
           child: Padding(
@@ -101,7 +101,7 @@ class _YZDynamicFormPageState extends YZDynamicBaseState<YZDynamicFormPage> {
             Expanded(
                 child: SingleChildScrollView(
               child: Column(
-                children: children ?? Text('Error: Children can not be null!'),
+                children: children,
               ),
             )),
             submit,

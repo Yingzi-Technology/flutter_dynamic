@@ -20,7 +20,7 @@ class YZTextHandler extends YZDynamicBasicWidgetHandler {
 
   @override
   Widget build(Map json,
-      {Key key, BuildContext buildContext}) {
+      {Key? key, BuildContext? buildContext}) {
     return _Builder(json, key: key);
   }
 }
@@ -28,7 +28,7 @@ class YZTextHandler extends YZDynamicBasicWidgetHandler {
 class _Builder extends YZDynamicBaseWidget {
   final Map json;
 
-  _Builder(this.json, {Key key}) : super(json, key: key);
+  _Builder(this.json, {Key? key}) : super(json, key: key);
 
   @override
   _BuilderState createState() => _BuilderState();
@@ -36,27 +36,27 @@ class _Builder extends YZDynamicBaseWidget {
 
 class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
   //Deal with props / 处理控件属性
-  YZTextConfig props;
-  String _data;
-  TextStyle _style;
-  StrutStyle _strutStyle;
-  TextAlign _textAlign;
-  TextDirection _textDirection;
-  bool _softWrap;
-  TextOverflow _overflow;
-  double _textScaleFactor;
-  int _maxLines;
-  String _semanticsLabel;
-  TextWidthBasis _textWidthBasis;
+  late YZTextConfig props;
+  String? _data;
+  TextStyle? _style;
+  StrutStyle? _strutStyle;
+  TextAlign? _textAlign;
+  TextDirection? _textDirection;
+  bool? _softWrap;
+  TextOverflow? _overflow;
+  double? _textScaleFactor;
+  int? _maxLines;
+  String? _semanticsLabel;
+  TextWidthBasis? _textWidthBasis;
 
   @override
   void initState() {
     super.initState();
 
     //Deal with props / 处理控件属性
-    props = YZTextConfig.fromJson(super.config.props) ?? {};
+    props = YZTextConfig.fromJson(super.config?.props ?? {});
 
-    _style = YZDynamicWidgetUtils.textStyleAdapter(props.style);
+    _style = YZDynamicWidgetUtils.textStyleAdapter(props.style, state: this);
     _strutStyle = YZDynamicWidgetUtils.strutStyleAdapter(props.strutStyle);
     _textAlign = YZDynamicWidgetUtils.textAlignAdapter(props.textAlign);
     _textDirection =
@@ -93,7 +93,7 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
     );
 
     //Deal with events / 处理事件
-    _widget = super.buildWithEvents(_subwidget, super.config.xEvents);
+    _widget = super.buildWithEvents(_subwidget, super.config?.xEvents);
 
     return _widget;
   }
@@ -104,16 +104,16 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
     actionFunctions['setState'] = stateSetter;
   }
 
-  set value(String v) {
+  set value(String? v) {
     _data = v;
   }
 
-  void stateSetter(BuildContext triggerContext, {
-    Map params,
-    YZDynamicRequest request,
-    List<YZDynamicActionRule> rules,
-    Map localVariables,
-    State state,
+  void stateSetter(BuildContext? triggerContext, {
+    Map? params,
+    YZDynamicRequest? request,
+    List<YZDynamicActionRule>? rules,
+    Map? localVariables,
+    State? state,
   }) {
     if (mounted) {
       setState(() {});
@@ -121,8 +121,8 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
   }
 }
 
-TextWidthBasis _textWidthBasisAdapter(String str) {
-  TextWidthBasis _ret;
+TextWidthBasis? _textWidthBasisAdapter(String? str) {
+  TextWidthBasis? _ret;
   switch (str) {
     case 'longestLine':
       _ret = TextWidthBasis.longestLine;
@@ -138,17 +138,17 @@ TextWidthBasis _textWidthBasisAdapter(String str) {
 
 /// The props of Text config
 class YZTextConfig {
-  String data;
-  Map style;
-  Map strutStyle;
-  String textAlign;
-  String textDirection;
-  String softWrap;
-  String overflow;
-  String textScaleFactor;
-  String maxLines;
-  String semanticsLabel;
-  String textWidthBasis;
+  String? data;
+  Map? style;
+  Map? strutStyle;
+  String? textAlign;
+  String? textDirection;
+  String? softWrap;
+  String? overflow;
+  String? textScaleFactor;
+  String? maxLines;
+  String? semanticsLabel;
+  String? textWidthBasis;
 
   YZTextConfig({
     this.data,
@@ -164,7 +164,7 @@ class YZTextConfig {
     this.textWidthBasis,
   });
 
-  YZTextConfig.fromJson(Map<dynamic, dynamic> json) {
+  YZTextConfig.fromJson(Map<dynamic, dynamic>? json) {
     json ??= {};
     data = json['data'];
     style = YZDynamicCommon.dynamicToMap(json['style']);
@@ -174,7 +174,7 @@ class YZTextConfig {
     softWrap = json['softWrap'];
     overflow = json['overflow'];
     textScaleFactor = json['textScaleFactor'];
-    maxLines = json['maxLines'];
+    maxLines = json['maxLines'].toString();
     semanticsLabel = json['semanticsLabel'];
     textWidthBasis = json['textWidthBasis'];
   }

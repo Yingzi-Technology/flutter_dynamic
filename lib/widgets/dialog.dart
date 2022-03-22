@@ -19,7 +19,7 @@ class YZDialogHandler extends YZDynamicBasicWidgetHandler {
   String get widgetName => 'Dialog';
 
   @override
-  Widget build(Map json, {Key key, BuildContext buildContext}) {
+  Widget build(Map json, {Key? key, BuildContext? buildContext}) {
     return _Builder(json, key:key);
   }
   
@@ -29,7 +29,7 @@ class _Builder extends YZDynamicBaseWidget {
 
   final Map json;
 
-  _Builder(this.json, {Key key}): super(json, key: key);
+  _Builder(this.json, {Key? key}): super(json, key: key);
 
   @override
   _BuilderState createState() => _BuilderState();
@@ -38,20 +38,20 @@ class _Builder extends YZDynamicBaseWidget {
 class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
 
   //Deal with props / 处理控件属性
-  YZDialogConfig props;
-  EdgeInsets _insetPadding;
-  double _elevation;
-  Curve _insetAnimationCurve;
-  Clip _clipBehavior;
-  Widget _child;
-  Color _backgroundColor;
+  late YZDialogConfig props;
+  EdgeInsets? _insetPadding;
+  double? _elevation;
+  Curve? _insetAnimationCurve;
+  Clip? _clipBehavior;
+  Widget? _child;
+  Color? _backgroundColor;
 
   @override
   void initState() {
     super.initState();
 
     //Deal with props / 处理控件属性
-    props = YZDialogConfig.fromJson(super.config.props) ?? {};
+    props = YZDialogConfig.fromJson(super.config?.props ?? {});
     _backgroundColor = YZDynamicWidgetUtils.colorAdapter(props.backgroundColor);
     _insetPadding = YZDynamicWidgetUtils.edgeInsetAdapter(props.insetPadding);
     _elevation = YZDynamicWidgetUtils.doubleAdapter(props.elevation);
@@ -76,7 +76,7 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
     );  
 
     //Deal with events / 处理事件
-    _widget = super.buildWithEvents(_subwidget, super.config.xEvents);
+    _widget = super.buildWithEvents(_subwidget, super.config?.xEvents);
 
     return _widget;
   }
@@ -87,12 +87,12 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
     actionFunctions['setState'] = stateSetter; 
   }
 
-  void stateSetter(BuildContext triggerContext, {
-      Map params, 
-      YZDynamicRequest request,
-      List<YZDynamicActionRule> rules,
-      Map localVariables,
-      State state,
+  void stateSetter(BuildContext? triggerContext, {
+      Map? params, 
+      YZDynamicRequest? request,
+      List<YZDynamicActionRule>? rules,
+      Map? localVariables,
+      State? state,
     }) {
     print('Execute xAction: ${this.runtimeType} setState');
     if (mounted) {
@@ -104,12 +104,12 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
 
 /// The props of Dialog config
 class YZDialogConfig {
-  List insetPadding;
-  String backgroundColor;
-  String elevation;
-  String insetAnimationCurve;
-  String clipBehavior;
-  Map child;
+  List? insetPadding;
+  String? backgroundColor;
+  String? elevation;
+  String? insetAnimationCurve;
+  String? clipBehavior;
+  Map? child;
 
   YZDialogConfig(
       {this.insetPadding,
@@ -119,7 +119,7 @@ class YZDialogConfig {
       this.clipBehavior,
       this.child});
 
-  YZDialogConfig.fromJson(Map<dynamic, dynamic> json) {
+  YZDialogConfig.fromJson(Map<dynamic, dynamic>? json) {
     json ??= {};
     insetPadding = YZDynamicCommon.dynamicToList(json['insetPadding']);
     backgroundColor = json['backgroundColor'];

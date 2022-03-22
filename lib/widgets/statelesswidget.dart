@@ -17,7 +17,7 @@ class YZStatelessWidgetHandler extends YZDynamicBasicWidgetHandler {
   String get widgetName => 'StatelessWidget';
 
   @override
-  Widget build(Map json, {Key key, BuildContext buildContext}) {
+  Widget build(Map json, {Key? key, BuildContext? buildContext}) {
     return _Builder(json, key:key);
   }
   
@@ -26,27 +26,27 @@ class YZStatelessWidgetHandler extends YZDynamicBasicWidgetHandler {
 class _Builder extends StatelessWidget {
 
   final Map json;
-  const _Builder(this.json, {Key key}) : super(key: key);
+  const _Builder(this.json, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
       //Deal with props / 处理控件属性
     YZDynamicWidgetConfig config = YZDynamicWidgetConfig.fromJson(json);
-    YZStatelessWidgetConfig props = YZStatelessWidgetConfig.fromJson(config.props) ?? {};    
-    Widget _build = props.build == null ? null : YZDynamicCommon.buildWidget(props.build, context: context);  
+    YZStatelessWidgetConfig props = YZStatelessWidgetConfig.fromJson(config.props ?? {});    
+    Widget _build = props.build == null ? SizedBox() : YZDynamicCommon.buildWidget(props.build, context: context)!;  
     return _build;
   }
 }
 
 /// The props of StatelessWidget config
 class YZStatelessWidgetConfig {
-  Map build;
+  Map? build;
 
   YZStatelessWidgetConfig(
       {this.build
       });
 
-  YZStatelessWidgetConfig.fromJson(Map<dynamic, dynamic> json) {
+  YZStatelessWidgetConfig.fromJson(Map<dynamic, dynamic>? json) {
     json ??= {};
     build = json['build'];
   }

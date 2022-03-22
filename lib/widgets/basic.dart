@@ -19,13 +19,13 @@ class YZSizedBoxHandler extends YZDynamicBasicWidgetHandler {
   String get widgetName => 'SizedBox';
 
   @override
-  Widget build(Map json, {Key key, BuildContext buildContext}) {
+  Widget build(Map json, {Key? key, BuildContext? buildContext}) {
     
     //Deal with props / 处理控件属性
     YZDynamicWidgetConfig config = YZDynamicWidgetConfig.fromJson(json);   
-    YZSizedBoxConfig props = YZSizedBoxConfig.fromJson(config.props) ?? {};
-    String _type = props?.type;    
-    Widget _child = props.child == null ? null : YZDynamicCommon.buildWidget(props.child, context: buildContext);
+    YZSizedBoxConfig props = YZSizedBoxConfig.fromJson(config.props ?? {});
+    String? _type = props.type;    
+    Widget? _child = props.child == null ? null : YZDynamicCommon.buildWidget(props.child, context: buildContext);
 
     SizedBox _widget;
     switch (_type) {
@@ -40,15 +40,15 @@ class YZSizedBoxHandler extends YZDynamicBasicWidgetHandler {
         );         
         break;  
       case 'fromSize':
-        Size _size = YZDynamicWidgetUtils.sizeAdapter(props?.size);
+        Size? _size = YZDynamicWidgetUtils.sizeAdapter(props.size);
         _widget = SizedBox.fromSize(
           size: _size,
           child: _child
         );         
         break;              
       default:
-        double _width = YZDynamicWidgetUtils.doubleAdapter(props?.width);
-        double _height = YZDynamicWidgetUtils.doubleAdapter(props?.height);      
+        double? _width = YZDynamicWidgetUtils.doubleAdapter(props.width);
+        double? _height = YZDynamicWidgetUtils.doubleAdapter(props.height);      
         _widget = SizedBox(
           width: _width,
           height: _height,
@@ -63,11 +63,11 @@ class YZSizedBoxHandler extends YZDynamicBasicWidgetHandler {
 
 /// The props of SizedBox config
 class YZSizedBoxConfig {
-  String type; //expand/shrink/fromSize
-  String width;
-  String height;
-  Map size;
-  Map child;
+  String? type; //expand/shrink/fromSize
+  String? width;
+  String? height;
+  Map? size;
+  Map? child;
 
   YZSizedBoxConfig(
       {this.type,
@@ -75,7 +75,7 @@ class YZSizedBoxConfig {
       this.height,
       this.child});
 
-  YZSizedBoxConfig.fromJson(Map<dynamic, dynamic> json) {
+  YZSizedBoxConfig.fromJson(Map<dynamic, dynamic>? json) {
     json ??= {};
     type = json['type'];
     width = json['width'];

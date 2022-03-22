@@ -18,7 +18,7 @@ class YZRowHandler extends YZDynamicBasicWidgetHandler {
   String get widgetName => 'Row';
 
   @override
-  Widget build(Map json, {Key key, BuildContext buildContext}) {
+  Widget build(Map json, {Key? key, BuildContext? buildContext}) {
     return _Builder(json, key:key);
   }
   
@@ -28,7 +28,7 @@ class _Builder extends YZDynamicBaseWidget {
 
   final Map json;
 
-  _Builder(this.json, {Key key}): super(json, key: key);
+  _Builder(this.json, {Key? key}): super(json, key: key);
 
   @override
   _BuilderState createState() => _BuilderState();
@@ -46,18 +46,18 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
     Widget _widget;
 
     //Deal with props / 处理控件属性
-    YZRowConfig props = YZRowConfig.fromJson(super.config.props) ?? {};
-    MainAxisAlignment _mainAxisAlignment = YZDynamicWidgetUtils.mainAxisAlignmentAdapter(props.mainAxisAlignment);
-    MainAxisSize _mainAxisSize = YZDynamicWidgetUtils.mainAxisSizeAdapter(props.mainAxisSize);
-    CrossAxisAlignment _crossAxisAlignment = YZDynamicWidgetUtils.crossAxisAlignmentAdapter(props.crossAxisAlignment);
-    TextDirection _textDirection = YZDynamicWidgetUtils.textDirectionAdapter(props.textDirection);    
-    VerticalDirection _verticalDirection = YZDynamicWidgetUtils.verticalDirectionAdapter(props.verticalDirection);   
-    TextBaseline _textBaseline = YZDynamicWidgetUtils.textBaselineAdapter(props.verticalDirection); 
-    List<Widget> _children;
-    if (props?.children != null) {
+    YZRowConfig props = YZRowConfig.fromJson(super.config?.props ?? {});
+    MainAxisAlignment? _mainAxisAlignment = YZDynamicWidgetUtils.mainAxisAlignmentAdapter(props.mainAxisAlignment);
+    MainAxisSize? _mainAxisSize = YZDynamicWidgetUtils.mainAxisSizeAdapter(props.mainAxisSize);
+    CrossAxisAlignment? _crossAxisAlignment = YZDynamicWidgetUtils.crossAxisAlignmentAdapter(props.crossAxisAlignment);
+    TextDirection? _textDirection = YZDynamicWidgetUtils.textDirectionAdapter(props.textDirection);    
+    VerticalDirection? _verticalDirection = YZDynamicWidgetUtils.verticalDirectionAdapter(props.verticalDirection);   
+    TextBaseline? _textBaseline = YZDynamicWidgetUtils.textBaselineAdapter(props.verticalDirection); 
+    late List<Widget> _children;
+    if (props.children != null) {
       _children = [];
-      props?.children?.forEach((e) {
-        Widget _child = YZDynamicCommon.buildWidget(e, context: context);     
+      props.children?.forEach((e) {
+        Widget? _child = YZDynamicCommon.buildWidget(e, context: context);     
         if (_child == null)return; 
         _children.add(_child);        
       });
@@ -74,7 +74,7 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
     );  
 
     //Deal with events / 处理事件
-    _widget = super.buildWithEvents(_subwidget, super.config.xEvents);
+    _widget = super.buildWithEvents(_subwidget, super.config?.xEvents);
 
     return _widget;
   }
@@ -88,13 +88,13 @@ class _BuilderState extends YZDynamicWidgetBasicState<_Builder> {
 
 /// The props of Row config
 class YZRowConfig {
-  String mainAxisAlignment;
-  String mainAxisSize;
-  String crossAxisAlignment;
-  String textDirection;
-  String verticalDirection;
-  String textBaseline;
-  List<Map> children;
+  String? mainAxisAlignment;
+  String? mainAxisSize;
+  String? crossAxisAlignment;
+  String? textDirection;
+  String? verticalDirection;
+  String? textBaseline;
+  List<Map>? children;
 
   YZRowConfig(
       {this.mainAxisAlignment,
@@ -105,7 +105,7 @@ class YZRowConfig {
       this.textBaseline,
       this.children});
 
-  YZRowConfig.fromJson(Map<dynamic, dynamic> json) {
+  YZRowConfig.fromJson(Map<dynamic, dynamic>? json) {
     json ??= {};
     mainAxisAlignment = json['mainAxisAlignment'];
     mainAxisSize = json['mainAxisSize'];
@@ -114,9 +114,9 @@ class YZRowConfig {
     verticalDirection = json['verticalDirection'];
     textBaseline = json['textBaseline'];
     if (json['children'] != null) {
-      children = new List<Map>();
+      children = <Map>[];
       json['children'].forEach((v) {
-        children.add(v);
+        children!.add(v);
       });
     }
   }

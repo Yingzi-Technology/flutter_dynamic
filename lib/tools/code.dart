@@ -24,18 +24,18 @@ const YZDynamicParamsValuePlit = ';';
 class YZDynamicCodeUtil {
   YZDynamicCodeUtil._();
 
-  static bool isCode(String code) {
+  static bool isCode(String? code) {
     if (isUserCode(code)) return true;
     if (code != null && code.trim().startsWith(_YZDynamicCodeTag)) return true;
     return false;
   } 
 
-  static bool isCodeAction(String code) {
+  static bool isCodeAction(String? code) {
     if (code != null && code.trim().startsWith(_YZDynamicCodeActionTag)) return true;
     return false;
   }   
 
-  static bool isUserCode(String code) {
+  static bool isUserCode(String? code) {
     if (code != null && code.trim().startsWith(_YZDynamicUserCodeActionTag)) return true;
     return false;
   }    
@@ -43,7 +43,7 @@ class YZDynamicCodeUtil {
   /// 分析code字符串格式并执行action。注意分号;不能嵌套，params里面用逗号替代
   /// Anylize code string and execute action. The semicolon should not be nesting instead of comma used inside params
   /// The code string format as : "code:action:{};action:{};"
-  static dynamic execute<T>(String code, {State state, Map localVariables}) {
+  static dynamic execute<T>(String? code, {State? state, Map? localVariables}) {
 
     int tagLen = _YZDynamicCodeTag.length;
     if (code == null) return null;
@@ -59,8 +59,8 @@ class YZDynamicCodeUtil {
     // If the value of key 'stop' is true, stop the code execute. Such as return action
     Map _localVariables = localVariables ?? {};
     
-    String codeBody;
-    List<String> commandItems;
+    String? codeBody;
+    List<String>? commandItems;
     code = code.trim();
 
     if (code.startsWith(_YZDynamicCodeTag)) {
@@ -93,8 +93,8 @@ class YZDynamicCodeUtil {
 
     // 返回最后一项action命令的值
     // Return the last action result
-    for (int i = 0; i < commandItems?.length ?? 0; i++) {
-      String command = commandItems[i];
+    for (int i = 0; i < (commandItems?.length ?? 0); i++) {
+      String command = commandItems![i];
       command = command.trim();
 
       bool _isStopCode = _localVariables['stop'];
@@ -104,9 +104,9 @@ class YZDynamicCodeUtil {
 
       if (YZDynamicActionTool.isAction(command) || YZDynamicActionTool.isKeyAction(command)) { //action
 
-        YZDynamicActionConfig action = YZDynamicActionTool.anylizeAction(command, state:state, localVariables: _localVariables);     
+        YZDynamicActionConfig? action = YZDynamicActionTool.anylizeAction(command, state:state, localVariables: _localVariables);     
 
-        result = YZDynamicActionTool.triggerActions<T>(state, [action], localVariables: _localVariables);
+        result = YZDynamicActionTool.triggerActions<T>(state, [action!], localVariables: _localVariables);
         if (result != null && action.returnVariable != null) {
           _localVariables[action.returnVariable] = result;
         }
@@ -147,8 +147,8 @@ class YZDynamicCodeUtil {
 
   // 是否要停止继续执行code
   // Whether or not stop execute code
-  static bool isStopCode(YZDynamicActionConfig action, Map localVariables) {
-    if (action.actionName == 'Sys.return') {
+  static bool isStopCode(YZDynamicActionConfig? action, Map localVariables) {
+    if (action!.actionName == 'Sys.return') {
       localVariables['stop'] = true;
       return true;
     }
@@ -156,7 +156,7 @@ class YZDynamicCodeUtil {
   }
 
   ///Split by tag ";" without inside {} such as {xxx;xxx;}, or (int i=0; i<=...)
-  static List<String> splitLexical(String str, String split) {
+  static List<String>? splitLexical(String str, String split) {
 
     List<String> lexicalStr = [];
     int braceCount = 0;
